@@ -53,7 +53,50 @@ The actors for the Super Legit Collaborative News (SLCN) project are represented
 <figcaption align="center">Table 1: Digi2 Actor Description</figcaption>
 </p>
 
+
 ## 2. User Stories
+
+For the Digi2 Website Revamp, the considered user stories are presented below.
+
+### 2.1 User
+
+| Identifier | Name | Priority | Description |
+| --- | --- | --- | --- |
+| Lorem | Ipsum | Dolore | Sit |
+
+<figcaption align = "center">Table 2.1: User's user stories</figcaption>
+
+### 2.2 Visitor
+
+| Identifier | Name | Priority | Description |
+| --- | --- | --- | --- |
+| Lorem | Ipsum | Dolore | Sit |
+
+<figcaption align = "center">Table 2.2: Visitor's user stories</figcaption>
+
+### 2.3 Authenticated User
+
+| Identifier | Name | Priority | Description |
+| --- | --- | --- | --- |
+| Lorem | Ipsum | Dolore | Sit |
+
+<figcaption align = "center">Table 2.3: Authenticated User's user stories</figcaption>
+
+### 2.4 Researcher
+
+| Identifier | Name | Priority | Description |
+| --- | --- | --- | --- |
+| Lorem | Ipsum | Dolore | Sit |
+
+<figcaption align = "center">Table 2.4: Researcher's user stories</figcaption>
+
+### 2.5 Administrator
+
+| Identifier | Name | Priority | Description |
+| --- | --- | --- | --- |
+| Lorem | Ipsum | Dolore | Sit |
+
+<figcaption align = "center">Table 2.5: Administrator's user stories</figcaption>
 
 ## 3. Supplementary Requirements
 
