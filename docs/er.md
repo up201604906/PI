@@ -64,7 +64,7 @@ For the Digi2 Website Revamp, the considered user stories are presented below.
 | --- | --- | --- | --- |
 | Lorem | Ipsum | Dolore | Sit |
 
-<figcaption align = "center">Table 2.1: User's user stories</figcaption>
+<figcaption align="center">Table 2.1: User's user stories</figcaption>
 
 ### 2.2 Visitor
 
@@ -72,7 +72,7 @@ For the Digi2 Website Revamp, the considered user stories are presented below.
 | --- | --- | --- | --- |
 | Lorem | Ipsum | Dolore | Sit |
 
-<figcaption align = "center">Table 2.2: Visitor's user stories</figcaption>
+<figcaption align="center">Table 2.2: Visitor's user stories</figcaption>
 
 ### 2.3 Authenticated User
 
@@ -80,7 +80,7 @@ For the Digi2 Website Revamp, the considered user stories are presented below.
 | --- | --- | --- | --- |
 | Lorem | Ipsum | Dolore | Sit |
 
-<figcaption align = "center">Table 2.3: Authenticated User's user stories</figcaption>
+<figcaption align="center">Table 2.3: Authenticated User's user stories</figcaption>
 
 ### 2.4 Researcher
 
@@ -88,7 +88,7 @@ For the Digi2 Website Revamp, the considered user stories are presented below.
 | --- | --- | --- | --- |
 | Lorem | Ipsum | Dolore | Sit |
 
-<figcaption align = "center">Table 2.4: Researcher's user stories</figcaption>
+<figcaption align="center">Table 2.4: Researcher's user stories</figcaption>
 
 ### 2.5 Administrator
 
@@ -96,7 +96,7 @@ For the Digi2 Website Revamp, the considered user stories are presented below.
 | --- | --- | --- | --- |
 | Lorem | Ipsum | Dolore | Sit |
 
-<figcaption align = "center">Table 2.5: Administrator's user stories</figcaption>
+<figcaption align="center">Table 2.5: Administrator's user stories</figcaption>
 
 ## 3. Supplementary Requirements
 
@@ -108,24 +108,53 @@ This section contains the business rules, technical requirements, and restrictio
 | --- | --- | --- |
 | Lorem | Ipsum | Dolore |
 
-<figcaption align = "center">Table 3.1: Business rules</figcaption>
+<figcaption align="center">Table 3.1: Business rules</figcaption>
 
 ### 3.2 Technical Requirements
 
 | Identifer | Name | Description |
 | --- | --- | --- |
 | Lorem | Ipsum | Dolore |
-<figcaption align = "center">Table 3.2: Technical Requirements</figcaption>
+<figcaption align="center">Table 3.2: Technical Requirements</figcaption>
 
 ### 3.3 Restrictions
 
 | Identifier | Name | Description |
 | --- | --- | --- |
 | Lorem | Ipsum | Dolore |
-<figcaption align = "center">Table 3.3: Project Restrictions</figcaption>
+<figcaption align="center">Table 3.3: Project Restrictions</figcaption>
 
 
 # A3: Information Architecture
+
+This artifact serves as an overview of the planned information architecture of the system.
+
+## 1. Sitemap
+
+Our system is built around X main areas. [Description of the pages according to a sitemap]
+
+<p align="center">
+    <img src="./images/default.png">
+    <figcaption align="center">Figure 2: Sitemap</figcaption>
+</p>
+
+## 2. Wireframes/Mockups
+
+Below are presented wireframes for the [all pages / pages of our choosing].
+<p align="center">
+    <img src="./images/default.png">
+    <figcaption align="center">Figure 3: X wireframe</figcaption>
+</p>
+
+<p align="center">
+    <img src="./images/default.png">
+    <figcaption align="center">Figure 4: X wireframe</figcaption>
+</p>
+
+<p align="center">
+    <img src="./images/default.png">
+    <figcaption align="center">Figure 5: X wireframe</figcaption>
+</p>
 
 # Team
 - Carlos Madaleno, up201604906@edu.fe.up.pt
