@@ -100,6 +100,31 @@ For the Digi2 Website Revamp, the considered user stories are presented below.
 
 ## 3. Supplementary Requirements
 
+This section contains the business rules, technical requirements, and restrictions of the project.
+
+### 3.1 Business Rules
+
+| Identifier | Name | Description |
+| --- | --- | --- |
+| Lorem | Ipsum | Dolore |
+
+<figcaption align = "center">Table 3.1: Business rules</figcaption>
+
+### 3.2 Technical Requirements
+
+| Identifer | Name | Description |
+| --- | --- | --- |
+| Lorem | Ipsum | Dolore |
+<figcaption align = "center">Table 3.2: Technical Requirements</figcaption>
+
+### 3.3 Restrictions
+
+| Identifier | Name | Description |
+| --- | --- | --- |
+| Lorem | Ipsum | Dolore |
+<figcaption align = "center">Table 3.3: Project Restrictions</figcaption>
+
+
 # A3: Information Architecture
 
 # Team
