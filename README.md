@@ -12,6 +12,11 @@ Digi2 seeks creative and disruptive researchers to enroll their poll of R&D proj
 - [EAP: Architecture Specification and Prototype](docs/eap.md)
 - [RES: Resources](docs/resouces.md)
 
+# How to Run
+In order to run the website, you will need to open 2 separate terminals: 1 for the client side and another for the server side. 
+
+After navigating to the respective directories, first run `npm start` in the server terminal, and then in the client terminal.
+
 
 # Team
 - Carlos Madaleno, up201604906@edu.fe.up.pt
