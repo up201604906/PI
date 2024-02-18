@@ -34,10 +34,10 @@ This artifact contains the information and specification of the actors and their
 
 ## 1. Actors
 
-The actors for the Super Legit Collaborative News (SLCN) project are represented in Figure 1 and described in Table 1.
+The actors for Digi2 are represented in Figure 1 and described in Table 1.
 
 <p  align="center">
-    <img src="./images/default.png">
+    <img src="./images/Actors.svg">
     <figcaption align="center">Figure 1: Digi2 actors</figcaption>
 </p>
 
@@ -45,11 +45,12 @@ The actors for the Super Legit Collaborative News (SLCN) project are represented
 
 | Identifier | Description |
 | --- | --- |
-| User | Generic User that can view the website and browse for Digi2 information, Researchers, and Projects. |
-| Visitor | Unauthenticated User that can sign-up and sign in |
-| Authenticated User | Authenticated user that can be made a Researcher, also has access to a profile with social links and research links. |
-| Researcher | Authenticated User that can access and contribute to the researches they enrolled in. They can also manage the Inventory. |
-| Administrator | Researcher that is responsible for the managment of users and researches. They can give or revoke Researcher Privileges. They can also communicate with the UP Community |
+| User | Generic User that can view the website and browse for Digi2 information, Researchers, Projects and job oportunities. |
+| Visitor | Unauthenticated User that can sign-up and sign in. |
+| Authenticated User | Authenticated User that can be made a Researcher, also has access to a profile with personal information including current and past projects. |
+| Researcher | Authenticated User that can access and contribute to the researches they are enrolled in. They can also manage the Inventory. |
+| Human Resources | Authenticated User that can allocate Authenticated Users into projects making them Researchers. They can also communicate with the UP Community. |
+| Administrator | Authenticated User that is responsible for the managment of Users and Researches. They can give or revoke Researcher and HR privileges. |
 <figcaption align="center">Table 1: Digi2 Actor Description</figcaption>
 </p>
 
@@ -163,3 +164,5 @@ Below are presented wireframes for the [all pages / pages of our choosing].
 - Rui Soares, up202103631@edu.fe.up.pt
 
 #### Digi2 Revamp, 16/02/24
+
+visitor research hr admin
