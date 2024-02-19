@@ -1,36 +1,29 @@
 # ER: Requirements Specification
 
-Digi2 focuses their work on advanced systems and control concepts, tools and technologies for a wide range of areas encompassing cyber-physical systems, collaborative robotics, machine learning and human-machine interaction with high societal impact.
+> Digi2 focuses on pioneering systems and control concepts, spanning cyber-physical systems, collaborative robotics, machine learning, and human-machine interaction, all with profound societal impact. They're actively seeking imaginative researchers to contribute to a range of R&D projects, from cyber-physical systems to artificial intelligence.
 
-Digi2 seeks creative and disruptive researchers to enroll their poll of R&D projects ranging from cyber-physical systems to artificial intelligence.
+## Digi2 Research Lab
 
-# A1: Digi2 Research Lab
+The Digi2-Lab Platform is going to be enhanced and updated by a group of students as part of their PI course, with the intent of bringing more functionality for intervening actors and more dissemination of the labs research and programs.
 
-Digi2 focuses their work on advanced systems and control concepts, tools and technologies for a wide range of areas encompassing cyber-physical systems, collaborative robotics, machine learning and human-machine interaction with high societal impact.
+By the end of the semester it is expected that the platform transitions to not only an informative website but also as a Laboratory Information Management System (LIMS) tool capable of external communication.
 
-Digi2 seeks creative and disruptive researchers to enroll their poll of R&D projects ranging from cyber-physical systems to artificial intelligence.
+This application enables unauthenticated users to access information about ongoing projects, master's and doctoral programs, facilitating seamless communication with Dig2-Lab Human Resources for interested students. Additionally, it serves as a centralized platform for authenticated users, offering resource tracking including inventory management, communication platform access, streamlining processes, publication, and project management, all with an intuitive, minimalist approach.
 
-This revamp aims to give more functionalities to the Digi2 Researchers, namely:
+Intervening actors are separated into authenticated and non-authenticated user groups with different levels of permission and access. 
 
-- Inventory Managment
-- Communication Platforms Access
-- Better Community Comunication
-- More Accessible UI
+Non-Authenticated Users will be able to browse normally through the website, register or login to an account.
 
-The Users can register an account on the platform and be able to log in as Authenticated Users.
+Authenticated Users will be able to interact with job applications and have access to a personal profile which houses their information, profile picture, social media links research links and application statuses.
 
-Authenticated Users will be able to browse normally through the website and also interact with job applications. They will have access to a profile which houses their personal information, profile picture, social media links, and research links.
+The System Administrator(s)/Moderator(s) will be able to make regular Authenticated Users into fellow Researchers assigning them to projects and will also be able to create new Projects. 
 
-The System Administrator(s)/Moderator(s) will be able to make regular Authenticated Users into fellow Researchers and also create new Projects. These Projects will have dedicated pages with the project description, resource and communication links and more.
+Projects will have dedicated pages with the project description, resources, communication links and more.
 
-Any Researcher or System Administrator will have access to the Inventory and will be able to manage it. They will also have access to communication tools which will let them communicate with the whole University of Porto Comunity.
+Any Researcher or System Administrator will have access to the Inventory and will be able to manage it. They will also have access to communication tools which will let them communicate with the whole University of Porto Community.
 
-The platform will have an adaptive, responsive design to allow it to work smoothly on multiple devices (desktop, smartphone, etc...) as well as an intuitive user interface and navigation.
+The platform will have an adaptive, responsive and minimalistic design to allow it to work smoothly on multiple devices as well as an intuitive user interface and navigation, that potentiates teamwork and cooperation.
 
-
-# A2: Actors and User stories
-
-This artifact contains the information and specification of the actors and their user stories. It also contains the project's supplementary requirements.
 
 ## 1. Actors
 
