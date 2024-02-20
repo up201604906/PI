@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "sitbrmbk",
+    "password": "54YEHCvRrJldUB3g-rSeMBz2AJagBose",
+    "database": "sitbrmbk",
+    "host": "trumpet.db.elephantsql.com",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "sitbrmbk",
+    "password": "54YEHCvRrJldUB3g-rSeMBz2AJagBose",
+    "database": "sitbrmbk",
+    "host": "trumpet.db.elephantsql.com",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "sitbrmbk",
+    "password": "54YEHCvRrJldUB3g-rSeMBz2AJagBose",
+    "database": "sitbrmbk",
+    "host": "trumpet.db.elephantsql.com",
+    "dialect": "postgres"
+  }
+}
