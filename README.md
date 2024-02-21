@@ -17,7 +17,7 @@ In order to run the website, you will need to open 2 separate terminals: 1 for t
 
 After navigating to the respective directories, first run `npm start` in the server terminal, and then in the client terminal.
 
-In order to seed the database, you just need to run `npm run seed`. The seeder database is located on the `/server/
+In order to seed the database, you just need to run `npm run seed` while inside the server directory. The seeder database is located on the `/server/seeders/seed.js`.
 
 # Team
 - Carlos Madaleno, up201604906@edu.fe.up.pt

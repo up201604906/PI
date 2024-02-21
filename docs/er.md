@@ -72,7 +72,7 @@ For the Digi2 Website Revamp, the considered user stories are presented below.
 
 | Identifier | Name | Priority | Description |
 | --- | --- | --- | --- |
-| Lorem | Ipsum | Dolore | Sit |
+| USx | View Profile | High | As an Authenticated User, I want to view my user profile so that I can check my project and research history, personal information and have an option to edit it. |
 
 <figcaption align="center">Table 2.3: Authenticated User's user stories</figcaption>
 
@@ -80,7 +80,9 @@ For the Digi2 Website Revamp, the considered user stories are presented below.
 
 | Identifier | Name | Priority | Description |
 | --- | --- | --- | --- |
-| Lorem | Ipsum | Dolore | Sit |
+| USx | Create Project Page | High | As a Researcher, I want to create a Project Page so that I can gather other Researchers, share resources, and outline objectives. |
+| USx | Mentor Matching | Medium | As a mentor Researcher, I want to match with mentee researchers with specific skills and interests so that I can gather researchers with more efficiency. | 
+| USx | Performance Evaluation | Medium | As a Researcher, I want to evaluate my mentors/mentees so that I can provide them with feedback and evaluate the mentoring relationships. | 
 
 <figcaption align="center">Table 2.4: Researcher's user stories</figcaption>
 
