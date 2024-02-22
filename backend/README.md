@@ -9,10 +9,10 @@ http://localhost:3000/api/users/signup
 ~~~
 Body 
 {
-  "username" : "ntsay",
-  "password" : "Olaeusouontsay",
-  "full_name" : "ntsay",
-  "email" : "ntsay@gmail.com"
+  "username" : "oteuusername",
+  "password" : "atuapasswordcommaisde8chars",
+  "full_name" : "oteunomecompleto",
+  "email" : "umemail@valido.com"
 }
 ~~~
 
@@ -22,6 +22,6 @@ Body
 http://localhost:3000/api/users/login
 
 {
-  "username" : "ntsayz",
-  "password" : "Ilovegta5"
+  "username" : "oteuusername",
+  "password" : "atuapasswordcommaisde8chars"
 }
