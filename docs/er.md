@@ -84,11 +84,16 @@ For the Digi2 Website Revamp, the considered user stories are presented below.
 
 ### 2.4 Researcher
 
-| Identifier | Name                   | Priority | Description                                                                                                                                               |
-|------------|------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| USx        | Create Project Page    | High     | As a Researcher, I want to create a Project Page so that I can gather other Researchers, share resources, and outline objectives.                         |
-| USx        | Mentor Matching        | Medium   | As a mentor Researcher, I want to match with mentee researchers with specific skills and interests so that I can gather researchers with more efficiency. | 
-| USx        | Performance Evaluation | Medium   | As a Researcher, I want to evaluate my mentors/mentees so that I can provide them with feedback and evaluate the mentoring relationships.                 | 
+| Identifier | Name                       | Priority | Description                                                                                                                                                    |
+|------------|----------------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| USx        | Create Project Page        | High     | As a Researcher, I want to create a Project Page so that I can gather other Researchers, share resources, set timelines, and define goals and deliverables.    |
+| USx        | Project Discovery          | Medium   | I want to easily find and join projects that align with my expertise, so I can contribute effectively to the lab's objectives.                                 |
+| USx        | Mentor Matching            | Medium   | As a mentor Researcher, I want to match with mentee researchers with specific skills and interests so that I can gather researchers with more efficiency.      | 
+| USx        | Performance Evaluation     | Medium   | As a Researcher, I want to evaluate my mentors/mentees so that I can provide them with feedback and evaluate the mentoring relationships.                      |
+| USx        | Task and Milestone Updates | High     | As a researcher, I want to update my progress on tasks and milestones within the project, so the project leader can easily track the overall project progress. |
+| USx        | Project Publication        | High     | As a project leader, I want to publish updates or results of the project on the lab’s website directly from the platform, so we can effectively communicate our achievements and findings to the external community. |
+| USx        | Resource Request and Allocation | High   | As a project leader, I want to request and allocate lab resources (equipment, software, etc.) to my project, so that team members have everything they need to execute their tasks efficiently. |
+| USx        | Resource Usage Tracking  | Medium   | As an inventory manager, I want to track resource usage by projects, so I can ensure optimal utilization and avoid conflicts.       |
 
 <figcaption align="center">Table 2.4: Researcher's user stories</figcaption>
 
