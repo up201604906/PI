@@ -30,7 +30,8 @@ docker-compose up --build
 {
     "username": "string",
     "email": "string",
-    "password": "string"
+    "password": "string",
+    "full_name": "string"
 }
 ```
 
