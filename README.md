@@ -32,11 +32,8 @@ or
 
 ## Notes - Development
 - Any changes in the `digi2-website`,`backend` and `client` directories will be reflected in real time if the containers are running. 
-- Connecttion between website and server is WIP
+- Connection between static website and React app is WIP
 
-
-
-After navigating to the respective directories, first run `npm start` in the server terminal, and then in the client terminal.
 
 # Team
 - Carlos Madaleno, up201604906@edu.fe.up.pt
