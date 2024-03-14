@@ -7,7 +7,7 @@ const todoRoutes = require('./src/routes/todo_routes');
 const auth = require('./src/middlewares/auth');
 
 const app = express();
-app.use(cors()); // Use CORS here. This enables CORS for all routes and origins.
+app.use(cors()); // This enables CORS for all routes and origins. TODO : ==============> THIS IS VERY BAD, SHOULD BE CHANGED BEFORE PRODUCTION !!!!!!!!!! <============
 app.use(express.json());
 const port = process.env.PORT || 3000;
 
