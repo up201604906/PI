@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.css'
+import './styles/Sidenav.css';
+import Home from './components/pages/Home';
 
 class App extends Component {
   constructor(props) {
@@ -25,13 +26,9 @@ class App extends Component {
       <Router>
         <div className="App">
           <Routes>
-            <Route path="/app" element={
-              <>
-                <header className="App-header">
-                  <img src={logo} className='App-logo' alt='logo'/>
-                </header>
-                <p className="App-intro">Server response: {this.state.apiResponse}</p>
-              </>
+            <Route path="/" element={
+              <Home/>
+                // <p className="App-intro">Server response: {this.state.apiResponse}</p>
             } />
             {/* You can add more routes here */}
           </Routes>

@@ -1,0 +1,15 @@
+navbar{
+    padding: 2rem;
+    background: var(--secondary-color);
+    width: 20vw;
+    border-radius: 0 2rem 2rem 0;
+}
+
+navbar ul{
+    padding-left: 0;
+}
+
+navbar li{
+    list-style: none;
+    padding-left: 0;
+}
