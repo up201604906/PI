@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import gatito from '../../images/default.png'
+import logo from '../../images/digi2_orange.svg'
 
-class Sidenav extends React.Component{
+class Sidenav extends React.Component {
 
     linksData = [
         {text: "Home", href: "/"},
@@ -20,11 +22,18 @@ class Sidenav extends React.Component{
         return (
             <navbar className={"position-fixed d-flex flex-column justify-content-between h-100"}>
 
-                <div id={"logo"}>Digi2 Lab</div>
+                <div id={"logo"}>
+                    <Link>
+                        <button className={"d-flex flex-row"}>
+                            <img src={logo} alt={"logo"}></img>
+                            <div className={"mb-0 mt-auto ms-2"}>Digi<span>2</span> Lab</div>
+                        </button>
+                    </Link>
+                </div>
                 <div id={"links"}>
                     <ul>
                         {this.linksData.map((item, index) => (
-                            <li key={index} className="">
+                            <li key={index} className={"my-3"}>
                                 <Link to={item.href}>{item.text}</Link>
                             </li>
                         ))}
@@ -33,24 +42,31 @@ class Sidenav extends React.Component{
                 <div id={"buttons"}>
                     <ul>
                         {this.buttons.map((item, index) => (
-                            <li key={index} className="">
-                                <button>
-                                    <Link to={item.href}>{item.text}</Link>
-                                </button>
+                            <li key={index} className={"my-3"}>
+                                <Link to={item.href}>
+                                    <button>
+                                        {item.text}
+                                    </button>
+                                </Link>
                             </li>
                         ))}
                     </ul>
                 </div>
                 <div id={"user"} className={"d-flex flex-column"}>
-                    <div className={"d-flex flex-row mb-3"}>
-                        <img className={"w-25 rounded-circle me-2"} src={"https://picsum.photos/200"} alt={"user"}/>
-                        <div className={"d-flex flex-column my-auto"}>
-                            <b>Username</b>
-                            <p>username@gmail.com</p>
-                        </div>
-                    </div>
+                    <Link to={"/user/1"}>
+                        <button className={"d-flex flex-row mb-3"}>
+                            <img className={"rounded-circle me-2 my-auto"} src={gatito} alt={"user"}/>
+                            <div className={"d-flex flex-column my-auto"}>
+                                <b>John Doe</b>
+                                <p>johndoe@gmail.com</p>
+                            </div>
+                        </button>
+                    </Link>
+
                     <div className={"d-flex flex-row"}>
-                        <button><Link to={"/logout"}>Logout</Link></button>
+                        <Link to={"/logout"}>
+                            <button>Logout</button>
+                        </Link>
                     </div>
                 </div>
 

@@ -1,15 +1,95 @@
-navbar{
+navbar {
     padding: 2rem;
     background: var(--secondary-color);
     width: 20vw;
     border-radius: 0 2rem 2rem 0;
 }
 
-navbar ul{
+
+/* LOGO */
+
+navbar #logo *{
+    text-decoration: none;
+    font-size: var(--font-size-l);
+    font-weight: bold;
+}
+
+navbar #logo img {
+    width: 2rem;
+}
+
+navbar span {
+    color: var(--primary-color);
+}
+
+
+/* LINKS */
+
+navbar ul {
     padding-left: 0;
 }
 
-navbar li{
+navbar li {
     list-style: none;
     padding-left: 0;
+}
+
+navbar #links li * {
+    color: black;
+    text-decoration: none;
+    font-size: var(--font-size-n);
+    font-weight: bold;
+}
+
+
+/* BUTTONS */
+
+navbar #buttons button * {
+    text-decoration: none;
+}
+
+navbar #buttons button {
+    border-radius: 0.5rem;
+}
+
+navbar #buttons li:nth-child(1) button {
+    background: var(--primary-color);
+    color: white;
+    border-bottom: 0.2rem solid var(--primary-color);
+    width: 8rem;
+    font-weight: bold;
+}
+
+navbar #buttons li:nth-child(1) button:hover {
+    background: white;
+    color: var(--primary-color);
+}
+
+navbar #buttons li:nth-child(2) button {
+    background: white;
+    color: black;
+    border-bottom: 0.2rem solid white;
+    width: 8rem;
+    font-weight: bold;
+}
+
+navbar #buttons li:nth-child(2) button:hover {
+    background: var(--primary-color);
+    color: white;
+    border-bottom: 0.2rem solid black;
+}
+
+
+/* USER */
+
+navbar #user img {
+    width: 4rem;
+    height: 4rem;
+    aspect-ratio: 1/1;
+}
+
+navbar #user * {
+    margin: 0;
+    text-align: start;
+    text-decoration: none;
 }
