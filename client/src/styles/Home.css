@@ -1,0 +1,20 @@
+.counter-container {
+    text-align: center;
+    /*margin: 30px 50px;*/
+    border: 1px solid var(--tertiary-color);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.counter-container span{
+    font-size: var(--font-size-m);
+}
+
+.counter {
+    font-size: var(--font-size-l);
+    margin-top: 10px;
+}
+
+#body #info > div:nth-child(2) {
+    width: 40%;
+}

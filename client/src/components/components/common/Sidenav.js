@@ -1,7 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import gatito from '../../images/default.png'
-import logo from '../../images/digi2_orange.svg'
+import '../../../styles/Sidenav.css'
+
+import gatito from '../../../images/default.png'
+import logo from '../../../images/digi2_orange.svg'
+
 
 class Sidenav extends React.Component {
 

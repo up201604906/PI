@@ -3,9 +3,11 @@
 :root {
     --primary-color: #E5470E;
     --secondary-color: #FFE3D7;
+    --tertiary-color: #666666;
+    --detail-color: #4C1C24;
     --font-size-xl: 40px;
     --font-size-l: 28px;
-    --font-size-n: 20px;
+    --font-size-m: 20px;
     --font-size-s: 14px;
     font-size: 16px;
 }
@@ -32,4 +34,62 @@ button {
     border: none;
     background: transparent;
     width: fit-content;
+}
+
+
+#body {
+    margin-left: 20%;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+
+#body .title {
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+}
+
+#body .title span {
+    color: var(--primary-color);
+}
+
+#body .title {
+    color: var(--tertiary-color);
+}
+
+#table {
+    border: 1px solid var(--detail-color);
+    border-radius: 0.5rem;
+}
+
+#table-head *, #table-body *{
+    padding:0.25rem;
+}
+
+#table-head{
+    border-bottom: 1px solid var(--detail-color);
+    background: var(--secondary-color);
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+#table-body{
+    padding: 0 0.5rem;
+}
+
+#table-body > * > *{
+    width: 33.33%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#table-body > * > *:nth-child(2){
+    width: fit-content;
+    background: lightgrey;
+    border-radius: 0.5rem;
+    padding: 0.2rem 0.4rem;
+}
+
+#table-body a{
+    text-decoration: none;
+    color: black;
 }

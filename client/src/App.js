@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import './styles/App.css'
-import './styles/Sidenav.css';
 import Home from './components/pages/Home';
-import Sidenav from "./components/components/Sidenav";
+import Sidenav from "./components/components/common/Sidenav";
 
 class App extends Component {
     constructor(props) {
@@ -27,13 +26,15 @@ class App extends Component {
             <Router>
                 <div className="App">
                     <Sidenav/>
-                    <Routes>
-                        <Route path="/" element={
-                            <Home/>
-                            // <p className="App-intro">Server response: {this.state.apiResponse}</p>
-                        }/>
-                        {/* You can add more routes here */}
-                    </Routes>
+                    <div id={"body"}>
+                        <Routes>
+                            <Route path="/" element={
+                                <Home className={"h-100"}/>
+                                // <p className="App-intro">Server response: {this.state.apiResponse}</p>
+                            }/>
+                            {/* You can add more routes here */}
+                        </Routes>
+                    </div>
                 </div>
             </Router>
         );
