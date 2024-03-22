@@ -8,7 +8,7 @@ class Table extends React.Component {
 
         return (
             <div id={"table"} className={"d-flex flex-column"}>
-                <div id="table-head" className={"d-flex flex-row justify-content-around"}>
+                <div id="table-head" className={"d-flex flex-row justify-content-around fw-bold text-uppercase"}>
                     {tableHead.map((item, index) => (
                         <div key={index}>{item}</div>
                     ))}

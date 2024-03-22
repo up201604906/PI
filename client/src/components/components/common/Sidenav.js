@@ -68,7 +68,7 @@ class Sidenav extends React.Component {
 
                     <div className={"d-flex flex-row"}>
                         <Link to={"/logout"}>
-                            <button>Logout</button>
+                            <button className={"text-decoration-underline"}>Logout  <i className="bi bi-box-arrow-right"></i></button>
                         </Link>
                     </div>
                 </div>
