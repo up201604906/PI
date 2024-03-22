@@ -15,7 +15,7 @@ class Table extends React.Component {
                 </div>
                 <div id="table-body" className={"d-flex flex-column"}>
                     {data.map((item, index) => (
-                        <div key={index} className={"d-flex flex-row justify-content-between my-1"}>
+                        <div key={index} className={"d-flex flex-row justify-content-between my-3"}>
                             <div><Link to={item.href} className={"text-truncate"}>{item.title}</Link></div>
                             <div className={"text-center"}>{item.type}</div>
                             <div className={"text-center"}>{item.status}</div>

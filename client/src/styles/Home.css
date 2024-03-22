@@ -15,6 +15,15 @@
     margin-top: 10px;
 }
 
+#body > div{
+    min-height: 85vh;
+}
+
+#body > div > :nth-child(2){
+    margin-top: 5vh;
+    margin-bottom: 10vh;
+}
+
 #body #info > div:nth-child(2) {
     width: 40%;
 }

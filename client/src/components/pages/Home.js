@@ -47,7 +47,7 @@ class Home extends React.Component {
         ];
 
         return (
-            <div className={"d-flex flex-column justify-content-between h-100"}>
+            <div className={"d-flex flex-column"}>
                 <div className={"title"}><span>O</span>verview</div>
                 <HomeStats/>
 
