@@ -97,3 +97,7 @@ button {
     text-decoration: none;
     color: black;
 }
+
+.table-title a{
+    color: var(--detail-color)
+}
