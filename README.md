@@ -13,11 +13,27 @@ Digi2 seeks creative and disruptive researchers to enroll their poll of R&D proj
 - [RES: Resources](docs/resouces.md)
 
 # How to Run
-In order to run the website, you will need to open 2 separate terminals: 1 for the client side and another for the server side. 
+In order to run the website, you need Docker installed and running, and then you can run : 
 
-After navigating to the respective directories, first run `npm start` in the server terminal, and then in the client terminal.
+```bash
+ docker-compose up --build
+```
+or
+```bash
+ docker compose up --build 
+```
 
-In order to seed the database, you just need to run `npm run seed` while inside the server directory. The seeder database is located on the `/server/seeders/seed.js`.
+- The website will be acessible in `http://localhost:80/` 
+- The React App will be acessible in `http://localhost:3000/app`
+- The Express server will be exposed in `http://localhost:4000/`
+
+
+
+
+## Notes - Development
+- Any changes in the `digi2-website`,`backend` and `client` directories will be reflected in real time if the containers are running. 
+- Connection between static website and React app is WIP
+
 
 # Team
 - Carlos Madaleno, up201604906@edu.fe.up.pt

@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  db:
+    build: ./backend/db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5433:5432"
+
+  api:
+    build:
+      context: ./backend/api
+      args:
+        NODE_ENV: development # ensures devDependencies are installed , change to production when development ends
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: 4000
+    volumes:
+      - ./backend/api:/usr/src/app
+      - /usr/src/app/node_modules
+
+  react-client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    volumes:
+      - ./client/src:/app/src  # Mount the React src directory for live editing
+      - ./client/public:/app/public  # Optionally, mount the public directory if needed
+
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./digi2-website:/usr/share/nginx/html:ro
+    depends_on:
+      - react-client
