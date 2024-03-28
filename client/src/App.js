@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+
 import './styles/App.css'
 import Home from './components/pages/Home';
 import Sidenav from "./components/components/common/Sidenav";
