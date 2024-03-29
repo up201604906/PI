@@ -1,10 +1,10 @@
 const pool = require('./database');
 
-async function create_user(username, email, full_name, password) {
+async function create_user(name, email, password, permission, picture) {
     try {
         const result = await pool.query(
-            'INSERT INTO users (username, email, full_name, password) VALUES ($1, $2, $3, $4) RETURNING id',
-            [username, email, full_name, password]
+            'INSERT INTO users (name, email, password, permission, picture) VALUES ($1, $2, $3, $4) RETURNING id',
+            [name, email, password, permission, picture]
         );
         return result.rows[0].id;
     } catch (error) {
@@ -13,10 +13,10 @@ async function create_user(username, email, full_name, password) {
 }
 
 // Check if a username or email already exists
-const doesUserExist = async (username, email) => {
+const doesUserExist = async (name, email) => {
     const result = await pool.query(
-        'SELECT COUNT(*) FROM users WHERE username = $1 OR email = $2',
-        [username, email]
+        'SELECT COUNT(*) FROM users WHERE name = $1 OR email = $2',
+        [name, email]
     );
     return result.rows[0].count > 0;
 };
@@ -41,15 +41,15 @@ const get_user_by_id = async (userId) => {
     }
 };
 
-const get_user_by_username_or_email = async (usernameOrEmail) => {
+const get_user_by_name_or_email = async (nameOrEmail) => {
     try {
         const result = await pool.query(
-            'SELECT * FROM users WHERE username = $1 OR email = $1',
-            [usernameOrEmail]
+            'SELECT * FROM users WHERE name = $1 OR email = $1',
+            [nameOrEmail]
         );
         return result.rows[0];
     } catch (error) {
-        console.error("Error fetching user by username or email:", error);
+        console.error("Error fetching user by name or email:", error);
         throw error;
     }
 };
@@ -59,5 +59,5 @@ module.exports = {
     doesUserExist,
     create_user,
     get_user_by_id,
-    get_user_by_username_or_email
+    get_user_by_name_or_email
 };

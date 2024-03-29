@@ -5,17 +5,17 @@ const user_model = require('../models/user_model');
 
 const signup = async (req, res) => {
     try {
-        const { username, email, full_name, password } = req.body;
+        const { name, email, password, permission, picture } = req.body;
 
         // Hash the password
         //const saltRounds = 10;  // or another number you prefer
         const hashedPassword = await argon2.hash(password);
 
-        if (await user_model.doesUserExist(username, email)) {
-            return res.status(409).send("Username or email already exists.");
+        if (await user_model.doesUserExist(name, email)) {
+            return res.status(409).send("Name or email already exists.");
         }
 
-        const user_id = await user_model.create_user(username, email, full_name, hashedPassword);  // Note: passing hashedPassword instead of password
+        const user_id = await user_model.create_user(name, email, hashedPassword, permission, picture);  // Note: passing hashedPassword instead of password
         res.json({ success: true, user_id });
 
     } catch (error) {
@@ -43,10 +43,10 @@ const getUserById = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { name, password } = req.body;
         
         
-        const user = await user_model.get_user_by_username_or_email(username);
+        const user = await user_model.get_user_by_name_or_email(name);
 
         if (!user) {
             return res.status(404).send("User not found.");
