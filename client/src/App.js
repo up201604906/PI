@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import './styles/App.css'
 import Home from './components/pages/Home';
 import Sidenav from "./components/components/common/Sidenav";
+import Resources from "./components/pages/Resources";
 
 class App extends Component {
     constructor(props) {
@@ -33,6 +34,7 @@ class App extends Component {
                                 <Home className={"h-100"}/>
                                 // <p className="App-intro">Server response: {this.state.apiResponse}</p>
                             }/>
+                            <Route path="/inventory/resources" element={<Resources />}/> {/* Add this line */}
                             {/* You can add more routes here */}
                         </Routes>
                     </div>

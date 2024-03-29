@@ -8,18 +8,32 @@ import logo from '../../../images/digi2_orange.svg'
 
 class Sidenav extends React.Component {
 
+    state = {
+        showInventoryDropdown: false,
+    };
+
     linksData = [
         {text: "Home", href: "/"},
         {text: "My Projects", href: "/projects"},
-        {text: "Inventory", href: "/inventory"},
+        {text: "Inventory"},
         {text: "Social", href: "/social"},
         {text: "Communication", href: "/Communication"},
+    ]
+
+    inventoryDropdownData = [
+        {text: "Resources", href: "/inventory/resources"},
+        {text: "PC Allocation", href: "/inventory/pc-allocation"},
+        {text: "Licenses", href: "/inventory/licenses"},
     ]
 
     buttons = [
         {text: "New User", href: "/newuser"},
         {text: "New Project", href: "/newproject"},
     ]
+
+    toggleInventoryDropdown = () => {
+        this.setState(prevState => ({ showInventoryDropdown: !prevState.showInventoryDropdown }));
+    };
 
     render() {
         return (
@@ -37,7 +51,18 @@ class Sidenav extends React.Component {
                     <ul>
                         {this.linksData.map((item, index) => (
                             <li key={index} className={"my-3"}>
-                                <Link to={item.href}>{item.text}</Link>
+                                <Link to={item.href} onClick={item.text === "Inventory" ? this.toggleInventoryDropdown : null}>
+                                    {item.text}
+                                </Link>
+                                {item.text === "Inventory" && this.state.showInventoryDropdown && (
+                                    <ul>
+                                        {this.inventoryDropdownData.map((dropdownItem, dropdownIndex) => (
+                                            <li key={dropdownIndex}>
+                                                <Link to={dropdownItem.href}>{dropdownItem.text}</Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </li>
                         ))}
                     </ul>
