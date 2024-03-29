@@ -1,20 +1,47 @@
 import React from 'react';
 import "../../styles/Home.css";
-import Table from "../components/common/Table";
-import { getResources } from './../../../../backend/api/src/controllers/resources_controller';
+
+class Table extends React.Component {
+    render() {
+        const { title, tableHead, data, seeMore } = this.props;
+
+        return (
+            <table>
+                <thead>
+                    <tr>
+                        {tableHead.map((head, index) => <th key={index}>{head}</th>)}
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((row, index) => (
+                        <tr key={index}>
+                            {row.map((cell, i) => <td key={i}>{cell}</td>)}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        );
+    }
+}
 
 class Resources extends React.Component {
     state = {
         resources: [],
     };
 
-    componentDidMount() {
-        getResources()
-            .then(resources => this.setState({ resources }))
-            .catch(error => console.error("Error fetching resources:", error));
+    callAPI() {
+        fetch("http://localhost:4000/")
+          .then((res) => res.json())
+          .then((res) => this.setState({ resources: res }))
+          .catch((err) => err);
+    }
+
+    componentDidMount() { // Changed from componentWillMount to componentDidMount
+        this.callAPI();
     }
 
     render() {
+        console.log(this.state.resources);
         return (
             <div className={"d-flex flex-column"}>
                 <div className={"title"}><span>R</span>esources</div>

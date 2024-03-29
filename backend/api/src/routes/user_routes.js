@@ -3,7 +3,6 @@ const express = require('express');
 const userController = require('../controllers/user_controller');
 const userAuth = require('../middlewares/user_auth');
 
-
 const router = express.Router();
 
 // Existing routes for signup and login

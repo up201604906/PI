@@ -34,7 +34,11 @@ class App extends Component {
                                 <Home className={"h-100"}/>
                                 // <p className="App-intro">Server response: {this.state.apiResponse}</p>
                             }/>
-                            <Route path="/inventory/resources" element={<Resources />}/> {/* Add this line */}
+                            <Route path="/inventory/resources" element={
+                                
+                                <Resources />
+                                
+                            }/> {}
                             {/* You can add more routes here */}
                         </Routes>
                     </div>

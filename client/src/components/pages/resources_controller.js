@@ -1,0 +1,1 @@
+./../../../../backend/api/src/controllers/resources_controller.js
