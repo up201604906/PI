@@ -1,5 +1,5 @@
-INSERT INTO users (username, email, password, permission, picture) VALUES 
-('sampleUsername', 'sampleEmail@gmail.com', 'samplePassword', 'admin', NULL);
+INSERT INTO users (name, email, password, permission, picture) VALUES 
+('sampleName', 'sampleEmail@gmail.com', 'samplePassword', 'admin', NULL);
 
 INSERT INTO resources (name, description, quantity, available, supplier, room, cabinet, shelf, box) VALUES
 ('Libelium Waspmote (v 1.2)', '1. Batteries - 2300 mA-h Rechargeable; 2.Two batteries have damaged connectors 3. With 6 antenna extensions', 6, 6, 'Website', 'I319', '1', 'C', 'B3'),
