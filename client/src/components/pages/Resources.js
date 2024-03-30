@@ -1,9 +1,10 @@
 import React from 'react';
 import "../../styles/Home.css";
+import "../../styles/Inventory.css";
 
 class Table extends React.Component {
     render() {
-        const { title, tableHead, data, seeMore } = this.props;
+        const { tableHead, data } = this.props;
 
         return (
             <table>
@@ -30,24 +31,27 @@ class Resources extends React.Component {
     };
 
     callAPI() {
-        fetch("http://localhost:4000/")
-          .then((res) => res.json())
-          .then((res) => this.setState({ resources: res }))
-          .catch((err) => err);
-    }
+    fetch("http://localhost:4000/inventory/resources")
+        .then((res) => res.json())
+        .then((res) => {
+            // Convert each object in res into an array, excluding the id, price, and priority
+            const resources = res.map(({ id, price, priority, ...resource }) => Object.values(resource));
+            this.setState({ resources });
+        })
+        .catch((err) => console.error(err));
+}
 
-    componentDidMount() { // Changed from componentWillMount to componentDidMount
+    componentDidMount() {
         this.callAPI();
     }
 
     render() {
-        console.log(this.state.resources);
         return (
             <div className={"d-flex flex-column"}>
                 <div className={"title"}><span>R</span>esources</div>
                 <div id={"info"} className={"d-flex flex-row justify-content-around w-100"}>
                     <div>
-                        <Table title={"Resources"} tableHead={["Name", "Description", "Quantity", "Available", "Supplier", "Room", "Cabinet", "Shelf", "Box", "Price", "Priority"]} data={this.state.resources} seeMore={""}/>
+                        <Table title={"Resources"} tableHead={["Name", "Description", "Quantity", "Available", "Supplier", "Room", "Cabinet", "Shelf", "Box"]} data={this.state.resources}/>
                     </div>
                 </div>
             </div>

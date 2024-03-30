@@ -17,7 +17,6 @@ INSERT INTO licenses (description, equipment, login, password) VALUES
 ('Rede do Lab', 'Login Wireless net', '*********', '*********'),
 ('Router Asus RT-N10E [192.168.0.1]', 'Login Router', '*********', '*********');
 
-
 INSERT INTO pc_allocation (name, serial_number, room) VALUES
 ('ThinkPad P15v', 'PF41ZNA7', 'D111'),
 ('Dell latitude 7520', '29704J3', 'i319'),

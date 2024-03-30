@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 import './styles/App.css'
 import Home from './components/pages/Home';
-import Sidenav from "./components/components/common/Sidenav";
+import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
 
 class App extends Component {
@@ -27,7 +27,7 @@ class App extends Component {
         return (
             <Router>
                 <div className="App">
-                    <Sidenav/>
+                    <Topnav/>
                     <div id={"body"}>
                         <Routes>
                             <Route path="/" element={
