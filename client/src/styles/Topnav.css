@@ -1,0 +1,53 @@
+nav {
+    background: var(--secondary-color);
+    width: 100%;
+    border-radius: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1rem 2rem !important;
+}
+
+/* LOGO */
+
+.navbar-brand > button > img{
+    width: 2.5rem
+}
+
+#topnav .navbar-brand div{
+    font-size: var(--font-size-l);
+}
+
+nav span {
+    color: var(--primary-color);
+}
+
+/* LINKS */
+
+#topnav li.nav-item > a, #topnav li.nav-item > div > button{
+    color: black;
+    font-size: var(--font-size-m);
+}
+
+#topnav .navbar-collapse{
+    flex-grow: 0 !important;
+}
+
+/* USER */
+
+nav #user {
+    flex: 1; /* Make the user section take up the available space */
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav #user img {
+    width: 2rem;
+    height: 2rem;
+    aspect-ratio: 1/1;
+}
+
+nav #user * {
+    margin-bottom: auto !important;
+    text-align: start;
+    text-decoration: none;
+}

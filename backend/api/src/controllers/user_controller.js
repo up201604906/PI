@@ -61,7 +61,7 @@ const login = async (req, res) => {
         if(passwordMatch){
             
             const token = jwt.sign(
-                { userId: user.id, username: user.username },
+                { userId: user.id, name: user.name },
                 process.env.JWT_SECRET,  // TODO: replace with process.env.JWT_SECRET
                 { expiresIn: '1h' } 
             );

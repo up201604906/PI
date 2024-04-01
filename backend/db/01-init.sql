@@ -1,7 +1,4 @@
 -- init.sql
-DROP SCHEMA IF EXISTS digi2 CASCADE;
-CREATE SCHEMA IF NOT EXISTS digi2;
-SET search_path TO digi2;
 
 --
 -- Drop any existing tables.
@@ -63,7 +60,7 @@ CREATE TABLE projects (
   start_date DATE NOT NULL,
   end_date DATE NOT NULL,
   funding VARCHAR,
-  funding_reference DOUBLE,
+  funding_reference FLOAT,
   external_partners TEXT,
   time projects_time_enum NOT NULL,
   media BYTEA
@@ -186,16 +183,16 @@ CREATE TABLE user_pc_allocation (
 
 CREATE TABLE resources (
   id SERIAL PRIMARY KEY,
-  name VARCHAR NOT NULL,
-  description TEXT NOT NULL,
-  quantity INTEGER NOT NULL,
-  available INTEGER NOT NULL,
-  supplier VARCHAR NOT NULL,
-  room VARCHAR NOT NULL,
+  name VARCHAR,
+  description TEXT,
+  quantity INTEGER,
+  available INTEGER,
+  supplier VARCHAR,
+  room VARCHAR,
   cabinet VARCHAR,
   shelf VARCHAR,
   box VARCHAR,
-  price DOUBLE,
+  price FLOAT,
   priority resources_priority_enum
 );
 

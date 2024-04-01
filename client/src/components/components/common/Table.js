@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import '../../../styles/Sidenav.css';
+import '../../../styles/Topnav.css';
 
 class Table extends React.Component {
 
