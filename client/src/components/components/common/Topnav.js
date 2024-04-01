@@ -14,10 +14,9 @@ class Topnav extends React.Component {
     };
 
     linksData = [
-        {text: "My Projects", href: "/myProjects"},  //seeing all projects could be wrong. From this page, you should be able to see your team
+        {text: "My Projects", href: "/projects"},  //seeing all projects could be wrong. From this page, you should be able to see your team
         {text: "Articles", href: "/articles"},  //this page should have an option to see only my articles
         {text: "Events", href: "/events"},
-        {text: "Inventory"}
 
         // Make these into a bottom bar or remove them and keep it only on the base website
         // {text: "Social", href: "/social"},
@@ -37,90 +36,112 @@ class Topnav extends React.Component {
         {text: "Logout", href: "/logout"},
     ]
 
-    // Move buttons to their specific pages
-    /*
-    buttons = [
-        {text: "New User", href: "/newuser"},
-        {text: "New Project", href: "/newproject"},
-    ]*/
 
-    toggleInventoryDropdown = () => {
-        this.setState(prevState => ({ showInventoryDropdown: !prevState.showInventoryDropdown }));
-    };
+    get_logo() {
+        return (
+            <Link to="/" className={"navbar-brand"}>
+                <button className={"d-flex flex-row"}>
+                    <img src={logo} alt={"logo"}></img>
+                    <div className={"mb-0 mt-auto ms-2"}>Digi<span>2</span> Lab</div>
+                </button>
+            </Link>
+        )
+    }
 
-    toggleUserDropdown = () => {
-        this.setState(prevState => ({ showUserDropdown: !prevState.showUserDropdown }));
+    get_links() {
+        return (
+            <>
+                {this.linksData.map((item, index) => (
+                    <li key={index} className={"nav-item my-3"}>
+                        <Link to={item.href}>
+                            {item.text}
+                        </Link>
+                        {item.text === "Inventory" && (
+                            <ul className={this.state.showInventoryDropdown ? "dropdown-content" : ""}>
+                            </ul>
+                        )}
+                    </li>
+                ))}
+            </>
+        );
+    }
+
+    get_inventory() {
+        return (
+            <li className={"nav-item"}>
+                <div className="dropdown">
+                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Inventory
+                    </button>
+                    <ul className="dropdown-menu">
+                        {this.inventoryDropdownData.map((item, index) => (
+                            <li key={index}>
+                                <Link to={item.href} className={"dropdown-item"}>
+                                    {item.text}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </li>
+        );
+    }
+
+    get_user() {
+        return (
+            <li className={"nav-item"}>
+                <div id="user" className={"d-flex flex-column"} onClick={this.toggleUserDropdown}>
+                    <button className={"d-flex flex-row mb-3"}>
+                        <img className={"rounded-circle me-2 my-auto"} src={gatito} alt={"user"}/>
+                        <div className={"d-flex flex-column my-auto"}>
+                            <b>John Doe</b>
+                        </div>
+                    </button>
+                    {this.state.showUserDropdown && (
+                        <ul className={this.state.showUserDropdown ? "dropdown-content" : ""}>
+                            {this.userDropdownData.map((item, index) => (
+                                <li key={index}>
+                                    <Link to={item.href}>{item.text}</Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            </li>
+        );
+    }
+
+    get_items() {
+        return (
+            <div className={"d-flex align-items-center"}>
+                <div id="links">
+                    <ul className={"navbar-nav"}>
+                        {this.get_links()}
+                        {this.get_inventory()}
+                        {this.get_user()}
+                    </ul>
+                </div>
+            </div>
+        );
     }
 
     render() {
         return (
-            <navbar className={"top-bar d-flex justify-content-between align-items-center"}>
+            <nav id={"topnav"} className={"navbar navbar-expand-lg top-bar"}>
+                <div className={"container-fluid"}>
+                    {this.get_logo()}
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
-                <div id={"logo"}>
-                    <Link to="/">
-                        <button className={"d-flex flex-row"}>
-                            <img src={logo} alt={"logo"}></img>
-                            <div className={"mb-0 mt-auto ms-2"}>Digi<span>2</span> Lab</div>
-                        </button>
-                    </Link>
-                </div>
-                <div className={"d-flex align-items-center"}>
-                    <div id="links">
-                        <ul>
-                            {this.linksData.map((item, index) => (
-                            <li key={index} className={"my-3"}>
-                                <Link to={item.href} onClick={item.text === "Inventory" ? this.toggleInventoryDropdown : null}>
-                                {item.text}
-                                </Link>
-                                {item.text === "Inventory" && (
-                                <ul className={this.state.showInventoryDropdown ? "dropdown-content" : ""}>
-                                    {this.inventoryDropdownData.map((dropdownItem, dropdownIndex) => (
-                                        <li key={dropdownIndex}>
-                                        <Link to={dropdownItem.href} onClick={this.toggleInventoryDropdown}>
-                                            {dropdownItem.text}
-                                        </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                                )}
-                            </li>
-                            ))}
-                        </ul>
+                    <div id={"navbarText"}  className={"collapse navbar-collapse"}>
+                        {this.get_items()}
                     </div>
-                
-                    {/* <div id={"buttons"}>
-                        <ul>
-                            {this.buttons.map((item, index) => (
-                                <li key={index} className={"my-3"}>
-                                    <Link to={item.href}>
-                                        <button>
-                                            {item.text}
-                                        </button>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div> */}
 
-                    <div id="user" className={"d-flex flex-column"} onClick={this.toggleUserDropdown}>
-                        <button className={"d-flex flex-row mb-3"}>
-                            <img className={"rounded-circle me-2 my-auto"} src={gatito} alt={"user"}/>
-                            <div className={"d-flex flex-column my-auto"}>
-                                <b>John Doe</b>
-                            </div>
-                        </button>
-                        {this.state.showUserDropdown && (
-                            <ul className={this.state.showUserDropdown ? "dropdown-content" : ""}>
-                                {this.userDropdownData.map((item, index) => (
-                                    <li key={index}>
-                                        <Link to={item.href}>{item.text}</Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
                 </div>
-            </navbar>
+            </nav>
         );
     }
 }

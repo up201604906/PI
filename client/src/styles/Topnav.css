@@ -1,4 +1,4 @@
-navbar {
+nav {
     background: var(--secondary-color);
     width: 100%;
     border-radius: 0;
@@ -10,27 +10,27 @@ navbar {
 
 /* LOGO */
 
-navbar #logo {
+nav #logo {
     flex: 1; /* Make the logo take up the available space */
 }
 
-navbar #logo * {
+nav #logo * {
     text-decoration: none;
     font-size: var(--font-size-l);
     font-weight: bold;
 }
 
-navbar #logo img {
-    width: 2rem;
+nav #logo img {
+    height: 1rem;
 }
 
-navbar span {
+nav span {
     color: var(--primary-color);
 }
 
 /* LINKS */
 
-navbar ul {
+nav #links > ul {
     margin-bottom: 0 !important;
     padding-left: 0;
     display: flex;
@@ -38,13 +38,13 @@ navbar ul {
     flex: 2; /* Make the links take up the available space */
 }
 
-navbar li {
+nav ul > li {
     list-style: none;
     padding-left: 0;
     margin-right: 1rem;
 }
 
-navbar #links li *, navbar #user li *{
+nav #links > ul > li > *, nav #user > ul > li > *{
     color: black;
     text-decoration: none;
     font-size: var(--font-size-m);
@@ -56,54 +56,20 @@ navbar #links li *, navbar #user li *{
 
 /* USER */
 
-navbar #user {
+nav #user {
     flex: 1; /* Make the user section take up the available space */
     display: flex;
     justify-content: flex-end;
 }
 
-navbar #user img {
+nav #user img {
     width: 2rem;
     height: 2rem;
     aspect-ratio: 1/1;
 }
 
-navbar #user * {
+nav #user * {
     margin-bottom: auto !important;
     text-align: start;
     text-decoration: none;
-}
-
-
-/* DROPDOWNS */
-
-/* Dropdown Content (Hidden by Default) */
-#links ul ul, #user ul {
-  display: none;
-  position: relative;
-  background-color: #f1f1f1;
-  min-width: auto !important;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  padding: 0;
-  margin: 0;
-}
-
-/* Links inside the dropdown */
-#links ul ul li, #user ul li {
-  color: black !important;
-  padding: 2px 6px;
-  text-decoration: none !important;
-  text-decoration: none !important;
-  font-size: 1rem !important;
-  font-weight: 400 !important;
-  display: block;
-  margin-right: 0;
-}
-
-/* Change color of dropdown links on hover */
-#links ul ul li:hover, #user ul li:hover {background-color: #ddd;}
-
-.dropdown-content {
-  display: block !important;
 }
