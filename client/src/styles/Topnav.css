@@ -4,24 +4,17 @@ nav {
     border-radius: 0;
     flex-direction: row;
     flex-wrap: wrap;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding: 1rem 2rem !important;
 }
 
 /* LOGO */
 
-nav #logo {
-    flex: 1; /* Make the logo take up the available space */
+.navbar-brand > button > img{
+    width: 2.5rem
 }
 
-nav #logo * {
-    text-decoration: none;
+#topnav .navbar-brand div{
     font-size: var(--font-size-l);
-    font-weight: bold;
-}
-
-nav #logo img {
-    height: 1rem;
 }
 
 nav span {
@@ -30,28 +23,13 @@ nav span {
 
 /* LINKS */
 
-nav #links > ul {
-    margin-bottom: 0 !important;
-    padding-left: 0;
-    display: flex;
-    flex-wrap: wrap;
-    flex: 2; /* Make the links take up the available space */
-}
-
-nav ul > li {
-    list-style: none;
-    padding-left: 0;
-    margin-right: 1rem;
-}
-
-nav #links > ul > li > *, nav #user > ul > li > *{
+#topnav li.nav-item > a, #topnav li.nav-item > div > button{
     color: black;
-    text-decoration: none;
     font-size: var(--font-size-m);
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    margin-right: 0 !important;
+}
+
+#topnav .navbar-collapse{
+    flex-grow: 0 !important;
 }
 
 /* USER */
