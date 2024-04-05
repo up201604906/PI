@@ -5,6 +5,7 @@ import './styles/App.css'
 import Home from './components/pages/Home';
 import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
+import Login from "./components/pages/Login";
 
 class App extends Component {
     constructor(props) {
@@ -35,11 +36,11 @@ class App extends Component {
                                 // <p className="App-intro">Server response: {this.state.apiResponse}</p>
                             }/>
                             <Route path="/inventory/resources" element={
-                                
                                 <Resources />
-                                
-                            }/> {}
-                            {/* You can add more routes here */}
+                            }/>
+                            <Route path="/login" element={
+                               <Login />
+                            }/>
                         </Routes>
                     </div>
                 </div>

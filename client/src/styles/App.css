@@ -100,3 +100,14 @@ button {
 .table-title a{
     color: var(--detail-color)
 }
+
+.btn-primary {
+    background: var(--primary-color) !important;
+    border: 1px solid var(--primary-color) !important;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color) !important;
+    border: 1px solid var(--secondary-color) !important;
+    color: var(--detail-color) !important;
+}
