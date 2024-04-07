@@ -26,6 +26,36 @@ const getResourceById = async (req, res) => {
     }
 };
 
+const getResourceByName = async (req, res) => {
+    try {
+        const resourceName = req.params.name;
+        const resource = await resources_model.get_resource_by_name(resourceName);
+
+        if (!resource) {
+            return res.status(404).send("Resource not found.");
+        }
+
+        res.json(resource);
+    } catch (error) {
+        console.error("Error fetching resource by name:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const updateResource = async (req, res) => {
+    try {
+        const resourceId = req.params.id;
+        const { name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority } = req.body;
+
+        await resources_model.update_resource(resourceId, name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority);
+        res.json({ success: true });
+
+    } catch (error) {
+        console.error("Error updating resource:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 const createResource = async (req, res) => {
     try {
         const { name, description, quantity, available, supplier, room, cabinet, shelf, box, price, priority } = req.body;
@@ -54,16 +84,13 @@ const deleteResource = async (req, res) => {
     }
 };
 
-const updateResource = async (req, res) => {
+const deleteResourceByName = async (req, res) => {
     try {
-        const resourceId = req.params.id;
-        const { name, description, quantity, available, supplier, room, cabinet, shelf, box, price, priority } = req.body;
-
-        await resources_model.update_resource(resourceId, name, description, quantity, available, supplier, room, cabinet, shelf, box, price, priority);
+        const resourceName = req.params.name;
+        await resources_model.delete_resource_by_name(resourceName);
         res.json({ success: true });
-
     } catch (error) {
-        console.error("Error updating resource:", error);
+        console.error("Error deleting resource by name:", error);
         res.status(500).send("Internal Server Error");
     }
 };
@@ -71,9 +98,11 @@ const updateResource = async (req, res) => {
 module.exports = {
     getResources,
     getResourceById,
+    getResourceByName,
     createResource,
     deleteResource,
-    updateResource
+    updateResource,
+    deleteResourceByName,
 };
 
 

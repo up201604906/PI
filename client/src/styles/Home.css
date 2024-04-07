@@ -1,6 +1,5 @@
 .counter-container {
     text-align: center;
-    /*margin: 30px 50px;*/
     border: 1px solid var(--tertiary-color);
     border-radius: 1rem;
     padding: 1rem;

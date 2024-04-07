@@ -14,7 +14,7 @@ class Topnav extends React.Component {
     };
 
     linksData = [
-        {text: "My Projects", href: "/myProjects"},  //seeing all projects could be wrong. From this page, you should be able to see your team
+        {text: "My Projects", href: "/projects"},  //from this page, you should be able to see your team and all other projects
         {text: "Articles", href: "/articles"},  //this page should have an option to see only my articles
         {text: "Events", href: "/events"},
         {text: "Inventory"}
