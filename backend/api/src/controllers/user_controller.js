@@ -1,6 +1,7 @@
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const user_model = require('../models/user_model');
+const {toJSON} = require("express-session/session/cookie");
 
 
 const signup = async (req, res) => {
@@ -16,8 +17,8 @@ const signup = async (req, res) => {
         }
 
         const user_id = await user_model.create_user(name, email, hashedPassword, permission, picture);  // Note: passing hashedPassword instead of password
-        res.json({ success: true, user_id });
-
+        // res.json({ success: true, user_id });
+        res.status(200).send(res.json({ success: true, user_id }));
     } catch (error) {
         console.error("Error registering user:", error);
         res.status(500).send("Error registering user.");
@@ -43,34 +44,25 @@ const getUserById = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { name, password } = req.body;
-        
-        
-        const user = await user_model.get_user_by_name_or_email(name);
-
+        const { email, password } = req.body;
+        const user = await user_model.get_user_by_email(email);
         if (!user) {
             return res.status(404).send("User not found.");
         }
 
-    
         const passwordMatch = await argon2.verify(user.password, password);
-        
+
         if (!passwordMatch) {
             return res.status(401).send("Invalid credentials.");
         }
-        if(passwordMatch){
-            
+        else{
             const token = jwt.sign(
                 { userId: user.id, name: user.name },
                 process.env.JWT_SECRET,  // TODO: replace with process.env.JWT_SECRET
-                { expiresIn: '1h' } 
+                { expiresIn: '1h' }
             );
             return res.json({ success: true, token });
         }
-
-
-        res.json({ success: true, user_id: user.id });
-
     } catch (error) {
         res.status(500).send("Error during login.");
     }
