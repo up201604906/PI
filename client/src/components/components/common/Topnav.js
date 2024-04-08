@@ -9,8 +9,8 @@ import logo from '../../../images/digi2_orange.svg'
 class Topnav extends React.Component {
 
     linksData = [
-        {text: "My Projects", href: "/projects"},  //seeing all projects could be wrong. From this page, you should be able to see your team
-        {text: "Articles", href: "/articles"},  //this page should have an option to see only my articles
+        {text: "My Projects", href: "/myProjects"},  //from this page, you should be able to see your team + all projects
+        {text: "My Articles", href: "/myArticles"},  //this page should have an option to see all articles
         {text: "Events", href: "/events"},
 
         // Make these into a bottom bar or remove them and keep it only on the base website
