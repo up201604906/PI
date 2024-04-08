@@ -7,10 +7,14 @@ const router = express.Router();
 router.get("/", controller.getHome);
 router.get("/users", controller.getUsers);
 
+
 // resources routes
 router.get("/inventory/resources", resourcesController.getResources);
 router.put("/inventory/resources/:id", resourcesController.updateResource);
 router.get("/inventory/resources/:name", resourcesController.getResourceByName);
 router.delete("/inventory/resources/:name", resourcesController.deleteResourceByName);
+
+router.post("/inventory/createResource", resourcesController.createResource);
+
 
 module.exports = router;

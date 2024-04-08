@@ -19,10 +19,10 @@ CREATE TABLE resources (
 
 */
 
-async function create_resource(name, description, category = null, quantity = null, available = null, supplier = null, room = null, cabinet = null, shelf = null, box = null, price = null, priority = null) {
+async function create_resource(name, description = null, category = null, quantity = null, available = null, supplier = null, room = null, cabinet = null, shelf = null, box = null, price = 0, priority = 'low') {
     try {
         const result = await pool.query(
-            'INSERT INTO resources (name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
+            'INSERT INTO resources (name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id',
             [name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority]
         );
         return result.rows[0].id;

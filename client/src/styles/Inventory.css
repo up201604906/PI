@@ -1,3 +1,27 @@
+.table-container {
+    overflow-x: auto;
+}
+
+/* Always show scrollbar */
+.table-container::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.table-container::-webkit-scrollbar:horizontal {
+    height: 12px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 10px;
+    border: 2px solid #ffffff; /* should match the background color */
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
 table {
     width: 100%;
     border-collapse: separate;
@@ -39,6 +63,26 @@ tr:nth-child(even) {
     border-radius: 4px;
     font-size: 1em;
     height: 30px;
+}
+
+#search_filters .create-resource {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    background-color: hsl(0, 0%, 75%);
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition-duration: 0.2s;
+    border-radius: 5px;
+    border: none;
+    margin-left: auto;
+}
+
+#search_filters .create-resource:hover {
+    background-color: white;
+    border: 1px solid hsl(0, 0%, 75%);
 }
 
 .actions button {

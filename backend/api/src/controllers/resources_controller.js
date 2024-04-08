@@ -58,13 +58,13 @@ const updateResource = async (req, res) => {
 
 const createResource = async (req, res) => {
     try {
-        const { name, description, quantity, available, supplier, room, cabinet, shelf, box, price, priority } = req.body;
+        const { name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority } = req.body;
 
         if (await resources_model.doesResourceExist(name)) {
             return res.status(409).send("Resource already exists.");
         }
 
-        const resource_id = await resources_model.create_resource(name, description, quantity, available, supplier, room, cabinet, shelf, box, price, priority);
+        const resource_id = await resources_model.create_resource(name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority);
         res.json({ success: true, resource_id });
 
     } catch (error) {

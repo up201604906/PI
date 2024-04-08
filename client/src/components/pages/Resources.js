@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import "../../styles/Home.css";
 import "../../styles/Inventory.css";
 
@@ -12,13 +13,13 @@ class Table extends React.Component {
         fetch(`http://localhost:4000/inventory/resources/${row[0]}`)
             .then(res => res.json())
             .then(resource => {
-                this.setState({ editingRow: index, editedData: [...row], editingResourceId: resource.id });
+                this.setState({ editingRow: index, editedData: [...row], editingResource: resource });
             })
             .catch(err => console.error(err));
     }
 
     handleSave = () => {
-        const { editedData, editingResourceId } = this.state;
+        const { editedData, editingResource } = this.state;
         const updatedResource = {
             name: editedData[0],
             description: editedData[1],
@@ -30,17 +31,17 @@ class Table extends React.Component {
             cabinet: editedData[7],
             shelf: editedData[8],
             box: editedData[9],
-            price: null,
-            priority: null,
+            price: editingResource.price, // Use the existing price
+            priority: editingResource.priority, // Use the existing priority
         };
 
-        fetch(`http://localhost:4000/inventory/resources/${editingResourceId}`, {
+        fetch(`http://localhost:4000/inventory/resources/${editingResource.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedResource),
         })
         .then(() => {
-            this.setState({ editingRow: null, editedData: null, editingResourceId: null });
+            this.setState({ editingRow: null, editedData: null, editingResourceId: null, editingResource: null });
             this.props.refreshData();
         })
         .catch((err) => console.error(err));
@@ -87,7 +88,7 @@ class Table extends React.Component {
                                 {this.state.editingRow === index ? (
                                     <>
                                         <button onClick={() => this.handleSave(index)}>Save</button>
-                                        <button onClick={() => this.handleDelete(row)}>Delete</button>
+                                        <button onClick={() => this.setState({ editingRow: null, editedData: null })}>Cancel</button>
                                     </>
                                 ) : (
                                     <>
@@ -169,9 +170,12 @@ class Resources extends React.Component {
                         <option value="">All Categories</option>
                         {categories.map((category, index) => <option key={index} value={category}>{category}</option>)}
                     </select>
+                    <Link to="/inventory/createResource" className="create-resource">
+                        <button>Create New Resource</button>
+                    </Link>
                 </div>
                 <div id={"info"} className={"d-flex flex-row justify-content-around w-100"}>
-                    <div>
+                    <div className="table-container">
                         <Table title={"Resources"} tableHead={["Name", "Description", "Category", "Quantity", "Available", "Supplier", "Room", "Cabinet", "Shelf", "Box"]} data={filteredResources} refreshData={this.refreshData}/>
                     </div>
                 </div>

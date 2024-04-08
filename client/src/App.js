@@ -5,6 +5,7 @@ import './styles/App.css'
 import Home from './components/pages/Home';
 import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
+import CreateResource from "./components/pages/CreateResource";
 
 class App extends Component {
     constructor(props) {
@@ -39,7 +40,10 @@ class App extends Component {
                                 <Resources />
                                 
                             }/> {}
-                            {/* You can add more routes here */}
+                            <Route path="/inventory/createResource" element={
+                                <CreateResource />
+                            }/>
+
                         </Routes>
                     </div>
                 </div>
