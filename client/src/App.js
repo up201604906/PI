@@ -6,6 +6,8 @@ import Home from './components/pages/Home';
 import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
 import CreateResource from "./components/pages/CreateResource";
+import MyArticles from "./components/pages/articles/MyArticles";
+import CreateArticle from "./components/pages/articles/CreateArticle";
 
 class App extends Component {
     constructor(props) {
@@ -43,7 +45,8 @@ class App extends Component {
                             <Route path="/inventory/createResource" element={
                                 <CreateResource />
                             }/>
-
+                            <Route path="/myArticles" element={<MyArticles />} />  
+                            <Route path="/createArticle" element={<CreateArticle />} /> 
                         </Routes>
                     </div>
                 </div>
