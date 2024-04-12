@@ -16,13 +16,10 @@ class Login extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const headers = {
-            'Content-Type': 'application/json',
-            // Add other necessary headers here if applicable
-        };
+        console.log(JSON.stringify(this.state))
         fetch('http://localhost:4000/login', {
             method: 'POST',
-            headers: headers,
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.state),
         })
             .then(response => {

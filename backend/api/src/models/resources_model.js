@@ -19,11 +19,11 @@ CREATE TABLE resources (
 
 */
 
-async function create_resource(name, description, quantity, available, supplier, room, cabinet, shelf, box, price = null, priority = null) {
+async function create_resource(name, description = null, category = null, quantity = null, available = null, supplier = null, room = null, cabinet = null, shelf = null, box = null, price = 0, priority = 'low') {
     try {
         const result = await pool.query(
-            'INSERT INTO resources (name, description, quantity, available, supplier, room, cabinet, shelf, box, price, priority) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
-            [name, description, quantity, available, supplier, room, cabinet, shelf, box, price, priority]
+            'INSERT INTO resources (name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id',
+            [name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority]
         );
         return result.rows[0].id;
     } catch (error) {
@@ -96,11 +96,23 @@ const delete_resource = async (resourceId) => {
     }
 }
 
-const update_resource = async (resourceId, name, description, quantity, available, supplier, room, cabinet, shelf, box, price, priority) => {
+const delete_resource_by_name = async (name) => {
     try {
         await pool.query(
-            'UPDATE resources SET name = $1, description = $2, quantity = $3, available = $4, supplier = $5, room = $6, cabinet = $7, shelf = $8, box = $9, price = $10, priority = $11 WHERE id = $12',
-            [name, description, quantity, available, supplier, room, cabinet, shelf, box, price, priority, resourceId]
+            'DELETE FROM resources WHERE name = $1',
+            [name]
+        );
+    } catch (error) {
+        console.error("Error deleting resource by name:", error);
+        throw error;
+    }
+}
+
+const update_resource = async (resourceId, name, description, category = null, quantity = null, available = null, supplier = null, room = null, cabinet = null, shelf = null, box = null, price = null, priority = null) => {
+    try {
+        await pool.query(
+            'UPDATE resources SET name = $1, description = $2, category = $3, quantity = $4, available = $5, supplier = $6, room = $7, cabinet = $8, shelf = $9, box = $10, price = $11, priority = $12 WHERE id = $13',
+            [name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority, resourceId]
         );
     } catch (error) {
         console.error("Error updating resource:", error);
@@ -115,5 +127,6 @@ module.exports = {
     get_resource_by_name,
     get_resources,
     delete_resource,
-    update_resource
+    update_resource,
+    delete_resource_by_name
 };

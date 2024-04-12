@@ -183,10 +183,11 @@ CREATE TABLE user_pc_allocation (
 
 CREATE TABLE resources (
   id SERIAL PRIMARY KEY,
-  name VARCHAR,
+  name VARCHAR NOT NULL,
   description TEXT,
-  quantity INTEGER,
-  available INTEGER,
+  category VARCHAR NOT NULL,
+  quantity INTEGER NOT NULL,
+  available INTEGER NOT NULL,
   supplier VARCHAR,
   room VARCHAR,
   cabinet VARCHAR,

@@ -24,7 +24,7 @@ or
 ```
 
 - The website will be acessible in `http://localhost:80/` 
-- The React App will be acessible in `http://localhost:3000/app`
+- The React App will be acessible in `http://localhost:3000/`
 - The Express server will be exposed in `http://localhost:4000/`
 
 

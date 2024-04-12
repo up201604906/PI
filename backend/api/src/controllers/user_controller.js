@@ -1,8 +1,6 @@
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const user_model = require('../models/user_model');
-const {toJSON} = require("express-session/session/cookie");
-
 
 const signup = async (req, res) => {
     try {
@@ -46,6 +44,7 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await user_model.get_user_by_email(email);
+
         if (!user) {
             return res.status(404).send("User not found.");
         }
