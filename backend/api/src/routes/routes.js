@@ -2,8 +2,19 @@ const express = require("express");
 const controller = require("../controllers/controller");
 const resourcesController = require("../controllers/resources_controller");
 const articlesController = require('../controllers/articles_controller');
-
+const userController = require('../controllers/user_controller');
+const userAuth = require('../middlewares/user_auth');
 const router = express.Router();
+
+
+
+router.post('/signup', userAuth.saveUser, userController.signup);
+router.post('/login', userController.login);
+
+router.get('/user/:id', userController.getUserById);
+
+
+
 
 router.get("/", controller.getHome);
 router.get("/users", controller.getUsers);

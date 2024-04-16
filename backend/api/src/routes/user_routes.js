@@ -9,7 +9,6 @@ const router = express.Router();
 router.post('/signup', userAuth.saveUser, userController.signup);
 router.post('/login', userController.login);
 
-// New route for fetching a user by ID
 router.get('/user/:id', userController.getUserById);
 
 module.exports = router;

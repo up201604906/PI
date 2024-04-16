@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-
+import { AuthProvider } from './contexts/AuthContext'; 
 import './styles/App.css'
+import ProtectedRoute from "./components/components/common/ProtectedRoute";
 import Home from './components/pages/Home';
 import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
@@ -28,29 +29,32 @@ class App extends Component {
 
     render() {
         return (
-            <Router>
-                <div className="App">
-                    <Topnav/>
-                    <div id={"body"}>
-                        <Routes>
-                            <Route path="/" element={
-                                <Home className={"h-100"}/>
-                                // <p className="App-intro">Server response: {this.state.apiResponse}</p>
-                            }/>
-                            <Route path="/inventory/resources" element={
-                                
-                                <Resources />
-                                
-                            }/> {}
-                            <Route path="/inventory/createResource" element={
-                                <CreateResource />
-                            }/>
-                            <Route path="/myArticles" element={<MyArticles />} />  
-                            <Route path="/createArticle" element={<CreateArticle />} /> 
-                        </Routes>
+            <AuthProvider>
+                <Router>
+                    <div className="App">
+                        <Topnav/>
+                        <div id={"body"}>
+                            <Routes>
+                                <Route path="/" element={
+                                    <Home className={"h-100"}/>
+                                    // <p className="App-intro">Server response: {this.state.apiResponse}</p>
+                                }/>
+                                <Route path="/inventory/resources" element={
+                                    <ProtectedRoute>
+                                        <Resources />
+                                    </ProtectedRoute>
+                                    
+                                }/> {}
+                                <Route path="/inventory/createResource" element={
+                                    <CreateResource />
+                                }/>
+                                <Route path="/myArticles" element={<MyArticles />} />  
+                                <Route path="/createArticle" element={<CreateArticle />} /> 
+                            </Routes>
+                        </div>
                     </div>
-                </div>
-            </Router>
+                </Router>
+            </AuthProvider>
         );
     }
 }

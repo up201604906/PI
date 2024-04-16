@@ -1,8 +1,8 @@
 const saveUser = (req, res, next) => {
-    const { name, email, password, permission, picture } = req.body;
+    const { name, email, password , permission, picture} = req.body;
 
     // Check for missing fields
-    if (!name || !email || !password || !permission || !picture) {
+    if (!name || !email || !password || !permission ) {
         return res.status(400).send("All fields are required.");
     }
 
