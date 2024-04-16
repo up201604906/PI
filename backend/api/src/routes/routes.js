@@ -16,5 +16,8 @@ router.delete("/inventory/resources/:name", resourcesController.deleteResourceBy
 
 router.post("/inventory/createResource", resourcesController.createResource);
 
+// user management routes
+router.get("/user-mgmt", controller.getUsers);
+
 
 module.exports = router;

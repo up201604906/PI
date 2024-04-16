@@ -7,6 +7,7 @@ import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
 import Login from "./components/pages/Login";
 import CreateResource from "./components/pages/CreateResource";
+import UserManagement from "./components/pages/UserManagement";
 
 class App extends Component {
     constructor(props) {
@@ -45,7 +46,9 @@ class App extends Component {
                             <Route path="/inventory/createResource" element={
                                 <CreateResource />
                             }/>
-
+                            <Route path={"/user-mgmt"} element={
+                                <UserManagement/>
+                            }/>
                         </Routes>
                     </div>
                 </div>
