@@ -5,7 +5,10 @@ import './styles/App.css'
 import Home from './components/pages/Home';
 import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
+import Login from "./components/pages/Login";
 import CreateResource from "./components/pages/CreateResource";
+import UserManagement from "./components/pages/UserManagement";
+import AddUser from "./components/pages/AddUser";
 
 class App extends Component {
     constructor(props) {
@@ -36,14 +39,20 @@ class App extends Component {
                                 // <p className="App-intro">Server response: {this.state.apiResponse}</p>
                             }/>
                             <Route path="/inventory/resources" element={
-                                
                                 <Resources />
-                                
-                            }/> {}
+                            }/>
+                            <Route path="/login" element={
+                               <Login />
+                            }/>
                             <Route path="/inventory/createResource" element={
                                 <CreateResource />
                             }/>
-
+                            <Route path={"/user-mgmt"} element={
+                                <UserManagement/>
+                            }/>
+                            <Route path={"add-user"} element={
+                                <AddUser/>
+                            }/>
                         </Routes>
                     </div>
                 </div>
