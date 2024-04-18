@@ -84,7 +84,7 @@ class AddUser extends React.Component {
                     </select>
                 </div>
                 <div className="text-center">
-                    <button type="submit" className="btn btn-primary my-3 fw-bold">Login</button>
+                    <button type="submit" className="btn btn-primary my-3 fw-bold">Add User</button>
                 </div>
             </form>
         );

@@ -9,6 +9,8 @@ import Login from "./components/pages/Login";
 import CreateResource from "./components/pages/CreateResource";
 import UserManagement from "./components/pages/UserManagement";
 import AddUser from "./components/pages/AddUser";
+import EventManagement from "./components/pages/EventManagement";
+import AddEvent from "./components/pages/AddEvent";
 
 class App extends Component {
     constructor(props) {
@@ -52,6 +54,12 @@ class App extends Component {
                             }/>
                             <Route path={"add-user"} element={
                                 <AddUser/>
+                            }/>
+                            <Route path={"event-mgmt"} element={
+                                <EventManagement/>
+                            }/>
+                            <Route path={"add-event"} element={
+                                <AddEvent/>
                             }/>
                         </Routes>
                     </div>
