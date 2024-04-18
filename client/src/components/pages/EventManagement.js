@@ -3,24 +3,26 @@ import {Link} from "react-router-dom";
 import "../../styles/Home.css";
 import "../../styles/Inventory.css";
 
-const roles = ["Student", "Collaborator", "Admin"];
+const eventTypes = ["Type 1", "Type 2", "Type 3", "Type 4"];
 
 
 class Table extends React.Component {
 
     render() {
-        const users = [
+        const events = [
             {
                 id: 1,
-                name: "Example Name",
-                email: "exampleEmail",
-                permission: "Student"
+                title: "Event 1",
+                type: "Type 1",
+                start: "06-06-2024",
+                end: "09-06-2024",
             },
             {
                 id: 2,
-                name: "Example Name 2",
-                email: "exampleEmail2",
-                permission: "Admin"
+                title: "Event 2",
+                type: "Type 2",
+                start: "06-06-2024",
+                end: "09-06-2024",
             }
         ]
 
@@ -28,24 +30,27 @@ class Table extends React.Component {
             <table>
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Start</th>
+                    <th>End</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {users.map((user, index) => (
+                {events.map((event, index) => (
                     <tr key={index}>
-                        <td><Link to={"http://localhost3000/user/"+user.id}>{user.name}</Link></td>
-                        <td>{user.email}</td>
+                        <td><Link to={"http://localhost3000/event/" + event.id}>{event.title}</Link></td>
                         <td>
-                            <select defaultValue={user.permission}>
-                                {roles.map((role, index) => (
+                            <select defaultValue={event.type}>
+                                {eventTypes.map((role, index) => (
                                     <option key={index} value={role}>{role}</option>
                                 ))}
                             </select>
                         </td>
+                        <td>{event.start}</td>
+                        <td>{event.end}</td>
+
                         <td className="actions">
                             <button>Edit</button>
                             <button>Delete</button>
@@ -66,26 +71,25 @@ class Filters extends React.Component {
                 <input type="text" placeholder={'\uD83D\uDD0E\uFE0E Search...'}/>
                 <label>Filters:</label>
                 <select>
-                    <option value="">All Roles</option>
-                    {roles.map((role, index) => (
+                <option value="">All Types</option>
+                    {eventTypes.map((role, index) => (
                         <option key={index} value={role}>{role}</option>
                     ))}
                 </select>
-                <Link to="/add-user" className="create-resource">
-                    <button>Add User</button>
+                <Link to="/add-event" className="create-resource">
+                    <button>Add Event</button>
                 </Link>
             </div>
         )
     }
 }
 
-class UserManagement extends React.Component {
-
+class EventManagement extends React.Component {
 
     render() {
         return (
             <div className={"d-flex flex-column"}>
-                <div className={"title"}><span>U</span>sers</div>
+                <div className={"title"}><span>E</span>vents</div>
                 <Filters/>
                 <Table/>
             </div>
@@ -93,4 +97,4 @@ class UserManagement extends React.Component {
     }
 }
 
-export default UserManagement;
+export default EventManagement;
