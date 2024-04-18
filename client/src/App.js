@@ -11,6 +11,7 @@ import UserManagement from "./components/pages/UserManagement";
 import AddUser from "./components/pages/AddUser";
 import EventManagement from "./components/pages/EventManagement";
 import AddEvent from "./components/pages/AddEvent";
+import UserProfile from "./components/pages/UserProfile";
 
 class App extends Component {
     constructor(props) {
@@ -41,13 +42,13 @@ class App extends Component {
                                 // <p className="App-intro">Server response: {this.state.apiResponse}</p>
                             }/>
                             <Route path="/inventory/resources" element={
-                                <Resources />
+                                <Resources/>
                             }/>
                             <Route path="/login" element={
-                               <Login />
+                                <Login/>
                             }/>
                             <Route path="/inventory/createResource" element={
-                                <CreateResource />
+                                <CreateResource/>
                             }/>
                             <Route path={"/user-mgmt"} element={
                                 <UserManagement/>
@@ -60,6 +61,9 @@ class App extends Component {
                             }/>
                             <Route path={"add-event"} element={
                                 <AddEvent/>
+                            }/>
+                            <Route path={"user/:id"} element={
+                                <UserProfile id={1}/>
                             }/>
                         </Routes>
                     </div>
