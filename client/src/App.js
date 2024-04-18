@@ -8,6 +8,7 @@ import Resources from "./components/pages/Resources";
 import Login from "./components/pages/Login";
 import CreateResource from "./components/pages/CreateResource";
 import UserManagement from "./components/pages/UserManagement";
+import AddUser from "./components/pages/AddUser";
 
 class App extends Component {
     constructor(props) {
@@ -48,6 +49,9 @@ class App extends Component {
                             }/>
                             <Route path={"/user-mgmt"} element={
                                 <UserManagement/>
+                            }/>
+                            <Route path={"add-user"} element={
+                                <AddUser/>
                             }/>
                         </Routes>
                     </div>
