@@ -54,10 +54,9 @@ const get_user_by_name_or_email = async (email) => {
     }
 };
 
-
 module.exports = {
     doesUserExist,
     create_user,
     get_user_by_id,
-    get_user_by_name_or_email
+    get_user_by_email
 };

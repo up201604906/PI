@@ -2,7 +2,6 @@ const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const user_model = require('../models/user_model');
 
-
 const signup = async (req, res) => {
     try {
         const { name, email, password, permission} = req.body;
@@ -45,7 +44,7 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const user = await user_model.get_user_by_name_or_email(email);
+        const user = await user_model.get_user_by_email(email);
 
         if (!user) {
             return res.status(404).send("Login failed! User not found.");
@@ -56,18 +55,14 @@ const login = async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).send("Invalid credentials.");
         }
-
-        if(passwordMatch){
-            
+        else{
             const token = jwt.sign(
                 { userId: user.id, name: user.name },
                 process.env.JWT_SECRET,  // TODO: replace with process.env.JWT_SECRET
-                { expiresIn: '1h' } 
+                { expiresIn: '1h' }
             );
             return res.json({ success: true, token });
         }
-
-        res.json({ success: true, user_id: user.id });
 
     } catch (error) {
         res.status(500).send("Error during login." + error);

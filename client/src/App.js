@@ -6,10 +6,16 @@ import ProtectedRoute from "./components/components/common/ProtectedRoute";
 import Home from './components/pages/Home';
 import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
+// import Login from "./components/pages/Login";
 import CreateResource from "./components/pages/CreateResource";
 import MyArticles from "./components/pages/articles/MyArticles";
 import CreateArticle from "./components/pages/articles/CreateArticle";
 import Login from "./components/components/auth/Login";
+import UserManagement from "./components/pages/UserManagement";
+import AddUser from "./components/pages/AddUser";
+import EventManagement from "./components/pages/EventManagement";
+import AddEvent from "./components/pages/AddEvent";
+import UserProfile from "./components/pages/UserProfile";
 
 class App extends Component {
     constructor(props) {
@@ -31,23 +37,40 @@ class App extends Component {
     render() {
         return (
             <AuthProvider>
-                <Router>
-                    <div className="App">
-                        <Topnav/>
-                        <div id={"body"}>
-                            <Routes>
-                                <Route path="/" element={<Home className={"h-100"}/>}/>
-                                <Route path="/inventory/resources" element={
-                                    <ProtectedRoute>
-                                        <Resources/>
-                                    </ProtectedRoute>
-                                }/>
-                                <Route path="/inventory/createResource" element={<CreateResource/>}/>
-                                <Route path="/myArticles" element={<MyArticles/>}/>
-                                <Route path="/createArticle" element={<CreateArticle/>}/>
-                                <Route path="/login" element={<Login/>}/>
-                            </Routes>
-                        </div>
+              <Router>
+                <div className="App">
+                    <Topnav/>
+                    <div id={"body"}>
+                        <Routes>
+                            <Route path="/" element={
+                                <Home className={"h-100"}/>
+                                // <p className="App-intro">Server response: {this.state.apiResponse}</p>
+                            }/>
+                            <Route path="/inventory/resources" element={
+                                <Resources/>
+                            }/>
+                            <Route path="/login" element={
+                                <Login/>
+                            }/>
+                            <Route path="/inventory/createResource" element={
+                                <CreateResource/>
+                            }/>
+                            <Route path={"/user-mgmt"} element={
+                                <UserManagement/>
+                            }/>
+                            <Route path={"add-user"} element={
+                                <AddUser/>
+                            }/>
+                            <Route path={"event-mgmt"} element={
+                                <EventManagement/>
+                            }/>
+                            <Route path={"add-event"} element={
+                                <AddEvent/>
+                            }/>
+                            <Route path={"user/:id"} element={
+                                <UserProfile id={1}/>
+                            }/>
+                        </Routes>
                     </div>
                 </Router>
             </AuthProvider>

@@ -28,6 +28,9 @@ router.delete("/inventory/resources/:name", resourcesController.deleteResourceBy
 
 router.post("/inventory/createResource", resourcesController.createResource);
 
+// user management routes
+router.get("/user-mgmt", controller.getUsers);
+
 
 router.get("/articles/byUser/:userId", articlesController.getArticles);
 router.post("/articles/create", articlesController.createArticle);

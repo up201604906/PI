@@ -10,8 +10,9 @@ class Home extends React.Component {
     }
 
     render() {
-        const titles = ["Recent Projects", "Notifications", "Events", "Articles"];
-        const links = ["/projects", "/notifications", "/events", "/articles"];
+
+        const titles = ["Recent Projects", "Notifications", "Events"];
+        const links = ["/projects", "/notifications", "/event-mgmt"];
         const tableOne_Head = ["Title", "Type", "Status"];
         const tableOne_Data = [
             {title: "Machine Learning Model", type: "Model Training", status: "Ongoing", href: "/project/1"},
@@ -67,9 +68,8 @@ class Home extends React.Component {
                         <Table title={titles[0]} tableHead={tableOne_Head} data={tableOne_Data} seeMore={links[0]}/>
                         <Table title={titles[3]} tableHead={tableFour_Head} data={tableFour_Data} seeMore={links[3]}/>
                     </div>
-                    
-                    {/* Column for Notifications and Events */}
-                    <div className={"d-flex flex-column"}>
+
+                    <div className={"d-flex flex-column justify-content-between"}>
                         <Table title={titles[1]} tableHead={tableTwo_Head} data={tableTwo_Data} seeMore={links[1]}/>
                         <Table title={titles[2]} tableHead={tableThree_Head} data={tableThree_Data} seeMore={links[2]}/>
                     </div>
