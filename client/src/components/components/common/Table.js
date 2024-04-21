@@ -9,7 +9,7 @@ class Table extends React.Component {
     };
 
     render() {
-        const { title, tableHead, data, seeMore } = this.props; // Destructure props
+        const {title, tableHead, data, seeMore} = this.props; // Destructure props
 
         const capitalizedTitle = this.capitalizeFirstLetter(title);
 
@@ -36,19 +36,16 @@ class Table extends React.Component {
                     <div id="table-body" className={"d-flex flex-column"}>
                         {data.map((item, index) => (
                             <div key={index} className={"d-flex flex-row justify-content-between my-3"}>
-                                {tableHead.map((header, idx) => (
-                                    <div key={idx} className={"text-center"} style={{flex: 1}}>
-                                        {header.toLowerCase() === 'title' ? 
-                                            <Link to={item.href} className={"text-truncate"}>{item[header.toLowerCase()]}</Link>
-                                            : item[header.toLowerCase().replace(/\s/g, '')] || 'N/A'}
-                                    </div>
-                                ))}
+                                <div><Link to={item.href} className={"text-truncate"}>{item.title}</Link></div>
+                                <div className={"text-center"}>{item.author || item.type}</div>
+                                <div className={"text-center"}>{item.status}</div>
                             </div>
                         ))}
                     </div>
                 </div>
             </>
-        );
+        )
+            ;
     }
 }
 

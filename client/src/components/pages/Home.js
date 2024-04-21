@@ -66,7 +66,6 @@ class Home extends React.Component {
                     {/* Column for Projects and Articles */}
                     <div className={"d-flex flex-column"}>
                         <Table title={titles[0]} tableHead={tableOne_Head} data={tableOne_Data} seeMore={links[0]}/>
-                        <Table title={titles[3]} tableHead={tableFour_Head} data={tableFour_Data} seeMore={links[3]}/>
                     </div>
 
                     <div className={"d-flex flex-column justify-content-between"}>

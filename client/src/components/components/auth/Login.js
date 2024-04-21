@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useAuth} from '../../../contexts/AuthContext';
+import {useNavigate} from 'react-router-dom';
 
 function Login() {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const { login } = useAuth();
+    const {login} = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -13,8 +13,8 @@ function Login() {
         try {
             const response = await fetch('http://localhost:4000/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password})
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email, password})
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -28,19 +28,24 @@ function Login() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Email:
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </label>
-                <label>
-                    Password:
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </label>
-                <button type="submit">Login</button>
-            </form>
-        </div>
+        <form className="w-25 mx-auto" onSubmit={handleSubmit}>
+            <h1 className="title text-center">Login</h1>
+
+            <div className="form-group my-5 mx-auto w-75">
+                <label className="fw-bold">Email</label>
+                <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)}/>
+            </div>
+
+            <div className="form-group my-5 mx-auto w-75">
+                <label className="fw-bold">Password</label>
+                <input type="password" className="form-control" value={password}
+                       onChange={(e) => setPassword(e.target.value)}/>
+            </div>
+
+            <div className="text-center">
+                <button type="submit" className="btn btn-primary my-3 fw-bold">Login</button>
+            </div>
+        </form>
     );
 }
 

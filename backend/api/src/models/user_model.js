@@ -41,7 +41,7 @@ const get_user_by_id = async (userId) => {
     }
 };
 
-const get_user_by_name_or_email = async (email) => {
+const get_user_by_email = async (email) => {
     try {
         const result = await pool.query(
             'SELECT * FROM users WHERE email = $1',
