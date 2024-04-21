@@ -41,11 +41,11 @@ const get_user_by_id = async (userId) => {
     }
 };
 
-const get_user_by_name_or_email = async (nameOrEmail) => {
+const get_user_by_name_or_email = async (email) => {
     try {
         const result = await pool.query(
-            'SELECT * FROM users WHERE name = $1 OR email = $1',
-            [nameOrEmail]
+            'SELECT * FROM users WHERE email = $1',
+            [email]
         );
         return result.rows[0];
     } catch (error) {

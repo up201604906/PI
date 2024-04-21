@@ -8,7 +8,7 @@ const signup = async (req, res) => {
         const { name, email, password, permission} = req.body;
 
         // Hash the password
-        //const saltRounds = 10;  // 
+        //const saltRounds = 10;  //
         const hashedPassword = await argon2.hash(password);
 
         if (await user_model.doesUserExist(name, email)) {
@@ -43,21 +43,20 @@ const getUserById = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { name, password } = req.body;
-        
-        
-        const user = await user_model.get_user_by_name_or_email(name);
+        const { email, password } = req.body;
+
+        const user = await user_model.get_user_by_name_or_email(email);
 
         if (!user) {
             return res.status(404).send("Login failed! User not found.");
         }
 
-    
-        const passwordMatch = await argon2.verify(user.password, password);
-        
+        const passwordMatch = await verifyPassword(user.password, password);
+
         if (!passwordMatch) {
             return res.status(401).send("Invalid credentials.");
         }
+
         if(passwordMatch){
             
             const token = jwt.sign(
@@ -68,13 +67,22 @@ const login = async (req, res) => {
             return res.json({ success: true, token });
         }
 
-
         res.json({ success: true, user_id: user.id });
 
     } catch (error) {
-        res.status(500).send("Error during login.");
+        res.status(500).send("Error during login." + error);
     }
 };
+
+async function verifyPassword(storedHash, submittedPass) {
+    try {
+        const match = await argon2.verify(storedHash, submittedPass);
+        return match; // returns true if match, false otherwise
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+}
 
 module.exports = { 
     signup,
