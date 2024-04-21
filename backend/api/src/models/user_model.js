@@ -1,10 +1,10 @@
 const pool = require('./database');
 
-async function create_user(name, email, password, permission, picture) {
+async function create_user(name, email, password, permission) {
     try {
         const result = await pool.query(
-            'INSERT INTO users (name, email, password, permission, picture) VALUES ($1, $2, $3, $4) RETURNING id',
-            [name, email, password, permission, picture]
+            'INSERT INTO users (name, email, password, permission) VALUES ($1, $2, $3, $4) RETURNING id',
+            [name, email, password, permission]
         );
         return result.rows[0].id;
     } catch (error) {
@@ -41,7 +41,7 @@ const get_user_by_id = async (userId) => {
     }
 };
 
-const get_user_by_email = async (email) => {
+const get_user_by_name_or_email = async (email) => {
     try {
         const result = await pool.query(
             'SELECT * FROM users WHERE email = $1',

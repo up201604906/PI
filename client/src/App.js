@@ -1,12 +1,16 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-
+import {AuthProvider} from './contexts/AuthContext';
 import './styles/App.css'
+import ProtectedRoute from "./components/components/common/ProtectedRoute";
 import Home from './components/pages/Home';
 import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
-import Login from "./components/pages/Login";
+// import Login from "./components/pages/Login";
 import CreateResource from "./components/pages/CreateResource";
+import MyArticles from "./components/pages/articles/MyArticles";
+import CreateArticle from "./components/pages/articles/CreateArticle";
+import Login from "./components/components/auth/Login";
 import UserManagement from "./components/pages/UserManagement";
 import AddUser from "./components/pages/AddUser";
 import EventManagement from "./components/pages/EventManagement";
@@ -32,7 +36,8 @@ class App extends Component {
 
     render() {
         return (
-            <Router>
+            <AuthProvider>
+              <Router>
                 <div className="App">
                     <Topnav/>
                     <div id={"body"}>
@@ -67,8 +72,8 @@ class App extends Component {
                             }/>
                         </Routes>
                     </div>
-                </div>
-            </Router>
+                </Router>
+            </AuthProvider>
         );
     }
 }

@@ -1,5 +1,5 @@
 INSERT INTO users (name, email, password, permission, picture) VALUES 
-('sampleName', 'sampleEmail@gmail.com', 'samplePassword', 'admin', NULL);
+('sampleName', 'sampleEmail@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL); -- password é samplePassword
 
 INSERT INTO resources (name, description, category, quantity, available, supplier, room, cabinet, shelf, box) VALUES
 ('Libelium Waspmote (v 1.2)', '1. Batteries - 2300 mA-h Rechargeable; 2.Two batteries have damaged connectors 3. With 6 antenna extensions', 'sensor board',6, 6, 'Website', 'I112', '1', 'C', 'B3'),

@@ -86,7 +86,7 @@ CREATE TABLE articles (
   abstract TEXT NOT NULL,
   keywords TEXT,
   cite TEXT,
-  state article_state_enum NOT NULL
+  user_id INTEGER REFERENCES users(id)
 );
 
 CREATE TABLE user_articles (

@@ -10,6 +10,7 @@ class Home extends React.Component {
     }
 
     render() {
+
         const titles = ["Recent Projects", "Notifications", "Events"];
         const links = ["/projects", "/notifications", "/event-mgmt"];
         const tableOne_Head = ["Title", "Type", "Status"];
@@ -38,8 +39,9 @@ class Home extends React.Component {
 
         const tableTwo_Head = ["Title", "Author", "When"];
         const tableTwo_Data = [
-            { title: "Notification 1", type: "User 1", status: "01/01/2024", href: "/href/1" },
-            { title: "Notification 2", type: "User 2", status: "01/01/2024", href: "/href/2" },
+            { title: "Notification 1", author: "User 1", status: "01/01/2024", href: "/href/1" },
+            { title: "Notification 2", author: "User 2", status: "01/01/2024", href: "/href/2" },
+            
         ];
 
         const tableThree_Head = ["Title", "Type", "When"];
@@ -48,22 +50,32 @@ class Home extends React.Component {
             { title: "Event 2", type: "User 2", status: "06/06/2024", href: "/event/2" },
         ];
 
+        const tableFour_Head = ["Title", "Author", "Year", "Type"];
+        const tableFour_Data = [
+            { title: "Quantum Computing Advances", author: "Alice Smith", year: 2024, type: "Conference", href: "/article/1" },
+            { title: "AI and Ethics", author: "Bob Johnson", year: 2024, type: "Journal", href: "/article/2" }
+            
+        ];
+
         return (
             <div className={"d-flex flex-column"}>
                 <div className={"title"}><span>O</span>verview</div>
                 <HomeStats/>
 
                 <div id={"info"} className={"d-flex flex-row justify-content-around w-100"}>
-                    <div>
+                    {/* Column for Projects and Articles */}
+                    <div className={"d-flex flex-column"}>
                         <Table title={titles[0]} tableHead={tableOne_Head} data={tableOne_Data} seeMore={links[0]}/>
+                        <Table title={titles[3]} tableHead={tableFour_Head} data={tableFour_Data} seeMore={links[3]}/>
                     </div>
+
                     <div className={"d-flex flex-column justify-content-between"}>
                         <Table title={titles[1]} tableHead={tableTwo_Head} data={tableTwo_Data} seeMore={links[1]}/>
                         <Table title={titles[2]} tableHead={tableThree_Head} data={tableThree_Data} seeMore={links[2]}/>
                     </div>
                 </div>
-
             </div>
+
         );
     }
 }
