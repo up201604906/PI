@@ -59,6 +59,7 @@ class Topnav extends React.Component {
     }
 
     get_inventory() {
+
         return (
             <li className={"nav-item"}>
                 <div className="dropdown">
@@ -116,6 +117,7 @@ class Topnav extends React.Component {
     }
 
     render() {
+
         return (
             <nav id={"topnav"} className={"navbar navbar-expand-lg top-bar"}>
                 <div className={"container-fluid"}>

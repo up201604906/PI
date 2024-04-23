@@ -1,12 +1,12 @@
-import React, {Component} from "react";
+import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import {AuthProvider} from './contexts/AuthContext';
-import './styles/App.css'
+import {AuthProvider, useAuth} from './contexts/AuthContext';
+import './styles/App.css';
 import ProtectedRoute from "./components/components/common/ProtectedRoute";
 import Home from './components/pages/Home';
 import Topnav from "./components/components/common/Topnav";
+import NotAuthTopnav from "./components/components/common/NotAuthTopnav";
 import Resources from "./components/pages/Resources";
-// import Login from "./components/pages/Login";
 import CreateResource from "./components/pages/CreateResource";
 import Login from "./components/components/auth/Login";
 import UserManagement from "./components/pages/UserManagement";
@@ -14,49 +14,30 @@ import AddUser from "./components/pages/AddUser";
 import EventManagement from "./components/pages/EventManagement";
 import AddEvent from "./components/pages/AddEvent";
 import UserProfile from "./components/pages/UserProfile";
+import Footer from "./components/components/common/Footer";
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {apiResponse: ''};
-    }
+function App() {
+    const {auth} = useAuth();
 
-    callAPI() {
-        fetch("http://localhost:4000/")
-            .then(res => res.text())
-            .then(res => this.setState({apiResponse: res}))
-            .catch(err => err);
-    }
-
-    componentDidMount() { // Changed from componentWillMount to componentDidMount
-        this.callAPI();
-    }
-
-    render() {
-        return (
-            <AuthProvider>
-                <Router>
-                    <div className="App">
-                        <Topnav/>
-                        <div id={"body"}>
-                            <Routes>
-                                <Route path="/" element={<Home/>}/>
-                                <Route path="/inventory/resources" element={<Resources/>}/>
-                                <Route path="/login" element={<Login/>}/>
-                                <Route path="/inventory/createResource" element={<CreateResource/>}/>
-                                <Route path={"/user-mgmt"} element={<UserManagement/>}/>
-                                <Route path={"add-user"} element={<AddUser/>}/>
-                                <Route path={"event-mgmt"} element={<EventManagement/>}/>
-                                <Route path={"add-event"} element={<AddEvent/>}/>
-                                <Route path={"user/:id"} element={<UserProfile id={1}/>}/>
-                            </Routes>
-                        </div>
-                    </div>
-
-                </Router>
-            </AuthProvider>
-        );
-    }
+    return (
+        <Router>
+            {auth ? <Topnav/> : <NotAuthTopnav/>}
+            <div id={"body"}>
+                <Routes>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/app" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+                    <Route path="app/inventory/resources" element={<ProtectedRoute><Resources/></ProtectedRoute>}/>
+                    <Route path="app/inventory/createResource" element={<ProtectedRoute><CreateResource/></ProtectedRoute>}/>
+                    <Route path="app/user-mgmt" element={<ProtectedRoute><UserManagement/></ProtectedRoute>}/>
+                    <Route path="app/add-user" element={<ProtectedRoute><AddUser/></ProtectedRoute>}/>
+                    <Route path="app/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
+                    <Route path="app/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
+                    <Route path="app/user/:id" element={<ProtectedRoute><UserProfile id={1}/></ProtectedRoute>}/>
+                </Routes>
+            </div>
+            <Footer/>
+        </Router>
+    );
 }
 
 export default App;
