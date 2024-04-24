@@ -35,7 +35,7 @@ class Table extends React.Component {
                 <tbody>
                 {projects.map((project, index) => (
                     <tr key={index}>
-                        <td><Link to={"http://localhost3000/project/" + project.id}>{project.title}</Link></td>
+                        <td><Link to={"http://localhost:3000/project/" + project.id}>{project.title}</Link></td>
                         <td>
                             <select defaultValue={project.type}>
                                 {projectTypes.map((role, index) => (
@@ -83,12 +83,51 @@ class Filters extends React.Component {
 }
 
 class UserProfile extends React.Component {
-    user = {
-        name: 'John Doe',
-        email: 'johndoe@example.com',
-        role: 'Administrator',
-        picture: 'default.png' // Replace this with the path to the actual profile picture
+    state = {
+        user: {
+            name: '',
+            email: '',
+            permission: '',
+            picture: '' // Replace this with the path to the actual profile picture
+        },
+        articles: [],
     };
+
+    getUserData() {
+        const userId = localStorage.getItem('user');
+        if (userId) {
+            fetch(`http://localhost:4000/user/${userId}`)
+                .then(res => res.json())
+                .then(user => {
+                    console.log("Fetched user:", user);
+                    this.setState({ user });
+                })
+                .catch(err => console.error("Error fetching user:", err));
+        } else {
+            console.error("User ID not found in local storage.");
+        }
+    }
+
+    getUserProjects() {
+        const userId = localStorage.getItem('user');
+        if (userId) {
+            fetch(`http://localhost:4000/articles?userId=${encodeURIComponent(userId)}`)
+                .then(res => res.json())
+                .then(articles => {
+                    console.log("Fetched articles:", articles);
+                    this.setState({ articles });
+                })
+                .catch(err => console.error("Error fetching articles:", err));
+        } else {
+            console.error("User ID not found in local storage.");
+        }
+    }
+
+
+    componentDidMount() {
+        this.getUserData();
+        this.getUserProjects();
+    }
 
     profileData = () => {
         return (
@@ -108,9 +147,9 @@ class UserProfile extends React.Component {
                         {/*<img src={this.user.picture} alt="Profile Picture"/>*/}
                     </div>
                     <div className="profile-info">
-                        <p><strong>Name:</strong> {this.user.name}</p>
-                        <p><strong>Email:</strong> {this.user.email}</p>
-                        <p><strong>Role:</strong> {this.user.role}</p>
+                        <p><strong>Name:</strong> {this.state.user.name}</p>
+                        <p><strong>Email:</strong> {this.state.user.email}</p>
+                        <p><strong>Role:</strong> {this.state.user.permission}</p>
                     </div>
                 </div>
             </div>
@@ -136,6 +175,7 @@ class UserProfile extends React.Component {
     }
 
     render() {
+        console.log("current state:", this.state);
         return (
             <div>
                 {this.profileData()}

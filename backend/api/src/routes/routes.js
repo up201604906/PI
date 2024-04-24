@@ -7,15 +7,12 @@ const userAuth = require('../middlewares/user_auth');
 const router = express.Router();
 
 
-
+// auth routes
 router.post('/signup', userAuth.saveUser, userController.signup);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 
 router.get('/user/:id', userController.getUserById);
-
-
-
 
 router.get("/home", controller.getHome);
 router.get("/users", controller.getUsers);
@@ -33,7 +30,7 @@ router.post("/inventory/createResource", resourcesController.createResource);
 router.get("/user-mgmt", controller.getUsers);
 
 
-router.get("/articles/byUser/:userId", articlesController.getArticles);
+router.get("/articles", articlesController.getArticles);
 router.post("/articles/create", articlesController.createArticle);
 
 

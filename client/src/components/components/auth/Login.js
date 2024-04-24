@@ -21,7 +21,7 @@ function Login() {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json(); // This line throws if the response is not JSON
-            login(data.user, data.token); // Adjust according to your AuthContext setup
+            login(data.user, data.token, data.permission); // Adjust according to your AuthContext setup
             navigate('/home'); // Redirect on successful login
         } catch (error) {
             alert('Login failed: ' + (error.message || 'Unknown error'));

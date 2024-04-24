@@ -1,8 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import feup_logo from '../../../images/feup-logo.png'
-import digi_logo from "../../../images/digi2_orange.svg";
-import logo from "../../../images/digi2_orange.svg";
 
 
 const Footer = () => {
@@ -20,11 +18,11 @@ const Footer = () => {
 
                 <ul className="nav col-md-8 justify-content-end">
                     {socials.map((item, index) => (
-                        <li className="nav-item me-3">
-                            <div className={"my-auto"}>
-                                <Link to={item.href} key={index}>
-                                    <button className={"p-0"}>
-                                        <i className={"bi h2 m-0 btn btn-primary " + item.class}></i>
+                        <li key={index} className="nav-item me-3">
+                            <div className="my-auto">
+                                <Link to={item.href}>
+                                    <button className="p-0">
+                                        <i className={`bi h2 m-0 btn btn-primary ${item.class}`}></i>
                                     </button>
                                 </Link>
                             </div>

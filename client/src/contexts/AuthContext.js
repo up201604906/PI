@@ -1,6 +1,5 @@
 // src/contexts/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 
 export const AuthContext = createContext(null);
 
@@ -16,10 +15,11 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
     }, []);
 
-    const login = (user, permission, token) => {
+    const login = (user, token, permission) => {
         localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('permission', permission);
         localStorage.setItem('token', token);
+        localStorage.setItem('permission', permission);
+        console.log(localStorage);
         setCurrentUser(user);
     };
 

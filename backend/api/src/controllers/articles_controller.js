@@ -2,7 +2,11 @@ const articlesModel = require('../models/articles_model');
 
 const getArticles = async (req, res) => {
     try {
-        const userId = req.params.userId;  // Assume user ID is passed as a URL parameter
+        const userId = req.query.userId;  // Assume user ID is passed as a URL parameter
+        if(!userId) {
+            res.status(400).send("User ID is required");
+            return;
+        }
         const articles = await articlesModel.getArticlesByUser(userId);
         res.json(articles);
     } catch (error) {
