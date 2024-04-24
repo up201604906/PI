@@ -79,8 +79,18 @@ async function verifyPassword(storedHash, submittedPass) {
     }
 }
 
+const logout = async (req, res) => {
+    try {
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Error logging out:", error);
+        res.status(500).send("Error logging out.");
+    }
+};
+
 module.exports = { 
     signup,
     login,
+    logout,
     getUserById
 };

@@ -17,22 +17,23 @@ import UserProfile from "./components/pages/UserProfile";
 import Footer from "./components/components/common/Footer";
 
 function App() {
-    const {auth} = useAuth();
+    const {currentUser} = useAuth();
 
     return (
         <Router>
-            {auth ? <Topnav/> : <NotAuthTopnav/>}
+            {console.log(currentUser)}
+            {currentUser ? <Topnav/> : <NotAuthTopnav/>}
             <div id={"body"}>
                 <Routes>
                     <Route path="/login" element={<Login/>}/>
-                    <Route path="/app" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
-                    <Route path="app/inventory/resources" element={<ProtectedRoute><Resources/></ProtectedRoute>}/>
-                    <Route path="app/inventory/createResource" element={<ProtectedRoute><CreateResource/></ProtectedRoute>}/>
-                    <Route path="app/user-mgmt" element={<ProtectedRoute><UserManagement/></ProtectedRoute>}/>
-                    <Route path="app/add-user" element={<ProtectedRoute><AddUser/></ProtectedRoute>}/>
-                    <Route path="app/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
-                    <Route path="app/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
-                    <Route path="app/user/:id" element={<ProtectedRoute><UserProfile id={1}/></ProtectedRoute>}/>
+                    <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+                    <Route path="/inventory/resources" element={<ProtectedRoute><Resources/></ProtectedRoute>}/>
+                    <Route path="/inventory/createResource" element={<ProtectedRoute><CreateResource/></ProtectedRoute>}/>
+                    <Route path="/user-mgmt" element={<ProtectedRoute><UserManagement/></ProtectedRoute>}/>
+                    <Route path="/add-user" element={<ProtectedRoute><AddUser/></ProtectedRoute>}/>
+                    <Route path="/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
+                    <Route path="/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
+                    <Route path="/user/:id" element={<ProtectedRoute><UserProfile id={1}/></ProtectedRoute>}/>
                 </Routes>
             </div>
             <Footer/>

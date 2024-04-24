@@ -22,7 +22,7 @@ function Login() {
             }
             const data = await response.json(); // This line throws if the response is not JSON
             login(data.user, data.token); // Adjust according to your AuthContext setup
-            navigate('/'); // Redirect on successful login
+            navigate('/home'); // Redirect on successful login
         } catch (error) {
             alert('Login failed: ' + (error.message || 'Unknown error'));
         }

@@ -126,12 +126,15 @@ button {
     color: white !important;
 }
 
-footer {
-    background: #f8f9fa;
-    text-align: center;
-    padding: 20px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%
+footer img {
+    height: 3rem;
+}
+
+footer *{
+    margin-bottom: 0 !important;
+    padding: 0;
+}
+
+#footer-logo {
+    color: var(--secondary-color);
 }

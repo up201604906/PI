@@ -1,12 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import '../../../styles/Topnav.css'
-
+import {AuthContext} from '../../../contexts/AuthContext';
 import gatito from '../../../images/default.png'
 import logo from '../../../images/digi2_orange.svg'
 
 
 class Topnav extends React.Component {
+    static contextType = AuthContext;
 
     linksData = [
         {text: "My Projects", href: "/myProjects"},  //from this page, you should be able to see your team + all projects
@@ -28,7 +29,7 @@ class Topnav extends React.Component {
     userDropdownData = [
         {text: "My Profile", href: "/user/1"},
         {text: "Notifications", href: "/notifications"},
-        {text: "Logout", href: "/logout"},
+        {text: "Logout", onClick: () => this.context.logout()},
     ]
 
 
@@ -84,7 +85,8 @@ class Topnav extends React.Component {
         return (
             <li className={"nav-item"}>
                 <div id="user" className={"d-flex flex-column dropdown"}>
-                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" className={"d-flex flex-row mb-3 p-0"}>
+                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                            className={"d-flex flex-row mb-3 p-0"}>
                         <img className={"rounded-circle me-2 my-auto"} src={gatito} alt={"user"}/>
                         <div className={"d-flex flex-column my-auto"}>
                             <b>John Doe</b>
@@ -93,7 +95,10 @@ class Topnav extends React.Component {
                     <ul className={"dropdown-menu"}>
                         {this.userDropdownData.map((item, index) => (
                             <li key={index}>
-                                <Link to={item.href} className={"dropdown-item"}>{item.text}</Link>
+                                {item.onClick ?
+                                    <button onClick={item.onClick} className="dropdown-item">{item.text}</button> :
+                                    <Link to={item.href} className="dropdown-item">{item.text}</Link>
+                                }
                             </li>
                         ))}
                     </ul>
@@ -128,7 +133,7 @@ class Topnav extends React.Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
-                    <div id={"navbarText"}  className={"collapse navbar-collapse"}>
+                    <div id={"navbarText"} className={"collapse navbar-collapse"}>
                         {this.get_items()}
                     </div>
 

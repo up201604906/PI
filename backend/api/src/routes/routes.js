@@ -10,13 +10,14 @@ const router = express.Router();
 
 router.post('/signup', userAuth.saveUser, userController.signup);
 router.post('/login', userController.login);
+router.post('/logout', userController.logout);
 
 router.get('/user/:id', userController.getUserById);
 
 
 
 
-router.get("/", controller.getHome);
+router.get("/home", controller.getHome);
 router.get("/users", controller.getUsers);
 
 
