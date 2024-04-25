@@ -6,6 +6,8 @@ import Home from './components/pages/Home';
 import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
 import CreateResource from "./components/pages/CreateResource";
+import Licenses from "./components/pages/Licenses";
+import CreateLicense from "./components/pages/CreateLicense";
 
 class App extends Component {
     constructor(props) {
@@ -36,14 +38,18 @@ class App extends Component {
                                 // <p className="App-intro">Server response: {this.state.apiResponse}</p>
                             }/>
                             <Route path="/inventory/resources" element={
-                                
                                 <Resources />
-                                
                             }/> {}
                             <Route path="/inventory/createResource" element={
                                 <CreateResource />
                             }/>
-
+                            <Route path="/inventory/licenses" element={
+                                <Licenses />
+                            }/> {}
+                            <Route path="/inventory/createLicense" element={
+                                <CreateLicense />
+                            }/>
+                            
                         </Routes>
                     </div>
                 </div>
