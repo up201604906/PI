@@ -9,20 +9,8 @@ const roles = ["Student", "Collaborator", "Admin"];
 class Table extends React.Component {
 
     render() {
-        const users = [
-            {
-                id: 1,
-                name: "Example Name",
-                email: "exampleEmail",
-                permission: "Student"
-            },
-            {
-                id: 2,
-                name: "Example Name 2",
-                email: "exampleEmail2",
-                permission: "Admin"
-            }
-        ]
+        const { users } = this.props;
+        console.log(users);
 
         return (
             <table>
@@ -37,10 +25,10 @@ class Table extends React.Component {
                 <tbody>
                 {users.map((user, index) => (
                     <tr key={index}>
-                        <td><Link to={"http://localhost3000/user/"+user.id}>{user.name}</Link></td>
+                        <td><Link to={"http://localhost:3000/user/"+user.id}>{user.name}</Link></td>
                         <td>{user.email}</td>
                         <td>
-                            <select defaultValue={user.permission}>
+                            <select defaultValue={user.permission.charAt(0).toUpperCase() + user.permission.slice(1)}>
                                 {roles.map((role, index) => (
                                     <option key={index} value={role}>{role}</option>
                                 ))}
@@ -80,17 +68,33 @@ class Filters extends React.Component {
 }
 
 class UserManagement extends React.Component {
+    state = {
+        users: []
+    };
 
+    getUsers() {
+        fetch(`http://localhost:4000/user-mgmt`)
+            .then(res => res.json())
+            .then(users => {
+                this.setState({ users });
+            })
+            .catch(err => console.error("Error fetching user:", err));
+    }
+
+    componentDidMount() {
+        this.getUsers();
+    }
 
     render() {
         return (
             <div className={"d-flex flex-column"}>
                 <div className={"title"}><span>U</span>sers</div>
                 <Filters/>
-                <Table/>
+                <Table users={this.state.users}/>  {/* Pass users as props */}
             </div>
         );
     }
 }
+
 
 export default UserManagement;

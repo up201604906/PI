@@ -4,7 +4,7 @@ const user_model = require('../models/user_model');
 
 const signup = async (req, res) => {
     try {
-        const { name, email, password, permission} = req.body;
+        const { name, email, password, confPass, permission} = req.body;
 
         // Hash the password
         //const saltRounds = 10;  //
@@ -20,23 +20,6 @@ const signup = async (req, res) => {
     } catch (error) {
         console.error("Error registering user:", error);
         res.status(500).send("Error registering user.");
-    }
-};
-
-
-const getUserById = async (req, res) => {
-    try {
-        const userId = req.params.id;
-        const user = await user_model.get_user_by_id(userId);
-
-        if (!user) {
-            return res.status(404).send("User not found.");
-        }
-
-        res.json(user);
-    } catch (error) {
-        console.error("Error fetching user by ID:", error);
-        res.status(500).send("Internal Server Error");
     }
 };
 
@@ -71,8 +54,7 @@ const login = async (req, res) => {
 
 async function verifyPassword(storedHash, submittedPass) {
     try {
-        const match = await argon2.verify(storedHash, submittedPass);
-        return match; // returns true if match, false otherwise
+        return await argon2.verify(storedHash, submittedPass); // returns true if it matches, false otherwise
     } catch (err) {
         console.error(err);
         throw err;
@@ -88,9 +70,41 @@ const logout = async (req, res) => {
     }
 };
 
+const getUserById = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await user_model.get_user_by_id(userId);
+
+        if (!user) {
+            return res.status(404).send("User not found.");
+        }
+
+        res.json(user);
+    } catch (error) {
+        console.error("Error fetching user by ID:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const getUsers = async (req, res) => {
+    try {
+        const users = await user_model.get_all_users();
+
+        if(!users){
+            return res.status(404).send("No users found.");
+        }
+
+        res.json(users);
+    } catch (err) {
+        res.status(500).send('Error retrieving Home.');
+        console.error(err.message);
+    }
+};
+
 module.exports = { 
     signup,
     login,
     logout,
-    getUserById
+    getUserById,
+    getUsers
 };

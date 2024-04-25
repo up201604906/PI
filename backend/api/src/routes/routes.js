@@ -15,7 +15,6 @@ router.post('/logout', userController.logout);
 router.get('/user/:id', userController.getUserById);
 
 router.get("/home", controller.getHome);
-router.get("/users", controller.getUsers);
 
 
 // resources routes
@@ -27,7 +26,7 @@ router.delete("/inventory/resources/:name", resourcesController.deleteResourceBy
 router.post("/inventory/createResource", resourcesController.createResource);
 
 // user management routes
-router.get("/user-mgmt", controller.getUsers);
+router.get("/user-mgmt", userController.getUsers);
 
 
 router.get("/articles", articlesController.getArticles);

@@ -54,9 +54,22 @@ const get_user_by_email = async (email) => {
     }
 };
 
+const get_all_users = async () => {
+    try {
+        const result = await pool.query(`SELECT id, name, email, permission, picture FROM users`);
+        return result.rows;
+    } catch (error) {
+        console.error("Error fetching user by name or email:", error);
+        throw error;
+    }
+};
+
+
+
 module.exports = {
     doesUserExist,
     create_user,
+    get_all_users,
     get_user_by_id,
     get_user_by_email
 };

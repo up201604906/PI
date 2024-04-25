@@ -1,5 +1,5 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {Link, useParams} from 'react-router-dom';
 import "../../styles/App.css";
 
 const projectTypes = ["Type 1", "Type 2", "Type 3", "Type 4"];
@@ -82,54 +82,31 @@ class Filters extends React.Component {
     }
 }
 
-class UserProfile extends React.Component {
-    state = {
-        user: {
-            name: '',
-            email: '',
-            permission: '',
-            picture: '' // Replace this with the path to the actual profile picture
-        },
-        articles: [],
-    };
+function UserProfile() {
+    const [user, setUser] = useState({name: '', email: '', permission: '', picture: ''});
+    const [articles, setArticles] = useState([]);
+    const {id} = useParams();
 
-    getUserData() {
-        const userId = localStorage.getItem('user');
-        if (userId) {
-            fetch(`http://localhost:4000/user/${userId}`)
-                .then(res => res.json())
-                .then(user => {
-                    console.log("Fetched user:", user);
-                    this.setState({ user });
-                })
-                .catch(err => console.error("Error fetching user:", err));
-        } else {
-            console.error("User ID not found in local storage.");
-        }
+    useEffect(() => {
+        getUserData(id);
+        getUserProjects(id);
+    }, [id]);
+
+    function getUserData(userId) {
+        fetch(`http://localhost:4000/user/${userId}`)
+            .then(response => response.json())
+            .then(data => setUser(data))
+            .catch(err => console.error("Error fetching user:", err));
     }
 
-    getUserProjects() {
-        const userId = localStorage.getItem('user');
-        if (userId) {
-            fetch(`http://localhost:4000/articles?userId=${encodeURIComponent(userId)}`)
-                .then(res => res.json())
-                .then(articles => {
-                    console.log("Fetched articles:", articles);
-                    this.setState({ articles });
-                })
-                .catch(err => console.error("Error fetching articles:", err));
-        } else {
-            console.error("User ID not found in local storage.");
-        }
+    function getUserProjects(userId) {
+        fetch(`http://localhost:4000/articles?userId=${encodeURIComponent(userId)}`)
+            .then(response => response.json())
+            .then(data => setArticles(data))
+            .catch(err => console.error("Error fetching articles:", err));
     }
 
-
-    componentDidMount() {
-        this.getUserData();
-        this.getUserProjects();
-    }
-
-    profileData = () => {
+    function profileData() {
         return (
             <div>
                 <div className="container">
@@ -147,16 +124,16 @@ class UserProfile extends React.Component {
                         {/*<img src={this.user.picture} alt="Profile Picture"/>*/}
                     </div>
                     <div className="profile-info">
-                        <p><strong>Name:</strong> {this.state.user.name}</p>
-                        <p><strong>Email:</strong> {this.state.user.email}</p>
-                        <p><strong>Role:</strong> {this.state.user.permission}</p>
+                        <p><strong>Name:</strong> {user.name}</p>
+                        <p><strong>Email:</strong> {user.email}</p>
+                        <p><strong>Role:</strong> {user.permission}</p>
                     </div>
                 </div>
             </div>
         )
     }
 
-    userProjects = () => {
+    function userProjects() {
         return (
             <div>
                 <div className="container">
@@ -174,15 +151,12 @@ class UserProfile extends React.Component {
         )
     }
 
-    render() {
-        console.log("current state:", this.state);
-        return (
-            <div>
-                {this.profileData()}
-                {this.userProjects()}
-            </div>
-        );
-    }
+    return (
+        <div>
+            {profileData()}
+            {userProjects()}
+        </div>
+    );
 }
 
 export default UserProfile;

@@ -24,7 +24,7 @@ class AddEvent extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(JSON.stringify(this.state))
-        fetch('http://localhost:4000/add-user', {
+        fetch('http://localhost:4000/add-event', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state),
@@ -32,10 +32,10 @@ class AddEvent extends React.Component {
             .then(response => {
                 if (response.ok) {
                     // Handle successful login
-                    console.log('Successfully Added User');
+                    console.log('Successfully Added Event');
                 } else {
                     // Handle failed login
-                    console.error('Something went wrong when adding user');
+                    console.error('Something went wrong when adding event');
                 }
             })
             .catch(error => {
