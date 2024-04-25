@@ -2,6 +2,7 @@ const express = require("express");
 const controller = require("../controllers/controller");
 const resourcesController = require("../controllers/resources_controller");
 const licensesController = require("../controllers/licenses_controller");
+const pcAllocationController = require("../controllers/pcallocation_controller");
 
 const router = express.Router();
 
@@ -25,5 +26,14 @@ router.get("/inventory/licenses/:id", licensesController.getLicenseById);
 router.delete("/inventory/licenses/:id", licensesController.deleteLicenseById);
 
 router.post("/inventory/createLicense", licensesController.createLicense);
+
+
+// pc allocation routes
+router.get("/inventory/pcallocation", pcAllocationController.getPCAllocations);
+router.put("/inventory/pcallocation/:id", pcAllocationController.updatePCAllocation);
+router.get("/inventory/pcallocation/:id", pcAllocationController.getPCAllocationById);
+router.delete("/inventory/pcallocation/:id", pcAllocationController.deletePCAllocationById);
+
+router.post("/inventory/createPCAllocation", pcAllocationController.createPCAllocation);
 
 module.exports = router;

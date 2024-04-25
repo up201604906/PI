@@ -8,6 +8,8 @@ import Resources from "./components/pages/Resources";
 import CreateResource from "./components/pages/CreateResource";
 import Licenses from "./components/pages/Licenses";
 import CreateLicense from "./components/pages/CreateLicense";
+import PCAllocation from "./components/pages/PCAllocation";
+import CreatePCAllocation from "./components/pages/CreatePCAllocation";
 
 class App extends Component {
     constructor(props) {
@@ -48,6 +50,12 @@ class App extends Component {
                             }/> {}
                             <Route path="/inventory/createLicense" element={
                                 <CreateLicense />
+                            }/>
+                            <Route path="/inventory/pcallocation" element={
+                                <PCAllocation />
+                            }/>
+                            <Route path="/inventory/createPCAllocation" element={
+                                <CreatePCAllocation />
                             }/>
                             
                         </Routes>

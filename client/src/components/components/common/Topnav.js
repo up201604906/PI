@@ -20,7 +20,7 @@ class Topnav extends React.Component {
 
     inventoryDropdownData = [
         {text: "Resources", href: "/inventory/resources"},
-        {text: "PC Allocation", href: "/inventory/pc-allocation"},
+        {text: "PC Allocation", href: "/inventory/pcallocation"},
         {text: "Licenses", href: "/inventory/licenses"},
         {text: "Wishlist", href: "/inventory/wishlist"},
     ]
