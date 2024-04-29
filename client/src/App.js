@@ -9,11 +9,11 @@ import NotAuthTopnav from "./components/components/common/NotAuthTopnav";
 import Resources from "./components/pages/Resources";
 import CreateResource from "./components/pages/CreateResource";
 import Login from "./components/components/auth/Login";
-import UserManagement from "./components/pages/UserManagement";
-import AddUser from "./components/pages/AddUser";
-import EventManagement from "./components/pages/EventManagement";
-import AddEvent from "./components/pages/AddEvent";
-import UserProfile from "./components/pages/UserProfile";
+import UserManagement from "./components/pages/user/UserManagement";
+import AddUser from "./components/pages/user/AddUser";
+import EventManagement from "./components/pages/events/EventManagement";
+import AddEvent from "./components/pages/events/AddEvent";
+import UserProfile from "./components/pages/user/UserProfile";
 import Footer from "./components/components/common/Footer";
 
 function App() {

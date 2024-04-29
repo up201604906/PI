@@ -12,8 +12,6 @@ router.post('/signup', userAuth.saveUser, userController.signup);
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 
-router.get('/user/:id', userController.getUserById);
-
 router.get("/home", controller.getHome);
 
 
@@ -25,8 +23,11 @@ router.delete("/inventory/resources/:name", resourcesController.deleteResourceBy
 
 router.post("/inventory/createResource", resourcesController.createResource);
 
-// user management routes
+// user routes
 router.get("/user-mgmt", userController.getUsers);
+router.get('/user/:id', userController.getUserById);
+router.put('/user/:id', userController.updateUser);
+router.delete('/user/:id', userController.deleteUser);
 
 
 router.get("/articles", articlesController.getArticles);

@@ -101,10 +101,49 @@ const getUsers = async (req, res) => {
     }
 };
 
+const updateUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const { name, email, password, permission } = req.body;
+
+        // Hash the password
+        const hashedPassword = await argon2.hash(password);
+
+        const user = await user_model.update_user(userId, name, email, hashedPassword, permission);
+
+        if (!user) {
+            return res.status(404).send("User not found.");
+        }
+
+        res.json(user);
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await user_model.delete_user(userId);
+
+        if (!user) {
+            return res.status(404).send("User not found.");
+        }
+
+        res.json(user);
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 module.exports = { 
     signup,
     login,
     logout,
     getUserById,
-    getUsers
+    getUsers,
+    updateUser,
+    deleteUser
 };

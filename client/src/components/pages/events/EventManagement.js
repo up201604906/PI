@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import "../../styles/Home.css";
-import "../../styles/Inventory.css";
+import "../../../styles/Home.css";
+import "../../../styles/Inventory.css";
 
 const eventTypes = ["Type 1", "Type 2", "Type 3", "Type 4"];
 
