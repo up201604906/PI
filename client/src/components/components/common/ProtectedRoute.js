@@ -4,9 +4,6 @@ import { useAuth } from '../../../contexts/AuthContext';
 const ProtectedRoute = ({ children }) => {
     const { currentUser, isLoading } = useAuth();
 
-    console.log("Current User:", currentUser);
-    console.log("Is Loading:", isLoading);
-
     if (isLoading) {
         return <div>Loading...</div>; // Or some other loading indicator
     }

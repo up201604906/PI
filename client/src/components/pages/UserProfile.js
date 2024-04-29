@@ -93,6 +93,7 @@ function UserProfile() {
     }, [id]);
 
     function getUserData(userId) {
+        console.log(userId)
         fetch(`http://localhost:4000/user/${userId}`)
             .then(response => response.json())
             .then(data => setUser(data))
@@ -111,7 +112,7 @@ function UserProfile() {
             <div>
                 <div className="container">
                     <div className={"d-flex flex-row mb-3"}>
-                        <div className={"title"}>User Profile</div>
+                        <div className={"title"}>{user.name} Profile</div>
                         <button className={"btn-primary rounded ms-5"}>
                             Edit Profile
                         </button>
@@ -138,7 +139,7 @@ function UserProfile() {
             <div>
                 <div className="container">
                     <div className={"d-flex flex-row mb-3"}>
-                        <div className={"title"}>User Projects</div>
+                        <div className={"title"}>{user.name} Projects</div>
                         <button className={"btn-primary rounded ms-5"}>See All</button>
                     </div>
 

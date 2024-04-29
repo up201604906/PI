@@ -21,8 +21,7 @@ function App() {
 
     return (
         <Router>
-            {console.log(currentUser)}
-            {currentUser ? <Topnav/> : <NotAuthTopnav/>}
+            {currentUser ? <ProtectedRoute><Topnav/></ProtectedRoute> : <NotAuthTopnav/>}
             <div id={"body"}>
                 <Routes>
                     <Route path="/login" element={<Login/>}/>
