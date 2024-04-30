@@ -127,20 +127,47 @@ function UserProfile() {
             .catch(err => console.error("Error updating user:", err));
     }
 
-    function deleteUser() {
-        if (window.confirm("Are you sure you want to delete this user?")) {
-            fetch(`http://localhost:4000/user/${user.id}`, {
-                method: 'DELETE',
+    const handleDelete = () => {
+        fetch(`http://localhost:4000/user/${user.id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (response.ok) {
+                    navigate("/user-mgmt");
+                }
             })
-                .then(response => {
-                    if (response.ok) {
-                        alert("User deleted successfully");
-                        navigate("/user-mgmt")
-                        // Redirect or update the state to remove deleted user from the UI
-                    }
-                })
-                .catch(err => console.error("Error deleting user:", err));
-        }
+            .catch(err => console.error("Error deleting user:", err));
+    };
+
+    function deleteModal() {
+        return (
+            <>
+                <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div className="modal-dialog d-flex align-self-center" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                Are you sure you want to delete this user?
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn-secondary rounded" data-bs-dismiss="modal">Close</button>
+                                <button type="button" className="btn-primary rounded ms-3" data-bs-dismiss="modal" onClick={handleDelete}>Delete User</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" className="btn-secondary rounded ms-5" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal">
+                    Delete User
+                </button>
+            </>
+        )
     }
 
     function profileData() {
@@ -162,9 +189,7 @@ function UserProfile() {
                             <button className={"btn-primary rounded ms-5 col-1"} onClick={() => setIsEditing(true)}>
                                 Edit Profile
                             </button>
-                            <button className={"btn-secondary rounded ms-5 col-2"} onClick={deleteUser}>
-                                Delete User
-                            </button>
+                            {deleteModal()}
                         </>
                     )}
                 </div>
