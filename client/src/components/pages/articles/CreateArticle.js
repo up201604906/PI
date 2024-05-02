@@ -1,43 +1,57 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { useAuth } from '../../../contexts/AuthContext'; // Import useAuth hook
 import "../../../styles/Home.css";
 import "../../../styles/Create.css";
 
 class CreateArticle extends React.Component {
-    state = {
-        title: '',
-        content: '',
-        summary: '',
-        tags: '',
-        year: new Date().getFullYear(),  // Default to the current year
-        type: '',
-        publisher: '',
-        pages: '',
-        volume: '',
-        number: '',
-        organization: '',
-        reference: '',
-        keywords: '',
-        cite: '',
-        state: 'draft'  // Default state
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: '',
+            content: '',
+            summary: '',
+            tags: '',
+            year: new Date().getFullYear(),
+            type: '',
+            publisher: '',
+            pages: '',
+            volume: '',
+            number: '',
+            organization: '',
+            reference: '',
+            keywords: '',
+            cite: '',
+            state: 'draft',
+            isCurrentUserOwner: false, // Checkbox state for user ownership
+        };
+    }
 
     handleChange = (event) => {
-        const { name, value } = event.target;
-        this.setState({ [name]: value });
+        const { name, type, checked, value } = event.target;
+        this.setState({
+            [name]: type === 'checkbox' ? checked : value
+        });
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
+        const { isCurrentUserOwner, ...articleData } = this.state;
+        const { currentUser } = this.props;
+
+        if (isCurrentUserOwner && currentUser) {
+            articleData.userId = currentUser.id; // Attach current user's ID if they are marked as the owner
+        }
+
         fetch('http://localhost:4000/articles/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(this.state),
+            body: JSON.stringify(articleData),
         })
         .then(response => response.json())
         .then(data => {
             console.log('Article created:', data);
-            window.location.href = '/myArticles';  // Redirect after create 
+            window.location.href = '/myArticles'; // Redirect after creation
         })
         .catch((err) => {
             console.error('Error creating article:', err);
@@ -49,7 +63,7 @@ class CreateArticle extends React.Component {
         return (
             <div className="create-article">
                 <div className="title"><span>Create </span>Article</div>
-                <form onSubmit={this.handleSubmit} className="create-form">
+                <form onSubmit={this.handleSubmit} className="">
                 <Link to="/myArticles" className="go-back">←</Link>
                     <label>
                         Title:
@@ -112,6 +126,15 @@ class CreateArticle extends React.Component {
                         <input type="text" name="cite" value={this.state.cite} onChange={this.handleChange} />
                     </label>
                     <label>
+                        Are you the author ?
+                        <input
+                            type="checkbox"
+                            name="isCurrentUserOwner"
+                            checked={this.state.isCurrentUserOwner}
+                            onChange={this.handleChange}
+                        />
+                    </label>
+                    <label>
                         State:
                         <select name="state" value={this.state.state} onChange={this.handleChange}>
                             <option value="draft">Draft</option>
@@ -127,4 +150,14 @@ class CreateArticle extends React.Component {
     }
 }
 
-export default CreateArticle;
+// Higher-order component to inject currentUser from AuthContext
+function withUser(Component) {
+    return props => {
+        const { currentUser } = useAuth(); // Use the useAuth hook
+        return <Component {...props} currentUser={currentUser} />;
+    };
+}
+
+export default withUser(CreateArticle); // Export the component wrapped with user context
+
+

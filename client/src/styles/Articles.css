@@ -1,0 +1,172 @@
+/* General Layout and Styling */
+.article-management {
+    max-width: 900px; /* Limiting the width for better readability */
+    margin: auto; /* Centering the whole article management div */
+    padding: 20px;
+    background-color: #fff; /* Light background for the content */
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    border-radius: 8px; /* Rounded corners for modern look */
+}
+
+.title {
+    text-align: center; /* Centering the title */
+    color: var(--primary-color); /* Styling with primary color */
+    margin-bottom: 20px; /* Spacing below the title */
+}
+
+.articles-list {
+    margin-top: 20px;
+    max-height: 500px; /* Set maximum height for the articles list */
+    overflow-y: auto; /* Enable vertical scrolling */
+    scrollbar-width: thin; /* For browsers that support it */
+    scrollbar-color: var(--primary-color) var(--secondary-color); /* Customize scrollbar colors */
+}
+
+.article-card {
+    border: 1px solid var(--tertiary-color); /* Slight border for definition */
+    padding: 20px;
+    margin-bottom: 20px; /* Space between cards */
+    border-radius: 5px; /* Rounded corners for cards */
+    background-color: var(--secondary-color); /* Subtle background for each card */
+}
+
+.article-card h3, .article-card h4 {
+    color: var(--detail-color); /* Detail color for headings */
+}
+
+.article-card p {
+    color: var(--tertiary-color); /* Tertiary color for text */
+    margin-bottom: 10px; /* Spacing for paragraph elements */
+}
+
+.btn-secondary, .btn-primary {
+    color: white;
+    background-color: var(--primary-color);
+    border: none;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-secondary:hover, .btn-primary:hover {
+    background-color: var(--detail-color); /* Change color on hover */
+    color: #fff;
+}
+
+.link {
+    text-decoration: none; /* No underline for links */
+    color: var(--primary-color); /* Primary color for link text */
+    font-weight: bold;
+}
+
+.link:hover {
+    text-decoration: underline; /* Underline on hover for better UX */
+}
+
+/* Custom styles for browsers that do not support 'scrollbar-width' */
+.articles-list::-webkit-scrollbar {
+    width: 8px; /* Scrollbar width */
+}
+
+.articles-list::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color); /* Scrollbar thumb color */
+    border-radius: 10px;
+}
+
+.articles-list::-webkit-scrollbar-track {
+    background-color: var(--secondary-color); /* Scrollbar track color */
+}
+ /* Path: client/src/styles/CreateArticle.css */
+
+.create-article {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 20px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.create-article .title {
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.create-article form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.create-article form label {
+    margin-bottom: 5px;
+    color: #666;
+    font-weight: bold;
+}
+
+.create-article form input[type="text"],
+.create-article form input[type="number"],
+.create-article form textarea,
+.create-article form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.create-article form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.create-article form .go-back {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #666;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.create-article form button {
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.create-article form button:hover {
+    background-color: #003d82;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .create-article {
+        margin: 1rem;
+        padding: 15px;
+    }
+
+    .create-article form {
+        gap: 10px;
+    }
+
+    .create-article form input[type="text"],
+    .create-article form input[type="number"],
+    .create-article form textarea,
+    .create-article form select {
+        padding: 8px;
+    }
+
+    .create-article form button {
+        padding: 8px 16px;
+    }
+}
+
