@@ -54,7 +54,7 @@ My wishlist needs to work like so:
 
 If i have a resource and I want more of it, I add that resource with a specific quantity to my wishlist. Then, when i buy it, the resource is deleted from the wishlist and it's quantity is updated.
 
-If I want a new resource, I add it to my wishlist as a potencial resource and then, after I buy it, I create a new resource with it
+If I want a new resource, I add it to my wishlist as a potential resource and then, after I buy it, I create a new resource with it
 
 */
 
@@ -115,37 +115,28 @@ async function get_wishlist() {
     }
 }
 
-// update the values in the wishlist this item can be either a resource or a potential resource. 
-async function update_item_in_wishlist(user_id, resource_id, potential_resource_id, name, description, category, supplier, price, priority, quantity) {
+async function update_item_in_wishlist(user_name, resource_name, potential_resource_name, name, description, category, supplier, price, priority, quantity) {
     try {
-        if (resource_id ) {
-            await pool.query(
-                `UPDATE resources SET name = $1, description = $2, category = $3, supplier = $4, price = $5, priority = $6 WHERE id = $7`,
-                [name, description, category, supplier, price, priority, resource_id]
-            );
-            await pool.query(
-                `UPDATE wishlist SET user_id = $1, quantity = $2 WHERE resource_id = $3`,
-                [user_id, quantity, resource_id]
-            );
+        if (resource_name !== "null") {
+            console.log('RESOURCE NAME:', resource_name);
+            const user_id = (await pool.query(`SELECT id FROM users WHERE name = $1`, [user_name])).rows[0].id;
+            const resource_id = (await pool.query(`SELECT id FROM resources WHERE name = $1`, [resource_name])).rows[0].id;
+            await pool.query(`UPDATE resources SET name = $1, description = $2, category = $3, supplier = $4, price = $5, priority = $6 WHERE id = $7`, [name, description, category, supplier, price, priority, resource_id]);
+            await pool.query(`UPDATE wishlist SET user_id = $1, quantity = $2 WHERE resource_id = $3`, [user_id, quantity, resource_id]);
         } else {
-            await pool.query(
-                `UPDATE potential_resources SET name = $1, description = $2, category = $3, supplier = $4, price = $5, priority = $6 WHERE id = $7`,
-                [name, description, category, supplier, price, priority, potential_resource_id]
-            );
-
-            await pool.query(
-                `UPDATE wishlist SET user_id = $1, quantity = $2 WHERE potential_resource_id = $3`,
-                [user_id, quantity, resource_id]
-            );
+            console.log('potential RESOURCE NAME:', potential_resource_name);
+            const user_id = (await pool.query(`SELECT id FROM users WHERE name = $1`, [user_name])).rows[0].id;
+            const potential_resource_id = (await pool.query(`SELECT id FROM potential_resources WHERE name = $1`, [potential_resource_name])).rows[0].id;
+            await pool.query(`UPDATE potential_resources SET name = $1, description = $2, category = $3, supplier = $4, price = $5, priority = $6 WHERE id = $7`, [name, description, category, supplier, price, priority, potential_resource_id]);
+            await pool.query(`UPDATE wishlist SET user_id = $1, quantity = $2 WHERE potential_resource_id = $3`, [user_id, quantity, potential_resource_id]);
         }
-    }
-        catch (error) {
-            console.error("Error updating item in wishlist:", error);
-            throw error;
-        } 
+    } catch (error) {
+        console.error("Error updating item in wishlist:", error);
+        throw error;
+    } 
 }
 
-async function delete_item_from_wishlist(user_name, resource_name, potencial_resource_name) {
+async function delete_item_from_wishlist(user_name, resource_name, potential_resource_name) {
     try {
         if (resource_name !== "null") {
             await pool.query(
@@ -160,11 +151,11 @@ async function delete_item_from_wishlist(user_name, resource_name, potencial_res
                 `DELETE FROM wishlist 
                  WHERE user_id = (SELECT id FROM users WHERE name = $1) 
                  AND potential_resource_id = (SELECT id FROM potential_resources WHERE name = $2)`,
-                [user_name, potencial_resource_name]
+                [user_name, potential_resource_name]
             );
             await pool.query(
                 `DELETE FROM potential_resources WHERE name = $1`,
-                [potencial_resource_name]
+                [potential_resource_name]
             );
         }
     } catch (error) {

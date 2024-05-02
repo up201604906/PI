@@ -4,41 +4,108 @@ import "../../styles/Home.css";
 import "../../styles/Inventory.css";
 
 class Table extends React.Component {
+    state = {
+        wishlist: [],
+        editingRow: null,
+        editedData: null,
+        isResource: null,
+        row: null,
+    };
 
     handleDelete = (row, isResource) => {
         if (window.confirm("Are you sure you want to delete this resource?")) {
-            const endpoint = isResource ? 
-                `http://localhost:4000/inventory/wishlist/${row[0]}/${row[1]}/null` : 
-                `http://localhost:4000/inventory/wishlist/${row[0]}/null/${row[1]}`;
-            fetch(endpoint, {
-                method: 'DELETE',
-            })
+        const endpoint = isResource
+            ? `http://localhost:4000/inventory/wishlist/${row[0]}/${row[1]}/null`
+            : `http://localhost:4000/inventory/wishlist/${row[0]}/null/${row[1]}`;
+        fetch(endpoint, {
+            method: "DELETE",
+        })
             .then(() => this.props.refreshData())
             .catch((err) => console.error(err));
         }
+    };
+
+    handleEdit = (index, row) => {
+        this.setState({ editingRow: index, editedData: [...row], row: row, isResource: row[9] });
+    };
+
+    handleSave = () => {
+        const { editedData, isResource, row } = this.state;
+        const updatedItem = {
+            user_name: editedData[0],
+            name: editedData[1],
+            description: editedData[2],
+            category: editedData[3],
+            supplier: editedData[4],
+            price: editedData[5],
+            priority: editedData[6],
+            quantity: editedData[7],
+        };
+
+        const endpoint = isResource
+            ? `http://localhost:4000/inventory/wishlist/${row[0]}/${row[1]}/null`
+            : `http://localhost:4000/inventory/wishlist/${row[0]}/null/${row[1]}`;
+        fetch(endpoint, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedItem),
+        })
+        .then(() => {
+            this.setState({ editingRow: null, editedData: null });
+            this.props.refreshData();
+        })
+        .catch((err) => console.error(err));
+    }
+
+    handleChange = (event, cellIndex) => {
+        const editedData = [...this.state.editedData];
+        editedData[cellIndex] = event.target.value;
+        this.setState({ editedData });
+    }
+
+    handleCancel = () => {
+        this.setState({ editingRow: null, editedData: null });
     }
 
     render() {
         const { tableHead, data } = this.props;
 
         return (
-            <table>
-                <thead>
-                    <tr>
-                        {tableHead.map((head, index) => <th key={index}>{head}</th>)}
+        <table>
+            <thead>
+            <tr>
+                {tableHead.map((head, index) => <th key={index}>{head}</th>)}
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                {data.map((row, index) => (
+                    <tr key={index}>
+                        {row.map((cell, i) => {
+                            if (i === 9) return null; // Skip the 9th column
+                            return this.state.editingRow === index ? (
+                                <td key={i}><input value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)} /></td>
+                            ) : (
+                                <td key={i}>{cell}</td>
+                            );
+                        })}
+                        <td className="actions">
+                            {this.state.editingRow === index ? (
+                                <>
+                                    <button onClick={this.handleSave}>Save</button>
+                                    <button onClick={this.handleCancel}>Cancel</button>
+                                </>
+                            ) : (
+                                <>
+                                    <button onClick={() => this.handleEdit(index, row)}>Edit</button>
+                                    <button onClick={() => this.handleDelete(row)}>Delete</button>
+                                </>
+                            )}
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {data.map((row, index) => (
-                        <tr key={index}>
-                            {row.map((cell, i) => <td key={i}>{String(cell)}</td>)}
-                            <td className="actions">
-                                <button onClick={() => this.handleDelete(row, row[9])}>Delete</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                ))}
+            </tbody>
+        </table>
         );
     }
 }
@@ -144,7 +211,7 @@ class Wishlist extends React.Component {
                 </div>
                 <div id={"info"} className={"d-flex flex-row justify-content-around w-100"}>
                     <div className="table-container">
-                        <Table title={"Wishlist"} tableHead={["User", "Resource Name", "Description", "Category", "Supplier", "Price", "Priority", "Desired Quantity", "Added At", "Existing Resource"]} data={filteredWishlist.map(item => [item.user_name, item.name, item.description, item.category, item.supplier, item.price, item.priority, item.quantity, item.added_at, item.isResource])} refreshData={this.refreshData}/>
+                        <Table title={"Wishlist"} tableHead={["User", "Resource Name", "Description", "Category", "Supplier", "Price", "Priority", "Desired Quantity", "Added At"]} data={filteredWishlist.map(item => [item.user_name, item.name, item.description, item.category, item.supplier, item.price, item.priority, item.quantity, item.added_at, item.isResource])} refreshData={this.refreshData}/>
                     </div>
                 </div>
             </div>
