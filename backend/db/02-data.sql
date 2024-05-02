@@ -11,6 +11,12 @@ INSERT INTO resources (name, description, category, quantity, available, supplie
 ('Raspberry Pi3 Preminum Kit', NULL, 'sensor board', 1, 1, 'Website', 'I319', '1', 'C', 'B3'),
 ('Raspberry Pi3 Model B', NULL, 'sensor', 3, 3, 'Website', 'I319', '1', 'C', 'B3');
 
+INSERT INTO potential_resources (name, description, category, supplier, price, priority)
+VALUES ('Potential Resource 1', 'This is a description for Potential Resource 1', 'Category 1', 'Supplier 1', 100.00, 'low');
+
+INSERT INTO wishlist (user_id, resource_id, quantity) VALUES (1, 1, 4);
+INSERT INTO wishlist (user_id, potential_resource_id, quantity) VALUES (1, 1, 2);
+
 INSERT INTO licenses (description, equipment, login, password) VALUES
 ('PC HP Compact 8100 [Demo CPPS]', 'Login Sistema Operativo', '*********', '*********'),
 ('Asus RT-N12 [192.168.1.1]', 'Login Router', '*********', '*********'),

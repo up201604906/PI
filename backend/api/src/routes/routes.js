@@ -1,6 +1,7 @@
 const express = require("express");
 const controller = require("../controllers/controller");
 const resourcesController = require("../controllers/resources_controller");
+const wishlistController = require("../controllers/wishlist_controller");
 const licensesController = require("../controllers/licenses_controller");
 const pcAllocationController = require("../controllers/pcallocation_controller");
 
@@ -17,6 +18,13 @@ router.get("/inventory/resources/:name", resourcesController.getResourceByName);
 router.delete("/inventory/resources/:name", resourcesController.deleteResourceByName);
 
 router.post("/inventory/createResource", resourcesController.createResource);
+
+// wishlist routes
+router.get("/inventory/wishlist", wishlistController.getWishlist);
+//router.delete("/inventory/wishlist", wishlistController.deleteResourceFromWishlist);
+//router.put("/inventory/wishlist", wishlistController.updateResourceInWishlist);
+
+//router.post("/inventory/wishlist", wishlistController.addResourceToWishlist);
 
 
 // licenses routes

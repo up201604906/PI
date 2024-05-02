@@ -29,7 +29,8 @@ DROP TABLE IF EXISTS pc_allocation CASCADE;
 DROP TABLE IF EXISTS user_pc_allocation CASCADE;
 
 DROP TABLE IF EXISTS resources CASCADE;
-DROP TABLE IF EXISTS user_resources CASCADE;
+DROP TABLE IF EXISTS potential_resources CASCADE;
+DROP TABLE IF EXISTS wishlist CASCADE;
 
 --
 -- Create tables.
@@ -197,11 +198,25 @@ CREATE TABLE resources (
   priority resources_priority_enum
 );
 
-CREATE TABLE user_resources (
+CREATE TABLE potential_resources (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  description TEXT,
+  category VARCHAR NOT NULL,
+  supplier VARCHAR,
+  price FLOAT,
+  priority resources_priority_enum
+);
+
+CREATE TABLE wishlist (
   user_id INTEGER NOT NULL,
-  resources_id INTEGER NOT NULL,
-  wishlist BOOLEAN NOT NULL,
-  PRIMARY KEY (user_id, resources_id),
+  resource_id INTEGER,
+  potential_resource_id INTEGER,
+  quantity INTEGER NOT NULL CHECK (quantity > 0),
+  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (resources_id) REFERENCES resources(id)
+  FOREIGN KEY (resource_id) REFERENCES resources(id),
+  FOREIGN KEY (potential_resource_id) REFERENCES potential_resources(id),
+  CHECK ((resource_id IS NOT NULL AND potential_resource_id IS NULL) OR 
+         (resource_id IS NULL AND potential_resource_id IS NOT NULL))
 );
