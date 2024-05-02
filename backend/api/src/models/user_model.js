@@ -64,6 +64,33 @@ const get_all_users = async () => {
     }
 };
 
+const update_user = async (userId, name, email, password, permission) => {
+    try {
+        const result = await pool.query(
+            'UPDATE users SET name = $1, email = $2, password = $3, permission = $4 WHERE id = $5 RETURNING *',
+            [name, email, password, permission, userId]
+        );
+        return result.rows[0];
+    } catch (error) {
+        console.error("Error updating user:", error);
+        throw error;
+    }
+}
+
+const delete_user = async (userId) => {
+    try {
+        const result = await pool.query(
+            'DELETE FROM users WHERE id = $1 RETURNING *',
+            [userId]
+        );
+        return result.rows[0];
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        throw error;
+    }
+
+}
+
 
 
 module.exports = {
@@ -71,5 +98,7 @@ module.exports = {
     create_user,
     get_all_users,
     get_user_by_id,
-    get_user_by_email
+    get_user_by_email,
+    update_user,
+    delete_user
 };
