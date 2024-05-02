@@ -32,7 +32,7 @@ function App() {
                            element={<ProtectedRoute><CreateResource/></ProtectedRoute>}/>
                     <Route path="/user-mgmt" element={<ProtectedRoute><UserManagement/></ProtectedRoute>}/>
                     <Route path="/add-user" element={<ProtectedRoute><AddUser/></ProtectedRoute>}/>
-                    <Route path="/myArticles" element={<ProtectedRoute><MyArticles/></ProtectedRoute>}/>
+                    <Route path="/myArticles/:id" element={<ProtectedRoute><MyArticles/></ProtectedRoute>} />
                     <Route path="/createArticle" element={<ProtectedRoute><CreateArticle/></ProtectedRoute>}/>
                     <Route path="/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
                     <Route path="/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
