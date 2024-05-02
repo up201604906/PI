@@ -3,51 +3,51 @@ CREATE TYPE users_permissions_enum AS ENUM ('student', 'collaborator', 'admin');
 CREATE TYPE resources_priority_enum AS ENUM ('low', 'medium', 'high');
 
 CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR NOT NULL,
-  email VARCHAR UNIQUE NOT NULL,
-  password VARCHAR NOT NULL,
-  permission users_permissions_enum NOT NULL,
-  picture BYTEA
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    email VARCHAR UNIQUE NOT NULL,
+    password VARCHAR NOT NULL,
+    permission users_permissions_enum NOT NULL,
+    picture BYTEA
 );
 
 CREATE TABLE resources (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR NOT NULL,
-  description TEXT,
-  category VARCHAR NOT NULL,
-  quantity INTEGER NOT NULL,
-  available INTEGER NOT NULL,
-  supplier VARCHAR,
-  room VARCHAR,
-  cabinet VARCHAR,
-  shelf VARCHAR,
-  box VARCHAR,
-  price FLOAT,
-  priority resources_priority_enum
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    description TEXT,
+    category VARCHAR NOT NULL,
+    quantity INTEGER NOT NULL,
+    available INTEGER NOT NULL,
+    supplier VARCHAR,
+    room VARCHAR,
+    cabinet VARCHAR,
+    shelf VARCHAR,
+    box VARCHAR,
+    price FLOAT,
+    priority resources_priority_enum
 );
 
 CREATE TABLE potential_resources (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR NOT NULL,
-  description TEXT,
-  category VARCHAR NOT NULL,
-  supplier VARCHAR,
-  price FLOAT,
-  priority resources_priority_enum
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    description TEXT,
+    category VARCHAR NOT NULL,
+    supplier VARCHAR,
+    price FLOAT,
+    priority resources_priority_enum
 );
 
 CREATE TABLE wishlist (
-  user_id INTEGER NOT NULL,
-  resource_id INTEGER NOT NULL,
-  potential_resource_id INTEGER,
-  quantity INTEGER NOT NULL CHECK (quantity > 0),
-  added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (resource_id) REFERENCES resources(id),
-  FOREIGN KEY (potential_resource_id) REFERENCES potential_resources(id),
-  CHECK ((resource_id IS NOT NULL AND potential_resource_id IS NULL) OR 
-         (resource_id IS NULL AND potential_resource_id IS NOT NULL))
+    user_id INTEGER NOT NULL,
+    resource_id INTEGER,
+    potential_resource_id INTEGER,
+    quantity INTEGER NOT NULL CHECK (quantity > 0),
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (resource_id) REFERENCES resources(id),
+    FOREIGN KEY (potential_resource_id) REFERENCES potential_resources(id),
+    CHECK ((resource_id IS NOT NULL AND potential_resource_id IS NULL) OR 
+          (resource_id IS NULL AND potential_resource_id IS NOT NULL))
 );
 
 My wishlist needs to work like so:
@@ -115,6 +115,66 @@ async function get_wishlist() {
     }
 }
 
+// update the values in the wishlist this item can be either a resource or a potential resource. 
+async function update_item_in_wishlist(user_id, resource_id, potential_resource_id, name, description, category, supplier, price, priority, quantity) {
+    try {
+        if (resource_id ) {
+            await pool.query(
+                `UPDATE resources SET name = $1, description = $2, category = $3, supplier = $4, price = $5, priority = $6 WHERE id = $7`,
+                [name, description, category, supplier, price, priority, resource_id]
+            );
+            await pool.query(
+                `UPDATE wishlist SET user_id = $1, quantity = $2 WHERE resource_id = $3`,
+                [user_id, quantity, resource_id]
+            );
+        } else {
+            await pool.query(
+                `UPDATE potential_resources SET name = $1, description = $2, category = $3, supplier = $4, price = $5, priority = $6 WHERE id = $7`,
+                [name, description, category, supplier, price, priority, potential_resource_id]
+            );
+
+            await pool.query(
+                `UPDATE wishlist SET user_id = $1, quantity = $2 WHERE potential_resource_id = $3`,
+                [user_id, quantity, resource_id]
+            );
+        }
+    }
+        catch (error) {
+            console.error("Error updating item in wishlist:", error);
+            throw error;
+        } 
+}
+
+async function delete_item_from_wishlist(user_name, resource_name, potencial_resource_name) {
+    try {
+        if (resource_name !== "null") {
+            await pool.query(
+                `DELETE FROM wishlist 
+                 WHERE user_id = (SELECT id FROM users WHERE name = $1) 
+                 AND resource_id = (SELECT id FROM resources WHERE name = $2)`,
+                [user_name, resource_name]
+            );
+        }
+        else {
+            await pool.query(
+                `DELETE FROM wishlist 
+                 WHERE user_id = (SELECT id FROM users WHERE name = $1) 
+                 AND potential_resource_id = (SELECT id FROM potential_resources WHERE name = $2)`,
+                [user_name, potencial_resource_name]
+            );
+            await pool.query(
+                `DELETE FROM potential_resources WHERE name = $1`,
+                [potencial_resource_name]
+            );
+        }
+    } catch (error) {
+        console.error("Error deleting item from wishlist:", error);
+        throw error;
+    }
+}
+
 module.exports = {
-    get_wishlist
+    get_wishlist,
+    update_item_in_wishlist,
+    delete_item_from_wishlist
 }

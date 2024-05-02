@@ -4,6 +4,20 @@ import "../../styles/Home.css";
 import "../../styles/Inventory.css";
 
 class Table extends React.Component {
+
+    handleDelete = (row, isResource) => {
+        if (window.confirm("Are you sure you want to delete this resource?")) {
+            const endpoint = isResource ? 
+                `http://localhost:4000/inventory/wishlist/${row[0]}/${row[1]}/null` : 
+                `http://localhost:4000/inventory/wishlist/${row[0]}/null/${row[1]}`;
+            fetch(endpoint, {
+                method: 'DELETE',
+            })
+            .then(() => this.props.refreshData())
+            .catch((err) => console.error(err));
+        }
+    }
+
     render() {
         const { tableHead, data } = this.props;
 
@@ -17,7 +31,10 @@ class Table extends React.Component {
                 <tbody>
                     {data.map((row, index) => (
                         <tr key={index}>
-                            {row.map((cell, i) => <td key={i}>{cell}</td>)}
+                            {row.map((cell, i) => <td key={i}>{String(cell)}</td>)}
+                            <td className="actions">
+                                <button onClick={() => this.handleDelete(row, row[9])}>Delete</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -34,36 +51,40 @@ class Wishlist extends React.Component {
         priorityFilter: ''
     };
 
-    callAPI() {
-    fetch("http://localhost:4000/inventory/wishlist")
-        .then((res) => res.json())
-        .then((res) => {
-            const wishlist = res.map(item => {
-                const date = new Date(item.added_at);
-                const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+    refreshData = () => {
+        this.callAPI();
+    }
 
-                return {
-                    user_name: item.user_name,
-                    resource_name: item.resource_name,
-                    resource_description: item.resource_description,
-                    resource_category: item.resource_category,
-                    resource_supplier: item.resource_supplier,
-                    resource_price: item.resource_price,
-                    resource_priority: item.resource_priority,
-                    potential_resource_name: item.potential_resource_name,
-                    potential_resource_description: item.potential_resource_description,
-                    potential_resource_category: item.potential_resource_category,
-                    potential_resource_supplier: item.potential_resource_supplier,
-                    potential_resource_price: item.potential_resource_price,
-                    potential_resource_priority: item.potential_resource_priority,
-                    quantity: item.quantity,
-                    added_at: formattedDate
-                };
-            });
-            this.setState({ wishlist });
-        })
-        .catch((err) => console.error(err));
-}
+    callAPI() {
+        fetch("http://localhost:4000/inventory/wishlist")
+            .then((res) => res.json())
+            .then((res) => {
+                const wishlist = res.map(item => {
+                    const date = new Date(item.added_at);
+                    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+
+                    return {
+                        user_name: item.user_name,
+                        resource_name: item.resource_name,
+                        resource_description: item.resource_description,
+                        resource_category: item.resource_category,
+                        resource_supplier: item.resource_supplier,
+                        resource_price: item.resource_price,
+                        resource_priority: item.resource_priority,
+                        potential_resource_name: item.potential_resource_name,
+                        potential_resource_description: item.potential_resource_description,
+                        potential_resource_category: item.potential_resource_category,
+                        potential_resource_supplier: item.potential_resource_supplier,
+                        potential_resource_price: item.potential_resource_price,
+                        potential_resource_priority: item.potential_resource_priority,
+                        quantity: item.quantity,
+                        added_at: formattedDate
+                    };
+                });
+                this.setState({ wishlist });
+            })
+            .catch((err) => console.error(err));
+    }
 
     componentDidMount() {
         this.callAPI();
@@ -93,7 +114,8 @@ class Wishlist extends React.Component {
             price: item.resource_price !== null ? item.resource_price : item.potential_resource_price,
             priority: item.resource_priority !== null ? item.resource_priority : item.potential_resource_priority,
             quantity: item.quantity,
-            added_at: item.added_at
+            added_at: item.added_at,
+            isResource: item.resource_name !== null
         }));
         const filteredWishlist = mappedWishlist.filter(
             wishlistItem => (wishlistItem.user_name ? wishlistItem.user_name.toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false) || 
@@ -122,7 +144,7 @@ class Wishlist extends React.Component {
                 </div>
                 <div id={"info"} className={"d-flex flex-row justify-content-around w-100"}>
                     <div className="table-container">
-                        <Table title={"Wishlist"} tableHead={["User", "Resource Name", "Description", "Category", "Supplier", "Price", "Priority", "Desired Quantity", "Added At"]} data={filteredWishlist.map(item => [item.user_name, item.name, item.description, item.category, item.supplier, item.price, item.priority, item.quantity, item.added_at])}/>
+                        <Table title={"Wishlist"} tableHead={["User", "Resource Name", "Description", "Category", "Supplier", "Price", "Priority", "Desired Quantity", "Added At", "Existing Resource"]} data={filteredWishlist.map(item => [item.user_name, item.name, item.description, item.category, item.supplier, item.price, item.priority, item.quantity, item.added_at, item.isResource])} refreshData={this.refreshData}/>
                     </div>
                 </div>
             </div>
