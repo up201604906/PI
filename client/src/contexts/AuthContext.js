@@ -9,11 +9,20 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const user = localStorage.getItem('user');
-        if (user !== null && user !== undefined) {
-            setCurrentUser(JSON.parse(user));
+        if (user) {
+            try {
+                const parsedUser = JSON.parse(user);
+                if (parsedUser) { // additionally check if parsedUser is the expected object format if necessary
+                    setCurrentUser(parsedUser);
+                }
+            } catch (error) {
+                console.error("Failed to parse user data:", error);
+                // Optionally clear the corrupted 'user' from local storage or handle the error as needed
+            }
         }
         setIsLoading(false);
     }, []);
+    
 
     const login = (user, token, permission) => {
         localStorage.setItem('user', JSON.stringify(user));

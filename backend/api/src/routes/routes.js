@@ -29,7 +29,7 @@ router.post("/inventory/createResource", resourcesController.createResource);
 router.get("/user-mgmt", userController.getUsers);
 
 
-router.get("/articles", articlesController.getArticles);
+router.get("/getArticles/:id", articlesController.getArticles);
 router.post("/articles/create", articlesController.createArticle);
 
 

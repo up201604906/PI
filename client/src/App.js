@@ -15,7 +15,8 @@ import EventManagement from "./components/pages/EventManagement";
 import AddEvent from "./components/pages/AddEvent";
 import UserProfile from "./components/pages/UserProfile";
 import Footer from "./components/components/common/Footer";
-
+import MyArticles from "./components/pages/articles/MyArticles";
+import CreateArticle from "./components/pages/articles/CreateArticle";
 function App() {
     const {currentUser} = useAuth();
 
@@ -32,6 +33,8 @@ function App() {
                            element={<ProtectedRoute><CreateResource/></ProtectedRoute>}/>
                     <Route path="/user-mgmt" element={<ProtectedRoute><UserManagement/></ProtectedRoute>}/>
                     <Route path="/add-user" element={<ProtectedRoute><AddUser/></ProtectedRoute>}/>
+                    <Route path="/myArticles" element={<ProtectedRoute><MyArticles/></ProtectedRoute>}/>
+                    <Route path="/createArticle" element={<ProtectedRoute><CreateArticle/></ProtectedRoute>}/>
                     <Route path="/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
                     <Route path="/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
                     <Route path="/user/:id" element={<ProtectedRoute><UserProfile id={1}/></ProtectedRoute>}/>
