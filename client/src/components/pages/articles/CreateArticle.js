@@ -23,6 +23,7 @@ class CreateArticle extends React.Component {
             keywords: '',
             cite: '',
             state: 'draft',
+            userId : '',
             isCurrentUserOwner: false, // Checkbox state for user ownership
         };
     }
@@ -38,11 +39,13 @@ class CreateArticle extends React.Component {
         event.preventDefault();
         const { isCurrentUserOwner, ...articleData } = this.state;
         const { currentUser } = this.props;
-
-        if (isCurrentUserOwner && currentUser) {
-            articleData.userId = currentUser.id; // Attach current user's ID if they are marked as the owner
+    
+        if (isCurrentUserOwner) {
+            articleData.userId = currentUser; // Attach current user's ID if they are marked as the owner
+            articleData['userId'] = currentUser;
+            console.log('Article data:', articleData);
         }
-
+    
         fetch('http://localhost:4000/articles/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -51,13 +54,14 @@ class CreateArticle extends React.Component {
         .then(response => response.json())
         .then(data => {
             console.log('Article created:', data);
-            window.location.href = '/myArticles'; // Redirect after creation
+            window.location.href = "/myArticles/" + currentUser; // Redirect after creation
         })
         .catch((err) => {
             console.error('Error creating article:', err);
             alert('Failed to create article.');
         });
     }
+    
 
     render() {
         return (

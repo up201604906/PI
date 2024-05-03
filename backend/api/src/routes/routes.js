@@ -30,7 +30,9 @@ router.put('/user/:id', userController.updateUser);
 router.delete('/user/:id', userController.deleteUser);
 
 
-router.get("/getArticles/:id", articlesController.getArticles);
+router.get("/getArticles/:id", articlesController.getArticlesByUser);
+router.get("/articles", articlesController.getAllArticles);
+router.get("/articles/:id", articlesController.getArticleById);
 router.post("/articles/create", articlesController.createArticle);
 
 

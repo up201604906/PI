@@ -1,6 +1,6 @@
 /* General Layout and Styling */
 .article-management {
-    max-width: 900px; /* Limiting the width for better readability */
+    max-width: 1000px; /* Limiting the width for better readability */
     margin: auto; /* Centering the whole article management div */
     padding: 20px;
     background-color: #fff; /* Light background for the content */
@@ -16,7 +16,7 @@
 
 .articles-list {
     margin-top: 20px;
-    max-height: 500px; /* Set maximum height for the articles list */
+    max-height: 800px; /* Set maximum height for the articles list */
     overflow-y: auto; /* Enable vertical scrolling */
     scrollbar-width: thin; /* For browsers that support it */
     scrollbar-color: var(--primary-color) var(--secondary-color); /* Customize scrollbar colors */
