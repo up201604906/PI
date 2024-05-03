@@ -18,6 +18,8 @@ import Footer from "./components/components/common/Footer";
 import MyArticles from "./components/pages/articles/MyArticles";
 import CreateArticle from "./components/pages/articles/CreateArticle";
 import Articles from "./components/pages/articles/Articles";
+import ArticlePage from "./components/pages/articles/ArticlePage";
+
 function App() {
     const {currentUser} = useAuth();
 
@@ -36,6 +38,7 @@ function App() {
                     <Route path="/myArticles/:id" element={<ProtectedRoute><MyArticles/></ProtectedRoute>} />
                     <Route path="/createArticle" element={<ProtectedRoute><CreateArticle/></ProtectedRoute>}/>
                     <Route path="/articles" element={<Articles/>}/>
+                    <Route path="/articles/:id" element={<ArticlePage/>}/>
                     <Route path="/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
                     <Route path="/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
                     <Route path="/user/:id" element={<ProtectedRoute><UserProfile id={1}/></ProtectedRoute>}/>

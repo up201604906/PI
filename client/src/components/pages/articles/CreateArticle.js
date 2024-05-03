@@ -64,11 +64,12 @@ class CreateArticle extends React.Component {
     
 
     render() {
+        const { currentUser } = this.props;
         return (
             <div className="create-article">
                 <div className="title"><span>Create </span>Article</div>
                 <form onSubmit={this.handleSubmit} className="">
-                <Link to="/myArticles" className="go-back">←</Link>
+                <Link to={`/myArticles/${currentUser}`} className="go-back">←</Link>
                     <label>
                         Title:
                         <input type="text" name="title" value={this.state.title} onChange={this.handleChange} required />
@@ -147,7 +148,7 @@ class CreateArticle extends React.Component {
                             <option value="archived">Archived</option>
                         </select>
                     </label>
-                    <button type="submit">Create Article</button>
+                    <button type="submit" className="btn btn-primary">Create Article</button>
                 </form>
             </div>
         );

@@ -79,20 +79,34 @@
 }
  /* Path: client/src/styles/CreateArticle.css */
 
-.create-article {
+ .create-article {
     max-width: 600px;
     margin: 2rem auto;
     padding: 20px;
     background: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border-radius: 8px;
+    overflow: hidden; /* Ensures no spillover outside the border */
 }
 
-.create-article .title {
-    font-size: 24px;
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+.create-article .form-container {
+    max-height: 600px; /* Set a maximum height for the form */
+    overflow-y: auto; /* Enable vertical scrolling within the form */
+    scrollbar-width: thin; /* For browsers that support it */
+    scrollbar-color: #0056b3 #f0f0f0; /* Custom scrollbar colors */
+}
+
+.create-article .form-container::-webkit-scrollbar {
+    width: 8px; /* Scrollbar width for WebKit browsers */
+}
+
+.create-article .form-container::-webkit-scrollbar-thumb {
+    background-color: #0056b3; /* Scrollbar thumb color */
+    border-radius: 10px;
+}
+
+.create-article .form-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Scrollbar track color */
 }
 
 .create-article form {
@@ -154,6 +168,10 @@
         padding: 15px;
     }
 
+    .create-article .form-container {
+        max-height: 400px; /* Smaller max-height on smaller screens */
+    }
+
     .create-article form {
         gap: 10px;
     }
@@ -170,3 +188,63 @@
     }
 }
 
+
+.article-page {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.article-page h1 {
+    color: #0056b3;
+    text-align: center;
+}
+
+.metadata {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    margin: 10px 0;
+}
+
+.details p {
+    margin: 10px 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+.btn {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    text-align: center;
+    background-color: #0056b3;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #003d82;
+}
+
+.loading, .error {
+    text-align: center;
+    font-size: 18px;
+    color: #b30000;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .article-page {
+        padding: 10px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
