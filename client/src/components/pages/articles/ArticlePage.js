@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import "../../../styles/Articles.css";
 
 const ArticlePage = () => {
@@ -7,6 +7,7 @@ const ArticlePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const { id } = useParams();
+    const navigate = useNavigate();  // Using the useNavigate hook from react-router-dom
 
     useEffect(() => {
         setIsLoading(true);
@@ -40,6 +41,10 @@ const ArticlePage = () => {
         return <div>No article found.</div>;
     }
 
+    const handleBack = () => {
+        navigate(-1);  // Navigates back to the previous page in the history stack
+    };
+
     return (
         <div className="article-page">
             <h1>{article.title}</h1>
@@ -57,7 +62,7 @@ const ArticlePage = () => {
                 <p><strong>References:</strong> {article.reference}</p>
                 <p><strong>Citation:</strong> {article.cite}</p>
             </div>
-            <Link to="/articles" className="btn">Back to Articles</Link>
+            <button onClick={handleBack} className="btn">Back</button>
         </div>
     );
 };
