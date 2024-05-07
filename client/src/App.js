@@ -7,6 +7,7 @@ import Topnav from "./components/components/common/Topnav";
 import Resources from "./components/pages/Resources";
 import CreateResource from "./components/pages/CreateResource";
 import Wishlist from "./components/pages/Wishlist";
+import AddToWishlist from "./components/pages/AddToWishlist";
 import Licenses from "./components/pages/Licenses";
 import CreateLicense from "./components/pages/CreateLicense";
 import PCAllocation from "./components/pages/PCAllocation";
@@ -48,6 +49,9 @@ class App extends Component {
                             }/>
                             <Route path="/inventory/wishlist" element={
                                 <Wishlist />
+                            }/>
+                            <Route path="/inventory/addToWishlist" element={
+                                <AddToWishlist />
                             }/>
                             <Route path="/inventory/licenses" element={
                                 <Licenses />

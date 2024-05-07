@@ -24,7 +24,7 @@ router.get("/inventory/wishlist", wishlistController.getWishlist);
 router.delete("/inventory/wishlist/:user_name/:resource_name/:potential_resource_name", wishlistController.deleteResourceFromWishlist);
 router.put("/inventory/wishlist/:user_name/:resource_name/:potential_resource_name", wishlistController.updateResourceInWishlist);
 
-//router.post("/inventory/wishlist", wishlistController.addResourceToWishlist);
+router.post("/inventory/addToWishlist", wishlistController.addResourceToWishlist);
 
 
 // licenses routes

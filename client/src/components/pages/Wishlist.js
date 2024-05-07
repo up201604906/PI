@@ -102,7 +102,7 @@ class Table extends React.Component {
                             ) : (
                                 <>
                                     <button onClick={() => this.handleEdit(index, row)}>Edit</button>
-                                    <button onClick={() => this.handleDelete(row)}>Delete</button>
+                                    <button onClick={() => this.handleDelete(row, row[10])}>Delete</button>
                                 </>
                             )}
                         </td>
