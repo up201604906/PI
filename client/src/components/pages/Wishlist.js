@@ -26,7 +26,11 @@ class Table extends React.Component {
     };
 
     handleEdit = (index, row) => {
-        this.setState({ editingRow: index, editedData: [...row], row: row, isResource: row[9] });
+        const editedRow = [...row];
+        // Remove '€' from price
+        editedRow[6] = parseFloat(editedRow[6].replace(' €', ''));
+        editedRow[7] = parseFloat(editedRow[7].replace(' €', ''));
+        this.setState({ editingRow: index, editedData: editedRow, row: editedRow, isResource: row[10] });
     };
 
     handleSave = () => {
@@ -37,9 +41,9 @@ class Table extends React.Component {
             description: editedData[2],
             category: editedData[3],
             supplier: editedData[4],
-            price: editedData[5],
-            priority: editedData[6],
-            quantity: editedData[7],
+            price: editedData[6],
+            priority: editedData[8],
+            quantity: editedData[5]
         };
 
         const endpoint = isResource
@@ -82,8 +86,8 @@ class Table extends React.Component {
                 {data.map((row, index) => (
                     <tr key={index}>
                         {row.map((cell, i) => {
-                            if (i === 9) return null; // Skip the 9th column
-                            return this.state.editingRow === index ? (
+                            if (i === 10) return null; // Skip the isResource column
+                            return this.state.editingRow === index && i !== 6 ? ( // Prevent the total price from being edited
                                 <td key={i}><input value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)} /></td>
                             ) : (
                                 <td key={i}>{cell}</td>
@@ -178,11 +182,11 @@ class Wishlist extends React.Component {
             description: item.resource_description !== null ? item.resource_description : item.potential_resource_description,
             category: item.resource_category !== null ? item.resource_category : item.potential_resource_category,
             supplier: item.resource_supplier !== null ? item.resource_supplier : item.potential_resource_supplier,
-            price: item.resource_price !== null ? item.resource_price : item.potential_resource_price,
+            price: (item.resource_price !== null ? item.resource_price : item.potential_resource_price) || 0,
             priority: item.resource_priority !== null ? item.resource_priority : item.potential_resource_priority,
             quantity: item.quantity,
             added_at: item.added_at,
-            isResource: item.resource_name !== null
+            isResource: item.resource_name !== null ? true : false
         }));
         const filteredWishlist = mappedWishlist.filter(
             wishlistItem => (wishlistItem.user_name ? wishlistItem.user_name.toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false) || 
@@ -208,10 +212,18 @@ class Wishlist extends React.Component {
                         <option value="">All Priorities</option>
                         {priorities.map((priority, index) => <option key={index} value={priority}>{priority}</option>)}
                     </select>
+                    <Link to="/inventory/addToWishlist" className="create-resource">
+                        <button>Add Resource To Wishlist</button>
+                    </Link>
                 </div>
                 <div id={"info"} className={"d-flex flex-row justify-content-around w-100"}>
                     <div className="table-container">
-                        <Table title={"Wishlist"} tableHead={["User", "Resource Name", "Description", "Category", "Supplier", "Price", "Priority", "Desired Quantity", "Added At"]} data={filteredWishlist.map(item => [item.user_name, item.name, item.description, item.category, item.supplier, item.price, item.priority, item.quantity, item.added_at, item.isResource])} refreshData={this.refreshData}/>
+                        <Table 
+                            title={"Wishlist"} 
+                            tableHead={["User", "Resource Name", "Description", "Category", "Supplier", "Desired Quantity", "Unitary Price", "Total Price", "Priority", "Added At"]} 
+                            data={filteredWishlist.map(item => [item.user_name, item.name, item.description, item.category, item.supplier, item.quantity, `${item.price} €`, `${item.price * item.quantity} €`, item.priority, item.added_at, item.isResource])} 
+                            refreshData={this.refreshData}
+                        />
                     </div>
                 </div>
             </div>
