@@ -5,6 +5,7 @@ import "../../styles/Create.css";
 
 class CreatePCAllocation extends React.Component {
     state = {
+        user_name: '',
         name: '',
         serial_number: '',
         room: ''
@@ -44,16 +45,20 @@ class CreatePCAllocation extends React.Component {
                     <form onSubmit={this.handleSubmit}>
                         <div className={"subtitle"}>New PC Allocation</div>
                         <label>
+                            User Name:
+                            <input type="text" name="user_name" value={this.state.user_name} onChange={this.handleChange} required />
+                        </label>
+                        <label>
                             Name:
-                            <textarea name="name" value={this.state.name} onChange={this.handleChange} />
+                            <textarea name="name" value={this.state.name} onChange={this.handleChange} required />
                         </label>
                         <label>
                             Serial Number:
-                            <input type="text" name="serial_number" value={this.state.serial_number} onChange={this.handleChange} />
+                            <input type="text" name="serial_number" value={this.state.serial_number} onChange={this.handleChange} required />
                         </label>
                         <label>
                             Room:
-                            <input type="text" name="room" value={this.state.room} onChange={this.handleChange} />
+                            <input type="text" name="room" value={this.state.room} onChange={this.handleChange} required />
                         </label>
 
                         <button type="submit">Create PC Allocation</button>

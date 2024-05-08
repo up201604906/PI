@@ -21,9 +21,10 @@ class Table extends React.Component {
     handleSave = () => {
         const { editedData, editingAllocation } = this.state;
         const updatedAllocation = {
-            name: editedData[1],
-            serial_number: editedData[2],
-            room: editedData[3],
+          user_name: editedData[1],
+          name: editedData[2],
+          serial_number: editedData[3],
+          room: editedData[4],
         };
 
         fetch(`http://localhost:4000/inventory/pcallocation/${editingAllocation.id}`, {
@@ -135,12 +136,13 @@ class PCAllocation extends React.Component {
         const rooms = [...new Set(this.state.pcAllocations.map(pcAllocation => pcAllocation.room))].filter(room => room && room !== '');
         const filteredPCAllocations = this.state.pcAllocations.filter(
             pcAllocation => (pcAllocation.name ? pcAllocation.name.toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false) || 
-                            (pcAllocation.serial_number ? pcAllocation.serial_number.toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false)
+                            (pcAllocation.serial_number ? pcAllocation.serial_number.toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false) ||
+                            (pcAllocation.user_name ? pcAllocation.user_name.toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false)
         ).filter(
             pcAllocation => this.state.roomFilter === '' || pcAllocation.room === this.state.roomFilter
         );
 
-        const tableData = filteredPCAllocations.map(pcAllocation => [pcAllocation.id, pcAllocation.name, pcAllocation.serial_number, pcAllocation.room]);
+        const tableData = filteredPCAllocations.map(pcAllocation => [pcAllocation.id, pcAllocation.user_name, pcAllocation.name, pcAllocation.serial_number, pcAllocation.room]);
 
         return (
             <div className={"d-flex flex-column"}>
@@ -158,7 +160,7 @@ class PCAllocation extends React.Component {
                 </div>
                 <div id={"info"} className={"d-flex flex-row justify-content-around w-100"}>
                     <div className="table-container">
-                        <Table title={"PC Allocations"} tableHead={["Name", "Serial Number", "Room"]} data={tableData} refreshData={this.refreshData}/>
+                        <Table title={"PC Allocations"} tableHead={["User", "Name", "Serial Number", "Room"]} data={tableData} refreshData={this.refreshData}/>
                     </div>
                 </div>
             </div>

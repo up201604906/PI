@@ -29,9 +29,9 @@ const getPCAllocationById = async (req, res) => {
 const updatePCAllocation = async (req, res) => {
     try {
         const pcAllocationId = req.params.id;
-        const { name, serial_number, room } = req.body;
+        const { user_name, name, serial_number, room } = req.body;
 
-        await pcallocation_model.update_pcallocation(pcAllocationId, name, serial_number, room);
+        await pcallocation_model.update_pcallocation(pcAllocationId, user_name, name, serial_number, room);
         res.json({ success: true });
 
     } catch (error) {
@@ -42,9 +42,9 @@ const updatePCAllocation = async (req, res) => {
 
 const createPCAllocation = async (req, res) => {
     try {
-        const { name, serial_number, room } = req.body;
+        const { user_name, name, serial_number, room } = req.body;
 
-        await pcallocation_model.create_pcallocation(name, serial_number, room);
+        await pcallocation_model.create_pcallocation(user_name, name, serial_number, room);
         res.json({ success: true });
 
     } catch (error) {

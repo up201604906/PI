@@ -28,3 +28,6 @@ INSERT INTO pc_allocation (name, serial_number, room) VALUES
 ('Dell latitude 7520', '29704J3', 'i319'),
 ('ThinkPad P15v', 'PF41ZQHA', 'i104'),
 ('ThinkPad P14S', 'PF4AN56F', 'I319');
+
+INSERT INTO user_pc_allocation (user_id, pc_allocation_id)
+SELECT 1, id FROM pc_allocation;
