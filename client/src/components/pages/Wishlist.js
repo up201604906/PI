@@ -86,13 +86,23 @@ class Table extends React.Component {
                 {data.map((row, index) => (
                     <tr key={index}>
                         {row.map((cell, i) => {
-                            if (i === 10) return null; // Skip the isResource column
-                            return this.state.editingRow === index && i !== 6 ? ( // Prevent the total price from being edited
-                                <td key={i}><input value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)} /></td>
-                            ) : (
-                                <td key={i}>{cell}</td>
-                            );
-                        })}
+                        if (i === 10) return null; // Skip the isResource column
+                        return this.state.editingRow === index && i !== 7 && i !== 9 ? ( // Prevent the total price & added at from being edited
+                            <td key={i}>
+                                {i === 8 ? ( // If it's the priority cell
+                                    <select className={"priority-edit-select"} value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
+                                        <option value="low">low</option>
+                                        <option value="medium">medium</option>
+                                        <option value="high">high</option>
+                                    </select>
+                                ) : (
+                                    <input value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)} />
+                                )}
+                            </td>
+                        ) : (
+                            <td key={i}>{cell}</td>
+                        );
+                    })}
                         <td className="actions">
                             {this.state.editingRow === index ? (
                                 <>

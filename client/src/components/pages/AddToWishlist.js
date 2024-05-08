@@ -32,8 +32,11 @@ class AddToWishlist extends React.Component {
                             !wishlistResources.some(wishlistResource => wishlistResource.resource_name === resource.name)
                         );
 
-                        // Store the filtered resources in the state
-                        this.setState({ resources });
+                        // Get the categories from the wishlist resources
+                        const wishlistCategories = wishlistResources.flatMap(resource => [resource.potential_resource_category, resource.resource_category]);
+
+                        // Store the filtered resources and the categories in the state
+                        this.setState({ resources, categories: [...new Set(wishlistCategories)] });
                     })
                     .catch(err => console.error(err));
             })
@@ -58,6 +61,7 @@ class AddToWishlist extends React.Component {
             category: selectedResource.category || '',
             supplier: selectedResource.supplier || '',
             price: selectedResource.price || 0,
+            isExistingResource: true,
         });
     }
 
@@ -133,16 +137,24 @@ class AddToWishlist extends React.Component {
     }
 
     render() {
+        const { categories } = this.state;
+
         return (
             <div>
                 <div className={"title"}><span>A</span>dd <span>R</span>esource <span>T</span>o <span>W</span>ishlist</div>
                 <div>
                     <div className={"wishlist-subtitle"}> Select an option to add a resource to the wishlist: </div> 
                     <div className={"add-to-wishlist-buttons"}>
-                        <button onClick={() => this.setState({ isExistingResource: true })}>
+                        <button 
+                            onClick={() => this.setState({ isExistingResource: true })}
+                            style={{ backgroundColor: this.state.isExistingResource === true ? '#FFE3D7' : 'hsl(0, 0%, 90%)' }}
+                        >
                             Add an Existing Resource
                         </button>
-                        <button onClick={() => { this.setState({ isExistingResource: false }); this.resetState(); }}>
+                        <button 
+                            onClick={() => { this.setState({ isExistingResource: false }); this.resetState(); }}
+                            style={{ backgroundColor: this.state.isExistingResource === false ? '#FFE3D7' : 'hsl(0, 0%, 90%)' }}
+                        >
                             Add a New Resource
                         </button>
                     </div>
@@ -153,24 +165,37 @@ class AddToWishlist extends React.Component {
                             <Link to="/inventory/wishlist" className="go-back">←</Link>
                             
                             <form onSubmit={this.handleSubmit}>
+                                <div className={"subtitle"}>
+                                    {this.state.isExistingResource ? 'Add Existing Resource' : 'Add New Resource'}
+                                </div>
                                 {this.state.isExistingResource && (
-                                    <div className={"wishlist-select"}>
-                                        <label>
-                                            Existing Resource:
-                                            <select onChange={(e) => this.handleResourceSelection(e.target.value)}>
-                                                <option value="">Select a resource</option>
-                                                {this.state.resources.map((resource) => (
-                                                    <option key={resource.id} value={resource.name}>
-                                                        {resource.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </label>
+                                    <label className={"existing-resource-label"}>
+                                        Existing Resource:
+                                        <select onChange={(e) => this.handleResourceSelection(e.target.value)}>
+                                            <option value="">Select a resource</option>
+                                            {this.state.resources.map((resource) => (
+                                                <option key={resource.id} value={resource.name}>
+                                                    {resource.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                )}
+                                {this.state.isExistingResource && (
+                                    <div className="warning">
+                                        Warning: Changes made here will also affect the selected resource.
                                     </div>
                                 )}
                                 <label>
                                     Name:
-                                    <input type="text" name="name" value={this.state.name} onChange={this.handleChange} required />
+                                    <input 
+                                        type="text" 
+                                        name="name" 
+                                        value={this.state.name} 
+                                        onChange={this.handleChange} 
+                                        required 
+                                        disabled={this.state.isExistingResource} // Disable the input field when an existing resource is selected
+                                    />
                                 </label>
                                 <label>
                                     Description:
@@ -178,7 +203,12 @@ class AddToWishlist extends React.Component {
                                 </label>
                                 <label>
                                     Category:
-                                    <input type="text" name="category" value={this.state.category} onChange={this.handleChange} required />
+                                    <input list="categories" name="category" value={this.state.category} onChange={this.handleChange} />
+                                    <datalist id="categories">
+                                        {categories.map((option, index) => (
+                                            <option key={index} value={option} />
+                                        ))}
+                                    </datalist>
                                 </label>
                                 <label>
                                     Price:

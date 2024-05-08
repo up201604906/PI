@@ -170,7 +170,7 @@ async function add_item_to_wishlist(user_name, resource_name, potential_resource
         if (resource_name !== null) {
             const user_id = (await pool.query(`SELECT id FROM users WHERE name = $1`, [user_name])).rows[0].id;
             const resource_id = (await pool.query(`SELECT id FROM resources WHERE name = $1`, [resource_name])).rows[0].id;
-            await pool.query(`UPDATE resources SET supplier = $1, price = $2, priority = $3 WHERE id = $4`, [supplier, price, priority, resource_id]);
+            await pool.query(`UPDATE resources SET description = $1, category = $2, supplier = $3, price = $4, priority = $5 WHERE id = $6`, [description, category, supplier, price, priority, resource_id]);
             await pool.query(`INSERT INTO wishlist (user_id, resource_id, quantity) VALUES ($1, $2, $3)`, [user_id, resource_id, quantity]);
         } else {
             const user_id = (await pool.query(`SELECT id FROM users WHERE name = $1`, [user_name])).rows[0].id;
