@@ -108,6 +108,36 @@ const getSharingCommunicationByProject = async (projectId) => {
     return result.rows;
 };
 
+const updateAssignment = async (assignmentId, description, assignee_id) => {
+    const query = 'UPDATE project_assignments SET description = $1, assignee = $2 WHERE id = $3';
+    const values = [description, assignee_id, assignmentId];
+    await pool.query(query, values);
+};
+
+const deleteAssignment = async (assignmentId) => {
+    const query = 'DELETE FROM project_assignments WHERE id = $1';
+    const values = [assignmentId];
+    await pool.query(query, values);
+};
+
+const updateSharingLink = async (linkId, link_type, link_url) => {
+    const query = 'UPDATE sharing_communication SET link_type = $1, link_url = $2 WHERE id = $3';
+    const values = [link_type, link_url, linkId];
+    await pool.query(query, values);
+};
+
+const deleteSharingLink = async (linkId) => {
+    const query = 'DELETE FROM sharing_communication WHERE id = $1';
+    const values = [linkId];
+    await pool.query(query, values);
+};
+
+const removeTeamMember = async (memberId) => {
+    const query = 'DELETE FROM project_research_team WHERE research_team_id = $1';
+    const values = [memberId];
+    await pool.query(query, values);
+};
+
 module.exports = {
     getProjectsByUser,
     getProjectById,
@@ -118,5 +148,10 @@ module.exports = {
     getProjectStatuses,
     getTeamMembersByProject,
     getAssignmentsByProject,
-    getSharingCommunicationByProject
+    getSharingCommunicationByProject,
+    updateAssignment,
+    deleteAssignment,
+    updateSharingLink,
+    deleteSharingLink,
+    removeTeamMember
 };

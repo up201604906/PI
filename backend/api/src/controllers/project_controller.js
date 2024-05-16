@@ -86,11 +86,73 @@ const getAllAProjects = async (req, res) => {
     }
 };
 
+const updateAssignment = async (req, res) => {
+    const assignmentId = req.params.id;
+    const { description, assignee_id } = req.body;
+    try {
+        await projectsModel.updateAssignment(assignmentId, description, assignee_id);
+        res.status(204).send();
+    } catch (error) {
+        console.error("Error updating assignment:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const deleteAssignment = async (req, res) => {
+    const assignmentId = req.params.id;
+    try {
+        await projectsModel.deleteAssignment(assignmentId);
+        res.status(204).send();
+    } catch (error) {
+        console.error("Error deleting assignment:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const updateSharingLink = async (req, res) => {
+    const linkId = req.params.id;
+    const { link_type, link_url } = req.body;
+    try {
+        await projectsModel.updateSharingLink(linkId, link_type, link_url);
+        res.status(204).send();
+    } catch (error) {
+        console.error("Error updating sharing link:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const deleteSharingLink = async (req, res) => {
+    const linkId = req.params.id;
+    try {
+        await projectsModel.deleteSharingLink(linkId);
+        res.status(204).send();
+    } catch (error) {
+        console.error("Error deleting sharing link:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const removeTeamMember = async (req, res) => {
+    const memberId = req.params.id;
+    try {
+        await projectsModel.removeTeamMember(memberId);
+        res.status(204).send();
+    } catch (error) {
+        console.error("Error removing team member:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 module.exports = {
     createProject,
     getProjectById,
     getProjectTypes,
     getProjectStatuses,
     getAllAProjects,
-    getAssignedProjects
+    getAssignedProjects,
+    deleteAssignment,
+    deleteSharingLink,
+    removeTeamMember,
+    updateAssignment,
+    updateSharingLink
 };

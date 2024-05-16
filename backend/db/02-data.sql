@@ -1,5 +1,7 @@
 INSERT INTO users (name, email, password, permission, picture) VALUES 
 ('sampleName', 'sampleEmail@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL); -- password é samplePassword
+INSERT INTO users (name, email, password, permission, picture) VALUES 
+('ntsay', 'ntsay@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL);
 
 INSERT INTO resources (name, description, category, quantity, available, supplier, room, cabinet, shelf, box, priority) VALUES
 ('Libelium Waspmote (v 1.2)', '1. Batteries - 2300 mA-h Rechargeable; 2.Two batteries have damaged connectors 3. With 6 antenna extensions', 'sensor board',6, 6, 'Website', 'I112', '1', 'C', 'B3', 'low'),
@@ -68,11 +70,44 @@ INSERT INTO project_status (status_name) VALUES ('Paused');
 INSERT INTO project_status (status_name) VALUES ('Cancelled');
 
 
-INSERT INTO projects (name, acronym, description, state, website, start_date, end_date, funding, funding_reference, external_partners, time, media)
-VALUES 
-  ('Project Alpha', 'PA', 'Description of Project Alpha', 'active', 'http://www.projectalpha.com', '2024-01-01', '2024-12-31', 'Grant', 'f', 'Partner A, Partner B', 'past', NULL),
-  ('Project Beta', 'PB', 'Description of Project Beta', 'completed', 'http://www.projectbeta.com', '2023-01-01', '2023-12-31', 'Donation', 'f', 'Partner C', 'present', NULL),
-  ('Project Gamma', 'PG', 'Description of Project Gamma', 'planning', 'http://www.projectgamma.com', '2024-06-01', '2025-06-01', 'Investment', 'f', 'Partner D, Partner E', 'past', NULL);
+INSERT INTO projects (name, acronym, description, state, website, start_date, end_date, funding, funding_reference, external_partners, time, media, created_by, project_type_id, project_status_id) VALUES
+('AI Research Project', 'AIRP', 'A project focused on AI research', 'In Progress', 'http://example.com/airp', '2024-01-01', '2024-12-31', 'Grant', '500000', 'Partner 1, Partner 2', 'present', NULL, 1, 1, 1);
+
+-- Insert into research_team
+INSERT INTO research_team (name, field, email, optional_email, capacity) VALUES
+('Maria', 'Robotics Researcher', 'maria@example.com', NULL, 'Full-time'),
+('Joao', 'AI Researcher', 'joao@example.com', NULL, 'Part-time'),
+('Pedro', 'Student', 'pedro@example.com', 'pedro_optional@example.com', 'Intern'),
+('Ana', 'Data Scientist', 'ana@example.com', NULL, 'Full-time'),
+('Carlos', 'Machine Learning Engineer', 'carlos@example.com', 'carlos_optional@example.com', 'Part-time');
+
+
+-- Insert into user_projects
+INSERT INTO user_projects (user_id, project_id) VALUES
+(1, 1),
+(2, 1);
+
+-- Insert into project_research_team
+INSERT INTO project_research_team (project_id, research_team_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5);
+
+-- Insert into project_assignments
+INSERT INTO project_assignments (project_id, description, assignee, due_date, status) VALUES
+(1, 'Initial Research', 1, '2024-03-01', 'In Progress'),
+(1, 'Data Collection', 2, '2024-06-01', 'Pending'),
+(1, 'Data Preprocessing', 4, '2024-04-01', 'Pending'),
+(1, 'Model Training', 5, '2024-08-01', 'Pending');
+
+-- Insert into sharing_communication
+INSERT INTO sharing_communication (project_id, link_type, link_url) VALUES
+(1, 'Google Drive', 'http://drive.google.com/airp'),
+(1, 'Slack Channel', 'http://slack.com/airp'),
+(1, 'Trello Board', 'http://trello.com/airp'),
+(1, 'GitHub Repository', 'http://github.com/airp');
 
 
 

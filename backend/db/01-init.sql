@@ -83,7 +83,8 @@ CREATE TABLE research_team (
   field VARCHAR NOT NULL,
   email VARCHAR NOT NULL,
   optional_email VARCHAR,
-  capacity VARCHAR NOT NULL
+  capacity VARCHAR NOT NULL,
+  user_id INTEGER REFERENCES users(id)
 );
 
 
@@ -127,7 +128,7 @@ CREATE TABLE project_assignments (
   id SERIAL PRIMARY KEY,
   project_id INTEGER REFERENCES projects(id),
   description TEXT NOT NULL,
-  assignee VARCHAR NOT NULL,
+  assignee INTEGER REFERENCES research_team(id) NOT NULL,
   due_date DATE NOT NULL,
   status VARCHAR NOT NULL
 );
