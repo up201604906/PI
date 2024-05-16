@@ -8,7 +8,7 @@ class CreateResource extends React.Component {
         name: '',
         description: '',
         category: '',
-        quantity: 0,
+        quantity: 1,
         available: 0,
         supplier: '',
         room: '',
@@ -115,11 +115,11 @@ class CreateResource extends React.Component {
                         <div>
                             <label>
                                 Quantity:
-                                <input type="number" name="quantity" value={this.state.quantity} onChange={this.handleChange} required />
+                                <input type="number" name="quantity" value={this.state.quantity} onChange={this.handleChange} min="1" required />
                             </label>
                             <label>
                                 Available:
-                                <input type="number" name="available" value={this.state.available} onChange={this.handleChange} required />
+                                <input type="number" name="available" value={this.state.available} onChange={this.handleChange} min="0" required />
                             </label>
                         </div>
                         <label>

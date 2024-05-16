@@ -319,7 +319,7 @@ class Wishlist extends React.Component {
                     <div className={"move-subtitle"}> Complete before moving to resources: </div> 
                     <form id="moveToResourcesForm" onSubmit={this.handleFormSubmit}>
                         <label htmlFor="quantity">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" value={this.state.selectedQuantity} onChange={this.handleQuantityChange}/>
+                        <input type="number" id="quantity" name="quantity" value={this.state.selectedQuantity} onChange={this.handleQuantityChange} min="1"/>
                         {this.state.resourceName === null && (
                             <>
                                 <label htmlFor="room">Room:</label>

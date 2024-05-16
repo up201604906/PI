@@ -196,10 +196,13 @@ async function move_to_resources(user_name, resource_name, potential_resource_na
             await pool.query(`UPDATE resources SET available = available + $1 WHERE id = $2`, [quantity, resource_id]);
             await pool.query(`UPDATE resources SET quantity = quantity + $1 WHERE id = $2`, [quantity, resource_id]);
             
+            // if you bought less than the quantity in the wishlist, update the wishlist quantity and state
             if (quantity < resource_quantity){
                 await pool.query(`UPDATE wishlist SET quantity = quantity - $1 WHERE user_id = $2 AND resource_id = $3`, [quantity, user_id, resource_id]);
                 await pool.query(`UPDATE wishlist SET state = 'open' WHERE user_id = $1 AND resource_id = $2`, [user_id, resource_id]);
+                await pool.query(`UPDATE wishlist SET added_at = CURRENT_TIMESTAMP WHERE user_id = $1 AND resource_id = $2`, [user_id, resource_id]);
             }
+            // if you bought the whole quantity in the wishlist, delete the item from the wishlist
             else {
                 await pool.query(`DELETE FROM wishlist WHERE user_id = $1 AND resource_id = $2`, [user_id, resource_id]);
             }
@@ -207,13 +210,22 @@ async function move_to_resources(user_name, resource_name, potential_resource_na
         }
         else {
             const potential_resource_id = (await pool.query(`SELECT id FROM potential_resources WHERE name = $1`, [potential_resource_name])).rows[0].id;
+            const potential_resource_quantity = (await pool.query(`SELECT quantity FROM wishlist WHERE user_id = $1 AND potential_resource_id = $2`, [user_id, potential_resource_id])).rows[0].quantity;
+
+            // create the resource with the bought quantity
             await pool.query(`INSERT INTO resources (name, description, category, quantity, available, supplier, room, cabinet, shelf, box, price, priority) 
                               SELECT name, description, category, $1, $1, supplier, $2, $3, $4, $5, price, priority 
                               FROM potential_resources 
                               WHERE id = $6`, [quantity, room, cabinet, shelf, box, potential_resource_id]);
-            console.log('POTENTIAL RESOURCE ID:', potential_resource_id);
-            console.log('USER ID:', user_id);
 
+            // if you bought less than the quantity in the wishlist, update the wishlist quantity and state
+            if (quantity < potential_resource_quantity){
+                // add the resource to the wishlist with the remaining quantity
+                await pool.query(`INSERT INTO wishlist (user_id, resource_id, quantity, state) 
+                                  SELECT $1, id, $2, 'open' 
+                                  FROM resources 
+                                  WHERE name = $3`, [user_id, potential_resource_quantity - quantity, potential_resource_name]);
+            }
             await pool.query(`DELETE FROM wishlist WHERE user_id = $1 AND potential_resource_id = $2`, [user_id, potential_resource_id]);
             await pool.query(`DELETE FROM potential_resources WHERE id = $1`, [potential_resource_id]);
             return 1;
