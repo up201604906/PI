@@ -24,6 +24,44 @@ INSERT INTO pc_allocation (name, serial_number, room) VALUES
 ('ThinkPad P14S', 'PF4AN56F', 'I319');
 
 
+INSERT INTO project_types (type_name) VALUES ('Artificial Intelligence');
+INSERT INTO project_types (type_name) VALUES ('Zero-shot Learning');
+INSERT INTO project_types (type_name) VALUES ('Transfer Learning');
+INSERT INTO project_types (type_name) VALUES ('Collaborative Robotics');
+INSERT INTO project_types (type_name) VALUES ('Computer Vision');
+INSERT INTO project_types (type_name) VALUES ('Machine Learning');
+INSERT INTO project_types (type_name) VALUES ('Production Systems');
+INSERT INTO project_types (type_name) VALUES ('Digitalization');
+INSERT INTO project_types (type_name) VALUES ('Cyber-Physical Systems');
+INSERT INTO project_types (type_name) VALUES ('Data Analytics');
+INSERT INTO project_types (type_name) VALUES ('Distributed Control Systems');
+INSERT INTO project_types (type_name) VALUES ('Systems of Systems');
+INSERT INTO project_types (type_name) VALUES ('Innovation Management');
+INSERT INTO project_types (type_name) VALUES ('Entrepreneurship');
+INSERT INTO project_types (type_name) VALUES ('Education 4.0');
+INSERT INTO project_types (type_name) VALUES ('Zero Defect Manufacturing');
+INSERT INTO project_types (type_name) VALUES ('Embedded/Distributed Systems');
+INSERT INTO project_types (type_name) VALUES ('Sensor and Automation Systems');
+INSERT INTO project_types (type_name) VALUES ('Real-time systems');
+INSERT INTO project_types (type_name) VALUES ('Gamification');
+INSERT INTO project_types (type_name) VALUES ('Meaningful Learning Environments');
+INSERT INTO project_types (type_name) VALUES ('Digital Twins');
+INSERT INTO project_types (type_name) VALUES ('Extended Reality');
+INSERT INTO project_types (type_name) VALUES ('Human-Computer Interaction');
+INSERT INTO project_types (type_name) VALUES ('Digital Storytelling');
+INSERT INTO project_types (type_name) VALUES ('Interactive Narratives');
+INSERT INTO project_types (type_name) VALUES ('Augmented Reality');
+INSERT INTO project_types (type_name) VALUES ('Industry 4.0');
+INSERT INTO project_types (type_name) VALUES ('Artificial Immune Systems');
+INSERT INTO project_types (type_name) VALUES ('Edge Computing');
+INSERT INTO project_types (type_name) VALUES ('Mobile Robotics and Manipulation');
+
+INSERT INTO project_status (status_name) VALUES ('Ongoing');
+INSERT INTO project_status (status_name) VALUES ('Completed');
+INSERT INTO project_status (status_name) VALUES ('Paused');
+INSERT INTO project_status (status_name) VALUES ('Cancelled');
+
+
 INSERT INTO projects (name, acronym, description, state, website, start_date, end_date, funding, funding_reference, external_partners, time, media)
 VALUES 
   ('Project Alpha', 'PA', 'Description of Project Alpha', 'active', 'http://www.projectalpha.com', '2024-01-01', '2024-12-31', 'Grant', 100000.00, 'Partner A, Partner B', 'past', NULL),

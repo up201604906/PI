@@ -36,6 +36,15 @@ DROP TABLE IF EXISTS article_authors CASCADE;
 DROP TABLE IF EXISTS editors CASCADE;
 DROP TABLE IF EXISTS article_editors CASCADE;
 
+
+DROP TABLE IF EXISTS projects CASCADE;
+DROP TABLE IF EXISTS user_projects CASCADE;
+DROP TABLE IF EXISTS project_types CASCADE;
+DROP TABLE IF EXISTS project_status CASCADE;
+DROP TABLE IF EXISTS research_team CASCADE;
+DROP TABLE IF EXISTS project_assignments CASCADE;
+DROP TABLE IF EXISTS sharing_communication CASCADE;
+
 --
 -- Create tables.
 --
@@ -55,6 +64,28 @@ CREATE TABLE users (
   picture BYTEA
 );
 
+CREATE TABLE project_types (
+  id SERIAL PRIMARY KEY,
+  type_name VARCHAR NOT NULL UNIQUE
+);
+
+-- Project Status Table
+CREATE TABLE project_status (
+  id SERIAL PRIMARY KEY,
+  status_name VARCHAR NOT NULL UNIQUE
+);
+
+-- Research Team Table
+CREATE TABLE research_team (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  field VARCHAR NOT NULL,
+  email VARCHAR NOT NULL,
+  optional_email VARCHAR,
+  capacity VARCHAR NOT NULL
+);
+
+
 CREATE TABLE projects (
   id SERIAL PRIMARY KEY,
   name VARCHAR NOT NULL,
@@ -65,16 +96,47 @@ CREATE TABLE projects (
   start_date DATE NOT NULL,
   end_date DATE NOT NULL,
   funding VARCHAR,
-  funding_reference FLOAT,
+  funding_reference VARCHAR,
   external_partners TEXT,
   time projects_time_enum NOT NULL,
-  media BYTEA
+  media BYTEA,
+  created_by INTEGER REFERENCES users(id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  project_type_id INTEGER REFERENCES project_types(id),
+  project_status_id INTEGER REFERENCES project_status(id)
 );
 
+
+-- User Projects Table
 CREATE TABLE user_projects (
   user_id INTEGER REFERENCES users(id),
   project_id INTEGER REFERENCES projects(id),
   PRIMARY KEY (user_id, project_id)
+);
+
+-- Project Research Team Association Table
+CREATE TABLE project_research_team (
+  project_id INTEGER REFERENCES projects(id),
+  research_team_id INTEGER REFERENCES research_team(id),
+  PRIMARY KEY (project_id, research_team_id)
+);
+
+-- Project Assignments Table
+CREATE TABLE project_assignments (
+  id SERIAL PRIMARY KEY,
+  project_id INTEGER REFERENCES projects(id),
+  description TEXT NOT NULL,
+  assignee VARCHAR NOT NULL,
+  due_date DATE NOT NULL,
+  status VARCHAR NOT NULL
+);
+
+-- Sharing & Communication Table
+CREATE TABLE sharing_communication (
+  id SERIAL PRIMARY KEY,
+  project_id INTEGER REFERENCES projects(id),
+  link_type VARCHAR NOT NULL,
+  link_url VARCHAR NOT NULL
 );
 
 CREATE TABLE articles (

@@ -1,6 +1,77 @@
 const projectsModel = require('../models/projects_model');
 
-const getAssignedProjects = async (req, res) => {
+// Create a new project
+const createProject = async (req, res) => {
+    const { user_id, ...projectData } = req.body;
+    try {
+        const project = await projectsModel.createProject({ ...projectData, created_by: user_id });
+        await projectsModel.associateUserWithProject(project.id, user_id);
+        res.status(201).json(project);
+    } catch (error) {
+        console.error("Error creating project:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+
+// Get a project by ID
+const getProjectById = async (req, res) => {
+    const projectId = req.params.id;
+    try {
+        const project = await projectsModel.getProjectById(projectId);
+        if (!project) {
+            res.status(404).send("Project not found");
+            return;
+        }
+
+        // Fetch related data
+        const teamMembers = await projectsModel.getTeamMembersByProject(projectId);
+        const assignments = await projectsModel.getAssignmentsByProject(projectId);
+        const sharingLinks = await projectsModel.getSharingCommunicationByProject(projectId);
+
+        // Add related data to project object
+        project.teamMembers = teamMembers;
+        project.assignments = assignments;
+        project.sharingLinks = sharingLinks;
+
+        res.json(project);
+    } catch (error) {
+        console.error("Error fetching project:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+// Get all project types
+const getProjectTypes = async (req, res) => {
+    try {
+        const types = await projectsModel.getProjectTypes();
+        res.json(types);
+    } catch (error) {
+        console.error("Error fetching project types:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+// Get all project statuses
+const getProjectStatuses = async (req, res) => {
+    try {
+        const statuses = await projectsModel.getProjectStatuses();
+        res.json(statuses);
+    } catch (error) {
+        console.error("Error fetching project statuses:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const getAllAProjects = async (req, res) => {
+    try {
+        const projects = await projectsModel.getAllProjects();
+        res.json(projects);
+    } catch (error) {
+        console.error("Error fetching projects:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};const getAssignedProjects = async (req, res) => {
     try {
         const userId = parseInt(req.params.userId, 10); // Ensure userId is an integer
         if (isNaN(userId)) {
@@ -15,42 +86,11 @@ const getAssignedProjects = async (req, res) => {
     }
 };
 
-const getProjectById = async (req, res) => {
-    try {
-        const projectId = parseInt(req.params.id, 10); // Ensure projectId is an integer
-        if (isNaN(projectId)) {
-            res.status(400).send("Invalid project ID");
-            return;
-        }
-        const project = await projectsModel.getProjectById(projectId);
-        if (!project) {
-            res.status(404).send("Project not found");
-            return;
-        }
-        res.json(project);
-    } catch (error) {
-        console.error("Error fetching project:", error);
-        res.status(500).send("Internal Server Error");
-    }
-};
-
-const createProject = async (req, res) => {
-    try {
-        const projectData = req.body;
-        if (!projectData.userId) {
-            return res.status(400).json({ error: 'User ID is required' });
-        }
-        const project = await projectsModel.createProject(projectData);
-        await projectsModel.associateUserWithProject(project.id, projectData.userId);
-        res.status(201).json(project);
-    } catch (error) {
-        console.error("Error creating project:", error);
-        res.status(500).json({ error: 'Failed to create project' });
-    }
-};
-
 module.exports = {
-    getAssignedProjects,
+    createProject,
     getProjectById,
-    createProject
+    getProjectTypes,
+    getProjectStatuses,
+    getAllAProjects,
+    getAssignedProjects
 };
