@@ -41,6 +41,7 @@ CREATE TYPE projects_time_enum AS ENUM ('past', 'present');
 CREATE TYPE resources_priority_enum AS ENUM ('low', 'medium', 'high');
 CREATE TYPE article_state_enum AS ENUM ('in writing', 'in revision', 'published');
 CREATE TYPE theses_state_enum AS ENUM ('proposed', 'written', 'submitted');
+CREATE TYPE wishlist_state_enum AS ENUM ('open', 'ordered', 'delivered');
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -214,6 +215,7 @@ CREATE TABLE wishlist (
   potential_resource_id INTEGER,
   quantity INTEGER NOT NULL CHECK (quantity > 0),
   added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  state wishlist_state_enum NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (resource_id) REFERENCES resources(id),
   FOREIGN KEY (potential_resource_id) REFERENCES potential_resources(id),

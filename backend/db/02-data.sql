@@ -14,8 +14,8 @@ INSERT INTO resources (name, description, category, quantity, available, supplie
 INSERT INTO potential_resources (name, description, category, supplier, price, priority)
 VALUES ('Potential Resource 1', 'This is a description for Potential Resource 1', 'Category 1', 'Supplier 1', 100.00, 'low');
 
-INSERT INTO wishlist (user_id, resource_id, quantity) VALUES (1, 1, 4);
-INSERT INTO wishlist (user_id, potential_resource_id, quantity) VALUES (1, 1, 2);
+INSERT INTO wishlist (user_id, resource_id, quantity, state) VALUES (1, 1, 4, 'open');
+INSERT INTO wishlist (user_id, potential_resource_id, quantity, state) VALUES (1, 1, 2, 'open');
 
 INSERT INTO licenses (description, equipment, login, password) VALUES
 ('PC HP Compact 8100 [Demo CPPS]', 'Login Sistema Operativo', '*********', '*********'),

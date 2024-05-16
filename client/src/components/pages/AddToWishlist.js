@@ -216,7 +216,7 @@ class AddToWishlist extends React.Component {
                                 </label>
                                 <label>
                                     Supplier:
-                                    <input type="text" name="supplier" value={this.state.supplier} onChange={this.handleChange} />
+                                    <input type="text" name="supplier" value={this.state.supplier} onChange={this.handleChange} required />
                                 </label>
                                 <label>
                                     Quantity:
