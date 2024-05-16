@@ -61,5 +61,125 @@
     margin-bottom: 10px;
     border-radius: 4px;
   }
-  
-  
+
+
+/**/
+
+/* General Layout and Styling */
+/* General Layout and Styling */
+.my-projects-page {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.my-projects-page h1 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.projects-list {
+  margin-top: 20px;
+  max-height: 800px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--secondary-color);
+}
+
+/* Project Card Styles */
+.project-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  position: relative;
+  min-height: 200px; /* Ensuring there's enough height for the positioning to work */
+}
+
+.project-card .typee {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-weight: bold;
+  color: #666;
+}
+
+.project-card .status {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-weight: bold;
+  color: #666;
+}
+
+.project-card p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.project-card h3 {
+  color: #333;
+}
+
+.btn {
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  text-align: center;
+  background-color: #0056b3;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #003d82;
+}
+
+.loading, .error {
+  text-align: center;
+  font-size: 18px;
+  color: #b30000;
+}
+
+/* Custom styles for browsers that do not support 'scrollbar-width' */
+.projects-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.projects-list::-webkit-scrollbar-thumb {
+  background-color: #0056b3;
+  border-radius: 10px;
+}
+
+.projects-list::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .my-projects-page {
+    margin: 1rem;
+    padding: 15px;
+  }
+
+  .projects-list {
+    max-height: 400px;
+  }
+
+  .project-card {
+    padding: 15px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 8px 16px;
+  }
+}
