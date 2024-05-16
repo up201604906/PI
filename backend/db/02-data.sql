@@ -22,3 +22,35 @@ INSERT INTO pc_allocation (name, serial_number, room) VALUES
 ('Dell latitude 7520', '29704J3', 'i319'),
 ('ThinkPad P15v', 'PF41ZQHA', 'i104'),
 ('ThinkPad P14S', 'PF4AN56F', 'I319');
+
+
+INSERT INTO articles (title, year, type, journal, booktitle, publisher, address, pages, volume, number, series, month, note, url, doi, isbn, howpublished, organization, reference, abstract, keywords, cite, user_id)
+VALUES 
+('A Study on Machine Learning', 2024, 'journal', 'Journal of Machine Learning', NULL, 'Tech Publishers', '123 Main St', '12-34', 15, 1, NULL, 'January', 'Important study', 'http://example.com/article1', '10.1234/example.doi', '1234567890', NULL, 'ML Org', NULL, 'This is an abstract.', 'machine learning, AI', 'citekey2024', NULL),
+('Data Science Techniques', 2023, 'book', NULL, 'Data Science Book', 'Data Science Publishers', '456 High St', '56-78', NULL, NULL, NULL, 'February', 'Comprehensive guide', 'http://example.com/book1', '10.5678/example.doi', '0987654321', NULL, 'Data Org', NULL, 'This is an abstract.', 'data science, analytics', 'citekey2023', NULL);
+
+-- Insert into authors table
+INSERT INTO authors (name)
+VALUES 
+('John Doe'),
+('Jane Smith'),
+('Alice Johnson');
+
+-- Insert into article_authors table
+INSERT INTO article_authors (article_id, author_id)
+VALUES 
+(1, 1),
+(1, 2),
+(2, 3);
+
+-- Insert into editors table
+INSERT INTO editors (name)
+VALUES 
+('Michael Brown'),
+('Laura White');
+
+-- Insert into article_editors table
+INSERT INTO article_editors (article_id, editor_id)
+VALUES 
+(1, 1),
+(2, 2);

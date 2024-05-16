@@ -19,6 +19,7 @@ import MyArticles from "./components/pages/articles/MyArticles";
 import CreateArticle from "./components/pages/articles/CreateArticle";
 import Articles from "./components/pages/articles/Articles";
 import ArticlePage from "./components/pages/articles/ArticlePage";
+import BibTeXImportPage from "./components/pages/articles/BibTeXImportPage";
 
 function App() {
     const {currentUser} = useAuth();
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/createArticle" element={<ProtectedRoute><CreateArticle/></ProtectedRoute>}/>
                     <Route path="/articles" element={<Articles/>}/>
                     <Route path="/articles/:id" element={<ArticlePage/>}/>
+                    <Route path="/importArticle" element={<ProtectedRoute><BibTeXImportPage /></ProtectedRoute>} />
                     <Route path="/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
                     <Route path="/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
                     <Route path="/user/:id" element={<ProtectedRoute><UserProfile id={1}/></ProtectedRoute>}/>

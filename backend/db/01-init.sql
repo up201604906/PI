@@ -31,6 +31,11 @@ DROP TABLE IF EXISTS user_pc_allocation CASCADE;
 DROP TABLE IF EXISTS resources CASCADE;
 DROP TABLE IF EXISTS user_resources CASCADE;
 
+DROP TABLE IF EXISTS authors CASCADE;
+DROP TABLE IF EXISTS article_authors CASCADE;
+DROP TABLE IF EXISTS editors CASCADE;
+DROP TABLE IF EXISTS article_editors CASCADE;
+
 --
 -- Create tables.
 --
@@ -77,17 +82,51 @@ CREATE TABLE articles (
   title VARCHAR NOT NULL,
   year INTEGER NOT NULL,
   type VARCHAR NOT NULL,
-  publisher VARCHAR NOT NULL, 
-  pages INTEGER,
+  journal VARCHAR,
+  booktitle VARCHAR,
+  publisher VARCHAR,
+  address VARCHAR,
+  pages VARCHAR,  -- Use VARCHAR to handle ranges (e.g., 123-145)
   volume INTEGER,
   number INTEGER,
+  series VARCHAR,
+  month VARCHAR,
+  note TEXT,
+  url TEXT,
+  doi VARCHAR,
+  isbn VARCHAR,
+  howpublished VARCHAR,
   organization VARCHAR,
   reference VARCHAR,
-  abstract TEXT NOT NULL,
+  abstract TEXT,
   keywords TEXT,
   cite TEXT,
   user_id INTEGER REFERENCES users(id)
 );
+
+CREATE TABLE authors (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL UNIQUE
+);
+
+CREATE TABLE article_authors (
+  article_id INTEGER REFERENCES articles(id) ON DELETE CASCADE,
+  author_id INTEGER REFERENCES authors(id) ON DELETE CASCADE,
+  PRIMARY KEY (article_id, author_id)
+);
+
+CREATE TABLE editors (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL UNIQUE
+);
+
+
+CREATE TABLE article_editors (
+  article_id INTEGER REFERENCES articles(id) ON DELETE CASCADE,
+  editor_id INTEGER REFERENCES editors(id) ON DELETE CASCADE,
+  PRIMARY KEY (article_id, editor_id)
+);
+
 
 CREATE TABLE user_articles (
   user_id INTEGER REFERENCES users(id),

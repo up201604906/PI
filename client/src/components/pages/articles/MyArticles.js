@@ -3,11 +3,13 @@ import { Link, useParams } from 'react-router-dom';
 import "../../../styles/Home.css";
 import "../../../styles/Create.css";
 import "../../../styles/Articles.css";
+import BibTeXImportModal from './BibTeXImportPage'; // Import the new component
 
 const MyArticles = () => {
     const [articles, setArticles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [noArticlesFound, setNoArticlesFound] = useState(false);
+    const [showImportModal, setShowImportModal] = useState(false); // State to control the modal
     const { id } = useParams();
 
     useEffect(() => {
@@ -25,9 +27,8 @@ const MyArticles = () => {
         }, 5000);
 
         return () => {
-            // Cleanup timeout if the component is unmounted
             clearTimeout(noArticlesTimeout);
-        }
+        };
     }, [id]);
 
     const fetchArticles = async (userId) => {
@@ -48,9 +49,21 @@ const MyArticles = () => {
         }
     };
 
+    const formatAuthors = (authors) => {
+        if (Array.isArray(authors)) {
+            return authors.join(', ');
+        } else if (typeof authors === 'string') {
+            return authors;
+        } else if (typeof authors === 'object' && authors !== null) {
+            return Object.values(authors).join(', ');
+        }
+        return 'Unknown Author';
+    };
+
     if (isLoading) {
         return <div className="loading-container">Loading articles...</div>;
     }
+
     if (noArticlesFound) {
         return (
             <div className="article-management">
@@ -68,16 +81,14 @@ const MyArticles = () => {
                 {articles.map((article, index) => (
                     <div key={index} className="article-card">
                         <h3>{article.title}</h3>
-                        <h4>Published by: {article.publisher}</h4>
-                        <p>Type: {article.type}, Year: {article.year}</p>
-                        <p>Volume: {article.volume}, Issue: {article.number}, Pages: {article.pages}</p>
-                        <p>Organization: {article.organization}</p>
-                        <p>Keywords: {article.keywords}</p>
+                        <h4>Authors: {formatAuthors(article.authors)}</h4>
+                        <p>Year: {article.year}, Type: {article.type}</p>
                         <Link to={`/articles/${article.id}`} className="btn btn-primary">Read More</Link>
                     </div>
                 ))}
             </div>
             <Link to="/createArticle" className="btn btn-primary">Create New Article</Link>
+            <Link to="/importArticle" className="btn btn-primary import-button">Import Article (BibTeX)</Link>
         </div>
     );
 };
