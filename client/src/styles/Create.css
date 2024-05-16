@@ -6,6 +6,14 @@
     color: var(--tertiary-color);
 }
 
+.wishlist-subtitle {
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--tertiary-color);
+}
+
 .create-form {
     display: flex;
     flex-direction: column;
@@ -25,11 +33,23 @@
     font-weight: bolder;
 }
 
-.create-form input, .create-form textarea {
+.create-form input, .create-form textarea, .create-form select {
     margin-top: 3px;
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+
+.existing-resource-label {
+    margin-top: 20px !important;
+}
+
+.warning {
+    color: var(--primary-color);
+    font-weight: bolder;
+    margin-bottom: 15px;
+    margin-top: -5px;
+    font-size: small;
 }
 
 .create-form button {
@@ -49,7 +69,28 @@
     padding: 16px 20px;
 }
 
-.create-form button:hover, .create-form .go-back:hover{
+.add-to-wishlist-buttons button {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    border: none;
+    background-color: hsl(0, 0%, 90%);
+    text-decoration: none;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    border-radius: 5px;
+    transition-duration: 0.2s;
+    padding: 16px 20px;
+}
+
+.add-to-wishlist-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 5em;
+}
+
+.create-form button:hover, .add-to-wishlist-buttons button:hover, .create-form .go-back:hover{
     background-color: white;
     border: 1px solid hsl(0, 0%, 75%);
 }
@@ -81,7 +122,6 @@
 }
 
 .create-form .go-back {
-    display: grid;
     width: 30px;
     height: 30px;
     border-radius: 50%; 
@@ -92,4 +132,6 @@
     text-align: center;
     align-self: baseline;
     font-family: monospace;
+    margin-left: -40px;
+    margin-top: -10px;
 }

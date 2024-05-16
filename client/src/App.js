@@ -8,6 +8,12 @@ import Topnav from "./components/components/common/Topnav";
 import NotAuthTopnav from "./components/components/common/NotAuthTopnav";
 import Resources from "./components/pages/Resources";
 import CreateResource from "./components/pages/CreateResource";
+import Wishlist from "./components/pages/Wishlist";
+import AddToWishlist from "./components/pages/AddToWishlist";
+import Licenses from "./components/pages/Licenses";
+import CreateLicense from "./components/pages/CreateLicense";
+import PCAllocation from "./components/pages/PCAllocation";
+import CreatePCAllocation from "./components/pages/CreatePCAllocation";
 import Login from "./components/components/auth/Login";
 import UserManagement from "./components/pages/user/UserManagement";
 import AddUser from "./components/pages/user/AddUser";
@@ -49,6 +55,12 @@ function App() {
                     <Route path="/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
                     <Route path="/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
                     <Route path="/user/:id" element={<ProtectedRoute><UserProfile id={1}/></ProtectedRoute>}/>
+                    <Route path="/inventory/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>}/>
+                    <Route path="/inventory/addToWishlist" element={<ProtectedRoute><AddToWishlist/></ProtectedRoute>}/>
+                    <Route path="/inventory/licenses" element={<ProtectedRoute><Licenses/></ProtectedRoute>}/> {}
+                    <Route path="/inventory/createLicense" element={<ProtectedRoute><CreateLicense /></ProtectedRoute>}/>
+                    <Route path="/inventory/pcallocation" element={<ProtectedRoute><PCAllocation /></ProtectedRoute>}/>
+                    <Route path="/inventory/createPCAllocation" element={<ProtectedRoute><CreatePCAllocation /></ProtectedRoute>}/>
                     <Route path="*" element={<Navigate to={currentUser ? "/home" : "/"}/>}/> {/* catch-all route*/}
                 </Routes>
             </div>

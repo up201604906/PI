@@ -153,7 +153,7 @@ class Resources extends React.Component {
         ).filter(
             resource => this.state.roomFilter === '' || resource[6] === this.state.roomFilter
         ).filter(
-            resource => this.state.categoryFilter === '' || resource[2] === this.state.categoryFilter  // New filter condition for the category filter
+            resource => this.state.categoryFilter === '' || resource[2] === this.state.categoryFilter 
         );
 
         return (
