@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Navigate, Route, Routes, RouterProvider} from "react-router-dom";
 import {useAuth} from './contexts/AuthContext';
 import './styles/App.css';
 import ProtectedRoute from "./components/components/common/ProtectedRoute";
@@ -20,6 +20,9 @@ import CreateArticle from "./components/pages/articles/CreateArticle";
 import Articles from "./components/pages/articles/Articles";
 import ArticlePage from "./components/pages/articles/ArticlePage";
 import BibTeXImportPage from "./components/pages/articles/BibTeXImportPage";
+import MyProjects from "./components/pages/projects/MyProjects";
+import Project from "./components/pages/projects/Project";
+
 
 function App() {
     const {currentUser} = useAuth();
@@ -41,6 +44,8 @@ function App() {
                     <Route path="/articles" element={<Articles/>}/>
                     <Route path="/articles/:id" element={<ArticlePage/>}/>
                     <Route path="/importArticle" element={<ProtectedRoute><BibTeXImportPage /></ProtectedRoute>} />
+                    <Route path="/my-projects/:id" element={<ProtectedRoute><MyProjects></MyProjects></ProtectedRoute>} />
+                    <Route path="/project/:id" element={<ProtectedRoute><Project/></ProtectedRoute>} />
                     <Route path="/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
                     <Route path="/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
                     <Route path="/user/:id" element={<ProtectedRoute><UserProfile id={1}/></ProtectedRoute>}/>

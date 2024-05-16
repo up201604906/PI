@@ -24,6 +24,14 @@ INSERT INTO pc_allocation (name, serial_number, room) VALUES
 ('ThinkPad P14S', 'PF4AN56F', 'I319');
 
 
+INSERT INTO projects (name, acronym, description, state, website, start_date, end_date, funding, funding_reference, external_partners, time, media)
+VALUES 
+  ('Project Alpha', 'PA', 'Description of Project Alpha', 'active', 'http://www.projectalpha.com', '2024-01-01', '2024-12-31', 'Grant', 100000.00, 'Partner A, Partner B', 'past', NULL),
+  ('Project Beta', 'PB', 'Description of Project Beta', 'completed', 'http://www.projectbeta.com', '2023-01-01', '2023-12-31', 'Donation', 50000.00, 'Partner C', 'present', NULL),
+  ('Project Gamma', 'PG', 'Description of Project Gamma', 'planning', 'http://www.projectgamma.com', '2024-06-01', '2025-06-01', 'Investment', 200000.00, 'Partner D, Partner E', 'past', NULL);
+
+
+
 INSERT INTO articles (title, year, type, journal, booktitle, publisher, address, pages, volume, number, series, month, note, url, doi, isbn, howpublished, organization, reference, abstract, keywords, cite, user_id)
 VALUES 
 ('A Study on Machine Learning', 2024, 'journal', 'Journal of Machine Learning', NULL, 'Tech Publishers', '123 Main St', '12-34', 15, 1, NULL, 'January', 'Important study', 'http://example.com/article1', '10.1234/example.doi', '1234567890', NULL, 'ML Org', NULL, 'This is an abstract.', 'machine learning, AI', 'citekey2024', NULL),
@@ -54,3 +62,38 @@ INSERT INTO article_editors (article_id, editor_id)
 VALUES 
 (1, 1),
 (2, 2);
+
+INSERT INTO articles (
+    title, year, type, journal, booktitle, publisher, address, pages, volume, number, series, month, note, url, doi, isbn, howpublished, organization, reference, abstract, keywords, cite, user_id
+) VALUES (
+    'A step forward on Intelligent Factories: A Smart Sensor-oriented approach', 2014, 'Journal', 'Emerging Technology and Factory Automation (ETFA)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+);
+
+
+INSERT INTO articles (
+    title, year, type, journal, booktitle, publisher, address, pages, volume, number, series, month, note, url, doi, isbn, howpublished, organization, reference, abstract, keywords, cite, user_id
+) VALUES (
+    'Sensor cloud: SmartComponent framework for reconfigurable diagnostics in intelligent manufacturing environments', 2015, 'Conference', 'Industrial Informatics (INDIN), 2015 IEEE 13th International Conference on', NULL, NULL, NULL, '1706-1711', NULL, NULL, NULL, NULL, NULL, NULL, 'doi: 10.1109/INDIN.2015.7281991', NULL, NULL, 'IEEE', NULL, NULL, NULL, NULL, NULL
+);
+
+
+INSERT INTO articles (
+    title, year, type, journal, booktitle, publisher, address, pages, volume, number, series, month, note, url, doi, isbn, howpublished, organization, reference, abstract, keywords, cite, user_id
+) VALUES (
+    'Self-organising Smart Components in Advanced Manufacturing Systems', 2015, 'Conference', 'INTELLI 2015, The Fourth International Conference on Intelligent Systems and Applications', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+);
+
+
+INSERT INTO articles (
+    title, year, type, journal, booktitle, publisher, address, pages, volume, number, series, month, note, url, doi, isbn, howpublished, organization, reference, abstract, keywords, cite, user_id
+) VALUES (
+    'Self-Diagnosis and Automatic Configuration of Smart Components in Advanced Manufacturing Systems', 2015, 'Conference', 'INTELLI 2015, The Fourth International Conference on Intelligent Systems and Applications', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+);
+
+
+INSERT INTO articles (
+    title, year, type, journal, booktitle, publisher, address, pages, volume, number, series, month, note, url, doi, isbn, howpublished, organization, reference, abstract, keywords, cite, user_id
+) VALUES (
+    'Life-cycle Approach to Extend Equipment Re-use in Flexible Manufacturing', 2016, 'Conference', 'INTELLI 2016, The Fifth International Conference on Intelligent Systems and Applications', NULL, NULL, NULL, '148--153', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'IARIA', NULL, NULL, NULL, NULL, NULL
+);
+

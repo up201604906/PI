@@ -70,6 +70,7 @@ const MyArticles = () => {
                 <div className="title">My Articles</div>
                 <div>No articles found.</div>
                 <Link to="/createArticle" className="btn btn-primary">Create New Article</Link>
+                <Link to="/importArticle" className="btn btn-primary import-button">Import Article</Link>
             </div>
         );
     }
@@ -88,7 +89,7 @@ const MyArticles = () => {
                 ))}
             </div>
             <Link to="/createArticle" className="btn btn-primary">Create New Article</Link>
-            <Link to="/importArticle" className="btn btn-primary import-button">Import Article (BibTeX)</Link>
+            <Link to="/importArticle" className="btn btn-primary import-button">Import Article</Link>
         </div>
     );
 };

@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
-import bibtexParse from 'bibtex-parse-js';
+import bibtexParse from 'bibtex-parse-js'; // Ensure you have this installed
 import { useNavigate } from 'react-router-dom';
 import "../../../styles/ImportPage.css";
 
 const BibTeXImportPage = () => {
     const [bibtexInput, setBibtexInput] = useState('');
     const [doiInput, setDoiInput] = useState('');
-    const [parsedData, setParsedData] = useState({});
-    const [additionalData, setAdditionalData] = useState({});
+    const [parsedData, setParsedData] = useState(null);
+    const [additionalData, setAdditionalData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
-
-    const dbFields = [
-        'title', 'year', 'type', 'journal', 'booktitle', 'publisher', 'address', 'pages',
-        'volume', 'number', 'series', 'month', 'note', 'url', 'doi', 'isbn', 'howpublished',
-        'organization', 'reference', 'abstract', 'keywords', 'cite', 'userId', 'authors', 'editors'
-    ];
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
@@ -23,7 +17,8 @@ const BibTeXImportPage = () => {
         reader.onload = () => {
             const result = bibtexParse.toJSON(reader.result);
             const entryTags = result[0]?.entryTags || {};
-            processParsedData(entryTags);
+            setParsedData(entryTags);
+            setIsEditing(true);
         };
         reader.readAsText(file);
     };
@@ -41,28 +36,12 @@ const BibTeXImportPage = () => {
                 publisher: data.message.publisher,
                 url: data.message.URL,
             };
-            processParsedData(entryTags, data.message);
+            setParsedData(entryTags);
+            setAdditionalData(data.message);
+            setIsEditing(true);
         } catch (error) {
             console.error('Error fetching DOI data:', error);
         }
-    };
-
-    const processParsedData = (entryTags, rawData = {}) => {
-        const initialData = {};
-        const additional = { ...rawData };
-
-        dbFields.forEach(field => {
-            if (entryTags[field]) {
-                initialData[field] = entryTags[field];
-                delete additional[field];
-            } else {
-                initialData[field] = '';
-            }
-        });
-
-        setParsedData(initialData);
-        setAdditionalData(additional);
-        setIsEditing(true);
     };
 
     const handleInputChange = (event) => {
@@ -76,7 +55,7 @@ const BibTeXImportPage = () => {
     const handleSubmit = async () => {
         const articleData = {
             ...parsedData,
-            authors: parsedData.author ? parsedData.author.split(',').map(a => a.trim()) : []
+            authors: parsedData.author.split(',').map(a => a.trim())
         };
         try {
             const response = await fetch('http://localhost:4000/articles/create', {
@@ -85,7 +64,7 @@ const BibTeXImportPage = () => {
                 body: JSON.stringify(articleData)
             });
             if (response.ok) {
-                navigate('/myArticles');
+                navigate('/a');
             } else {
                 console.error('Error creating article');
             }
@@ -105,7 +84,7 @@ const BibTeXImportPage = () => {
                             <input type="file" id="bibtex-file" accept=".bib" onChange={handleFileUpload} />
                         </div>
                         <div className="input-group">
-                            <label htmlFor="doi-input">Or Enter DOI:</label>
+                            <label htmlFor="doi-input">Enter DOI:</label>
                             <input
                                 type="text"
                                 id="doi-input"
@@ -117,12 +96,12 @@ const BibTeXImportPage = () => {
                         </div>
                     </>
                 )}
-                {isEditing && (
+                {isEditing && parsedData && (
                     <div className="edit-section">
                         <div className="form-grid">
                             <div className="main-data">
                                 <h3>Edit Article Information</h3>
-                                {dbFields.map((key) => (
+                                {['title', 'author', 'type', 'year', 'publisher', 'doi', 'url'].map((key) => (
                                     <div className="input-group" key={key}>
                                         <label htmlFor={key}>{key}:</label>
                                         <input
@@ -137,7 +116,7 @@ const BibTeXImportPage = () => {
                             </div>
                             <div className="additional-data">
                                 <h3>Additional Retrieved Data</h3>
-                                {Object.keys(additionalData).map((key) => (
+                                {additionalData && Object.keys(additionalData).filter(key => !['title', 'author', 'type', 'year', 'publisher', 'doi', 'url'].includes(key)).map((key) => (
                                     <div className="input-group" key={key}>
                                         <label htmlFor={key}>{key}:</label>
                                         <input
