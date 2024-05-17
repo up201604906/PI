@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import "../../../styles/Home.css";
 import "../../../styles/Create.css";
 import "../../../styles/Articles.css";
+import "../../../styles/Projects.css";
 import BibTeXImportModal from './BibTeXImportPage'; // Import the new component
 
 const MyArticles = () => {
@@ -88,7 +89,7 @@ const MyArticles = () => {
                     </div>
                 ))}
             </div>
-            <Link to="/createArticle" className="btn btn-primary">Create New Article</Link>
+            <Link to="/createArticle" className="floating-button">Create New Article</Link>
             <Link to="/importArticle" className="btn btn-primary import-button">Import Article</Link>
         </div>
     );

@@ -31,24 +31,25 @@ const getAllProjects = async () => {
 const createProject = async (projectData) => {
     const {
         name, acronym, description, state, website, start_date, end_date, funding,
-        funding_reference, external_partners, time, media, project_type_id, project_status_id, created_by
+        funding_reference, external_partners, media, project_type_id, project_status_id, created_by
     } = projectData;
 
     const query = `
         INSERT INTO projects (
             name, acronym, description, state, website, start_date, end_date, funding,
-            funding_reference, external_partners, time, media, project_type_id, project_status_id, created_by, created_at
+            funding_reference, external_partners, media, project_type_id, project_status_id, created_by, created_at
         ) VALUES (
-            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, CURRENT_TIMESTAMP
+            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, CURRENT_TIMESTAMP
         ) RETURNING *;
     `;
     const values = [
         name, acronym, description, state, website, start_date, end_date, funding,
-        funding_reference, external_partners, time, media, project_type_id, project_status_id, created_by
+        funding_reference, external_partners, media, project_type_id, project_status_id, created_by
     ];
     const result = await pool.query(query, values);
     return result.rows[0];
 };
+
 
 // Associate a user with a project
 const associateUserWithProject = async (projectId, userId) => {

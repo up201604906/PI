@@ -70,8 +70,8 @@ INSERT INTO project_status (status_name) VALUES ('Paused');
 INSERT INTO project_status (status_name) VALUES ('Cancelled');
 
 
-INSERT INTO projects (name, acronym, description, state, website, start_date, end_date, funding, funding_reference, external_partners, time, media, created_by, project_type_id, project_status_id) VALUES
-('AI Research Project', 'AIRP', 'A project focused on AI research', 'In Progress', 'http://example.com/airp', '2024-01-01', '2024-12-31', 'Grant', '500000', 'Partner 1, Partner 2', 'present', NULL, 1, 1, 1);
+INSERT INTO projects (name, acronym, description, state, website, start_date, end_date, funding, funding_reference, external_partners, media, created_by, project_type_id, project_status_id) VALUES
+('AI Research Project', 'AIRP', 'A project focused on AI research', 'In Progress', 'http://example.com/airp', '2024-01-01', '2024-12-31', 'Grant', '500000', 'Partner 1, Partner 2', NULL, 1, 1, 1);
 
 -- Insert into research_team
 INSERT INTO research_team (name, field, email, optional_email, capacity) VALUES

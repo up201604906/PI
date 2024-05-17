@@ -53,6 +53,7 @@ function App() {
                     <Route path="/importArticle" element={<ProtectedRoute><BibTeXImportPage /></ProtectedRoute>} />
                     <Route path="/my-projects/:id" element={<ProtectedRoute><MyProjects></MyProjects></ProtectedRoute>} />
                     <Route path="/project/:id" element={<ProtectedRoute><Project/></ProtectedRoute>} />
+                    <Route path="/projects/create" element={<ProtectedRoute><CreateProject/></ProtectedRoute>} />
                     <Route path="/event-mgmt" element={<ProtectedRoute><EventManagement/></ProtectedRoute>}/>
                     <Route path="/add-event" element={<ProtectedRoute><AddEvent/></ProtectedRoute>}/>
                     <Route path="/user/:id" element={<ProtectedRoute><UserProfile id={1}/></ProtectedRoute>}/>
