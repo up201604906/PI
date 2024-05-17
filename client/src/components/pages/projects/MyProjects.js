@@ -81,7 +81,9 @@ const MyProjects = () => {
                         <p className="status">Status: {getProjectStatusName(project.project_status_id)}</p>
                     </div>
                 ))}
+                <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
             </div>
+            
         </div>
     );
 };

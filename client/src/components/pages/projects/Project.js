@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams , Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import "../../../styles/Home.css";
 import '../../../styles/Projects.css';
@@ -283,6 +283,7 @@ const Project = () => {
           </div>
         </div>
       </div>
+      <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
     </div>
   );
 };

@@ -28,6 +28,7 @@ import ArticlePage from "./components/pages/articles/ArticlePage";
 import BibTeXImportPage from "./components/pages/articles/BibTeXImportPage";
 import MyProjects from "./components/pages/projects/MyProjects";
 import Project from "./components/pages/projects/Project";
+import CreateProject from "./components/pages/projects/CreateProject";
 
 
 function App() {
