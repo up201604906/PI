@@ -17,7 +17,22 @@ class CreateResource extends React.Component {
         box: '',
         price: 0,
         priority: 'low',
+        categories: [],
     };
+
+    componentDidMount() {
+        // Fetch all existing resources from the server
+        fetch('http://localhost:4000/inventory/resources')
+            .then(res => res.json())
+            .then(allResources => {
+                // Get the categories from the resources
+                const resourceCategories = allResources.flatMap(resource => resource.category);
+
+                // Store the filtered resources and the categories in the state
+                this.setState({ categories: [...new Set(resourceCategories)] });
+            })
+            .catch(err => console.error(err));
+    }
 
     handleChange = (event) => {
         let value = event.target.value;
@@ -36,6 +51,16 @@ class CreateResource extends React.Component {
         // Validate quantity and available
         if (isNaN(this.state.quantity) || isNaN(this.state.available)) {
             alert('Quantity and Available must be numbers.');
+            return;
+        }
+
+        if (this.state.quantity <= 0) {
+            alert('Quantity must be a number greater than 0.');
+            return;
+        }
+
+        if (this.state.available < 0) {
+            alert('Available must be a number greater than or equal to 0.');
             return;
         }
 
@@ -80,7 +105,12 @@ class CreateResource extends React.Component {
                         </label>
                         <label>
                             Category:
-                            <input type="text" name="category" value={this.state.category} onChange={this.handleChange} required />
+                            <input list="categories" name="category" value={this.state.category} onChange={this.handleChange} />
+                            <datalist id="categories">
+                                {this.state.categories.map((option, index) => (
+                                    <option key={index} value={option} />
+                                ))}
+                            </datalist>
                         </label>
                         <div>
                             <label>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {Link} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import '../../../styles/Topnav.css'
 import {AuthContext, useAuth} from '../../../contexts/AuthContext';
 import gatito from '../../../images/default.png'
@@ -16,8 +16,8 @@ function Topnav() {
     }, [currentUser]);
 
     const linksData = [
-        {text: "My Projects", href: "/list-proj?userId=" + currentUser},  //from this page, you should be able to see your team + all projects
-        {text: "My Articles", href: "/list-art?userId=" + currentUser},  //this page should have an option to see all articles
+        {text: "My Projects", href: "/my-projects/" + user.id},  //from this page, you should be able to see your team + all projects
+        {text: "My Articles", href: "/myArticles/" + user.id},  //this page should have an option to see all articles
         {text: "Events", href: "/events"},
 
         // Make these into a bottom bar or remove them and keep it only on the base website
@@ -27,7 +27,7 @@ function Topnav() {
 
     const inventoryDropdownData = [
         {text: "Resources", href: "/inventory/resources"},
-        {text: "PC Allocation", href: "/inventory/pc-allocation"},
+        {text: "PC Allocation", href: "/inventory/pcallocation"},
         {text: "Licenses", href: "/inventory/licenses"},
         {text: "Wishlist", href: "/inventory/wishlist"},
     ]

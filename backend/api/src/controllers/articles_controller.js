@@ -1,8 +1,9 @@
 const articlesModel = require('../models/articles_model');
 
-const getArticles = async (req, res) => {
+const getArticlesByUser = async (req, res) => {
     try {
-        const userId = req.query.userId;  // Assume user ID is passed as a URL parameter
+        
+        const userId = req.params.id;  // Assume user ID is passed as a URL parameter
         if(!userId) {
             res.status(400).send("User ID is required");
             return;
@@ -15,8 +16,36 @@ const getArticles = async (req, res) => {
     }
 };
 
+const getAllArticles = async (req, res) => {
+    try {
+        const articles = await articlesModel.getArticles();
+        res.json(articles);
+    } catch (error) {
+        console.error("Error fetching articles:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const getArticleById = async (req, res) => {
+    try {
+        const articleId = req.params.id;
+        const article = await articlesModel.getArticleById(articleId);
+        if (!article) {
+            res.status(404).send("Article not found");
+            return;
+        }
+        res.json(article);
+    } catch (error) {
+        console.error("Error fetching article:", error);
+        res.status(500).send("Internal Server Error");
+    }
+}
+
+
+
 const createArticle = async (req, res) => {
     try {
+        //console.log("Creating article:", req.body);
         const newArticle = await articlesModel.createArticle(req.body);
         res.status(201).json(newArticle);
     } catch (error) {
@@ -26,6 +55,8 @@ const createArticle = async (req, res) => {
 };
 
 module.exports = {
-    getArticles,
-    createArticle
+    getArticlesByUser,
+    getAllArticles,
+    getArticleById,
+     createArticle
 };

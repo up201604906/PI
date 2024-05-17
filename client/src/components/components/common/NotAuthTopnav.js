@@ -9,7 +9,7 @@ class NotAuthTopnav extends React.Component {
 
     linksData = [
         {text: "Projects", href: "/myProjects"},  //from this page, you should be able to see your team + all projects
-        {text: "Articles", href: "/myArticles"},  //this page should have an option to see all articles
+        {text: "Articles", href: "/articles"},  //this page should have an option to see all articles
         {text: "Events", href: "/events"},
         {text: "Login", href: "/login"}
 
