@@ -40,8 +40,9 @@ CREATE TYPE users_permissions_enum AS ENUM ('student', 'collaborator', 'admin');
 CREATE TYPE projects_time_enum AS ENUM ('past', 'present');
 CREATE TYPE resources_priority_enum AS ENUM ('low', 'medium', 'high');
 CREATE TYPE article_state_enum AS ENUM ('in writing', 'in revision', 'published');
-CREATE TYPE theses_state_enum AS ENUM ('proposed', 'written', 'submitted');
 CREATE TYPE wishlist_state_enum AS ENUM ('open', 'ordered', 'delivered');
+CREATE TYPE theses_course_enum AS ENUM ('MEIC', 'MEEC', 'MM', 'MESW', 'MECD');
+CREATE TYPE theses_state_enum AS ENUM ('proposed', 'written', 'submitted');
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -145,15 +146,27 @@ CREATE TABLE user_tags (
 
 CREATE TABLE theses (
   id SERIAL PRIMARY KEY,
+  course theses_course_enum NOT NULL,
   title VARCHAR NOT NULL,
-  course VARCHAR NOT NULL,
-  state theses_state_enum NOT NULL,
-  proposer_id INTEGER,
-  mentor_id INTEGER,
-  comentor_id INTEGER,
-  FOREIGN KEY (proposer_id) REFERENCES users(id),
-  FOREIGN KEY (mentor_id) REFERENCES users(id),
-  FOREIGN KEY (comentor_id) REFERENCES users(id)
+  mentor VARCHAR NOT NULL,
+  comentor VARCHAR,
+  host_institution_name VARCHAR, 
+  host_institution_description TEXT,
+  proposer_name VARCHAR NOT NULL, 
+  proposer_email VARCHAR,
+  proposer_phone VARCHAR,
+  proposer_position VARCHAR,
+  involved_areas VARCHAR, -- Involved areas (for MEEC we have these: AUTOMATION | ENERGY | TELE; for MEIC we have these: COMPUTER ARCHITECTURES AND SYSTEMS | COMPUTER GRAPHICS AND INTERACTIVE DIGITAL MEDIA | INFORMATION SYSTEMS | INTELLIGENT SYSTEMS | PROGRAMMING SCIENCE AND TECHNOLOGY | SOFTWARE ENGINEERING; for MESW we have these: DATA ANALYSIS IN SOFTWARE ENGINEERING | SOFTWARE UNDERSTANDING AND EVOLUTION | SOFTWARE REQUIREMENTS ENGINEERING | SOFTWARE ENGINEERING | SECURITY IN SOFTWARE ENGINEERING | SOFTWARE TESTING; for MM and MECD I don't know)
+  description TEXT NOT NULL,
+  goals TEXT,
+  innovative_aspects TEXT,
+  work_plan TEXT, -- Work Plan (preparatory phase + development phase)
+  bibliography TEXT,
+  candidate_profile TEXT,
+  work_after_dissertation BOOLEAN,
+  conferences_and_scientific_journals TEXT,
+  observations TEXT,
+  state theses_state_enum NOT NULL
 );
 
 CREATE TABLE mentoring (

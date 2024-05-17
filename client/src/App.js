@@ -12,6 +12,9 @@ import Licenses from "./components/pages/Licenses";
 import CreateLicense from "./components/pages/CreateLicense";
 import PCAllocation from "./components/pages/PCAllocation";
 import CreatePCAllocation from "./components/pages/CreatePCAllocation";
+import Theses from "./components/pages/Theses";
+import Thesis from "./components/pages/Thesis";
+//import CreateThesis from "./components/pages/CreateThesis";
 
 class App extends Component {
     constructor(props) {
@@ -65,6 +68,15 @@ class App extends Component {
                             <Route path="/inventory/createPCAllocation" element={
                                 <CreatePCAllocation />
                             }/>
+                            <Route path="/theses" element={
+                                <Theses />
+                            }/>
+                            <Route path="/thesis/:id" element={
+                                <Thesis />
+                            }/>
+                            {/*<Route path="/createThesis" element={
+                                <CreateThesis />
+                            }/>*/}
                             
                         </Routes>
                     </div>

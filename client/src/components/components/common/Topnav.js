@@ -9,6 +9,7 @@ import logo from '../../../images/digi2_orange.svg'
 class Topnav extends React.Component {
 
     linksData = [
+        {text: "Theses", href: "/theses"},
         {text: "My Projects", href: "/myProjects"},  //from this page, you should be able to see your team + all projects
         {text: "My Articles", href: "/myArticles"},  //this page should have an option to see all articles
         {text: "Events", href: "/events"},

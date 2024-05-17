@@ -4,6 +4,7 @@ const resourcesController = require("../controllers/resources_controller");
 const wishlistController = require("../controllers/wishlist_controller");
 const licensesController = require("../controllers/licenses_controller");
 const pcAllocationController = require("../controllers/pcallocation_controller");
+const thesesController = require("../controllers/theses_controller");
 
 const router = express.Router();
 
@@ -44,5 +45,15 @@ router.get("/inventory/pcallocation/:id", pcAllocationController.getPCAllocation
 router.delete("/inventory/pcallocation/:id", pcAllocationController.deletePCAllocationById);
 
 router.post("/inventory/createPCAllocation", pcAllocationController.createPCAllocation);
+
+
+// theses routes
+router.get("/theses", thesesController.getTheses);
+
+router.get("/thesis/:id", thesesController.getThesisById);
+router.put("/thesis/:id", thesesController.updateThesis);
+router.delete("/thesis/:id", thesesController.deleteThesisById);
+
+router.post("/createThesis", thesesController.createThesis);
 
 module.exports = router;
