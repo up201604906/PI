@@ -87,6 +87,24 @@ const getTeamMembersByProject = async (projectId) => {
     return result.rows;
 };
 
+const getRecentProjects = async (limit) => {
+    const query = `
+        SELECT 
+            p.*, 
+            pt.type_name, 
+            ps.status_name
+        FROM projects p
+        LEFT JOIN project_types pt ON p.project_type_id = pt.id
+        LEFT JOIN project_status ps ON p.project_status_id = ps.id
+        ORDER BY p.created_at DESC
+        LIMIT $1;
+    `;
+    const values = [limit];
+    const result = await pool.query(query, values);
+    return result.rows;
+};
+
+
 // Get all assignments of a project
 const getAssignmentsByProject = async (projectId) => {
     const query = `
@@ -154,5 +172,6 @@ module.exports = {
     deleteAssignment,
     updateSharingLink,
     deleteSharingLink,
-    removeTeamMember
+    removeTeamMember,
+    getRecentProjects
 };

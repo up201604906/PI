@@ -143,6 +143,17 @@ const removeTeamMember = async (req, res) => {
     }
 };
 
+const getRecentProjects = async (req, res) => {
+    const limit = parseInt(req.params.limit, 10); // Get the limit from the request parameters
+    try {
+        const recentProjects = await projectsModel.getRecentProjects(limit);
+        res.json(recentProjects);
+    } catch (error) {
+        console.error("Error fetching recent projects:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 module.exports = {
     createProject,
     getProjectById,
@@ -154,5 +165,6 @@ module.exports = {
     deleteSharingLink,
     removeTeamMember,
     updateAssignment,
-    updateSharingLink
+    updateSharingLink,
+    getRecentProjects
 };

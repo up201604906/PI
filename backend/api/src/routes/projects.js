@@ -9,6 +9,7 @@ router.get("/types", projectController.getProjectTypes);
 router.get("/statuses", projectController.getProjectStatuses);
 router.get('/', projectController.getAllAProjects);
 router.get('/:id', projectController.getProjectById);
+router.get('/recent/:limit', projectController.getRecentProjects);
 
 
 router.put('/assignments/:id', projectController.updateAssignment);

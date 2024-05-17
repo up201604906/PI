@@ -69,7 +69,7 @@ const MyArticles = () => {
         return (
             <div className="article-management">
                 <div className="title">My Articles</div>
-                <div>No articles found.</div>
+                <div>No articles found, but you can check out other articles <Link to="/articles">here</Link>.</div>
                 <div className="floating-buttons-container">
                     <Link to="/createArticle" className="floating-button">Create New Article</Link>
                     <Link to="/importArticle" className="floating-button">Import Article</Link>
