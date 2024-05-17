@@ -46,10 +46,9 @@ const CreateProject = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Include the current user's ID in the project data
     const projectDataWithUser = {
       ...projectData,
-      user_id: currentUser.id,
+      user_id: currentUser,
     };
     console.log(projectDataWithUser);
 
@@ -61,7 +60,7 @@ const CreateProject = () => {
     .then(response => response.json())
     .then(data => {
       // Redirect to the newly created project's page
-      navigate(`/projects/${data.id}`);
+      navigate(`/projects/`);
     })
     .catch((err) => console.error(err));
   };

@@ -71,7 +71,7 @@ INSERT INTO project_status (status_name) VALUES ('Cancelled');
 
 
 INSERT INTO projects (name, acronym, description, state, website, start_date, end_date, funding, funding_reference, external_partners, media, created_by, project_type_id, project_status_id) VALUES
-('AI Research Project', 'AIRP', 'A project focused on AI research', 'In Progress', 'http://example.com/airp', '2024-01-01', '2024-12-31', 'Grant', '500000', 'Partner 1, Partner 2', NULL, 1, 1, 1);
+('Advanced Industrial Sustainability to improve energy efficiency and usage of productive resources', 'Advance4i', 'Development and demonstration of an affordable and flexible IoT hardware platform, encompassing capabilities for plug&play of industrial sensors/actuators and automatic integration of these devices in monitoring and control applications.', 'In Progress', 'https://advance4i.sistrade.com/', '2022-07-01', '2025-12-31', 'PRR - Plano de Recuperação e Resiliência', 'PRODUTECH R3 - C645808870-00000067 - investment project no. 60', 'SisTrade, INEGI, IDEPA, Demoscore, IEP, ISEP, CTIC', NULL, 1, 1, 1);
 
 -- Insert into research_team
 INSERT INTO research_team (name, field, email, optional_email, capacity) VALUES
@@ -104,8 +104,8 @@ INSERT INTO project_assignments (project_id, description, assignee, due_date, st
 
 -- Insert into sharing_communication
 INSERT INTO sharing_communication (project_id, link_type, link_url) VALUES
-(1, 'Google Drive', 'http://drive.google.com/airp'),
-(1, 'Slack Channel', 'http://slack.com/airp'),
+(1, 'Google Drive', 'https://drive.google.com/file/d/11c2mXS9Mc7rNe1ob8iU77CaItL3Vm8go/view?usp=drive_link'),
+(1, 'Slack Channel', 'https://app.slack.com/client/T06HM7UQBM5/C06JEE7UEAV'),
 (1, 'Trello Board', 'http://trello.com/airp'),
 (1, 'GitHub Repository', 'http://github.com/airp');
 

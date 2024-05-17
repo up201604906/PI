@@ -157,9 +157,10 @@ const Project = () => {
           <p>Status: {project.state}</p>
         </div>
         <div className="header-center">
-          <p>Website: <a href={project.website} target="_blank" rel="noopener noreferrer">{project.website}</a></p>
-          <p>Funding Reference: {project.funding} (${parseInt(project.funding_reference).toLocaleString()})</p>
-          <p>External Partners: {project.external_partners}</p>
+          <p> <b>Website:</b> <a href={project.website} target="_blank" rel="noopener noreferrer">{project.website}</a></p>
+          <p> <b>Funding:</b> {project.funding}</p>
+          <p> <b>Reference:</b> {project.funding_reference}</p>
+          <p> <b>External Partners:</b> {project.external_partners}</p>
         </div>
         <div className="header-right">
           <p>Start Date: {format(new Date(project.start_date), 'dd/MM/yyyy')}</p>
