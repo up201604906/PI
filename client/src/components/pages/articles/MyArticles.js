@@ -70,8 +70,10 @@ const MyArticles = () => {
             <div className="article-management">
                 <div className="title">My Articles</div>
                 <div>No articles found.</div>
-                <Link to="/createArticle" className="btn btn-primary">Create New Article</Link>
-                <Link to="/importArticle" className="btn btn-primary import-button">Import Article</Link>
+                <div className="floating-buttons-container">
+                    <Link to="/createArticle" className="floating-button">Create New Article</Link>
+                    <Link to="/importArticle" className="floating-button">Import Article</Link>
+                </div>
             </div>
         );
     }
@@ -81,16 +83,19 @@ const MyArticles = () => {
             <div className="title">My Articles</div>
             <div className="articles-list">
                 {articles.map((article, index) => (
-                    <div key={index} className="article-card">
-                        <h3>{article.title}</h3>
-                        <h4>Authors: {formatAuthors(article.authors)}</h4>
-                        <p>Year: {article.year}, Type: {article.type}</p>
-                        <Link to={`/articles/${article.id}`} className="btn btn-primary">Read More</Link>
-                    </div>
+                    <Link key={index} to={`/articles/${article.id}`} className="article-card-link">
+                        <div className="article-card">
+                            <h3>{article.title}</h3>
+                            <h4>Authors: {formatAuthors(article.authors)}</h4>
+                            <p>Year: {article.year}, Type: {article.type}</p>
+                        </div>
+                    </Link>
                 ))}
             </div>
-            <Link to="/createArticle" className="floating-button">Create New Article</Link>
-            <Link to="/importArticle" className="btn btn-primary import-button">Import Article</Link>
+            <div className="floating-buttons-container">
+                <Link to="/createArticle" className="floating-button">Create New Article</Link>
+                <Link to="/importArticle" className="floating-button">Import Article</Link>
+            </div>
         </div>
     );
 };

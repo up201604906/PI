@@ -44,14 +44,15 @@ const Articles = () => {
             ) : (
                 <div className="articles-list">
                     {articles.map(article => (
-                        <div key={article.id} className="article-card">
-                            <h3>{article.title}</h3>
-                            <p>Publisher: {article.publisher}</p>
-                            <p>Type: {article.type}, Year: {article.year}</p>
-                            <p>Volume: {article.volume}, Issue: {article.number}, Pages: {article.pages}</p>
-                            <p>Keywords: {article.keywords}</p>
-                            <Link to={`/articles/${article.id}`} className="btn btn-primary">Read More</Link>
-                        </div>
+                        <Link key={article.id} to={`/articles/${article.id}`} className="article-card-link">
+                            <div className="article-card">
+                                <h3>{article.title}</h3>
+                                <p>Publisher: {article.publisher}</p>
+                                <p>Type: {article.type}, Year: {article.year}</p>
+                                <p>Volume: {article.volume}, Issue: {article.number}, Pages: {article.pages}</p>
+                                <p>Keywords: {article.keywords}</p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             )}

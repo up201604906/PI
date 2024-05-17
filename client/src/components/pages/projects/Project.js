@@ -283,7 +283,9 @@ const Project = () => {
           </div>
         </div>
       </div>
-      <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
+      <div className="floating-buttons-container">
+                <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
+            </div>
     </div>
   );
 };

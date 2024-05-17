@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import "../../../styles/Home.css";
-import '../../../styles/Projects.css';
+import "../../../styles/Projects.css";
+import { useAuth } from '../../../contexts/AuthContext';
 
-const MyProjects = () => {
-    const { id } = useParams();
+const Projects = () => {
+    const { currentUser, permission } = useAuth();
     const [projects, setProjects] = useState([]);
     const [projectTypes, setProjectTypes] = useState([]);
     const [projectStatuses, setProjectStatuses] = useState([]);
@@ -13,8 +14,8 @@ const MyProjects = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch project data
-        const fetchProjects = fetch(`http://localhost:4000/projects/assigned/${id}`)
+        // Fetch all projects
+        const fetchProjects = fetch('http://localhost:4000/projects/')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch projects');
@@ -43,7 +44,7 @@ const MyProjects = () => {
                 setError(error.message);
                 setIsLoading(false);
             });
-    }, [id]);
+    }, []);
 
     // Helper function to get project type name
     const getProjectTypeName = (typeId) => {
@@ -67,7 +68,7 @@ const MyProjects = () => {
 
     return (
         <div className="my-projects-page">
-            <h1>My Projects</h1>
+            <h1>All Projects</h1>
             <div className="projects-list">
                 {projects.map(project => (
                     <Link to={`/project/${project.id}`} key={project.id} className="project-card-link">
@@ -81,14 +82,14 @@ const MyProjects = () => {
                         </div>
                     </Link>
                 ))}
-               
             </div>
-            <div className="floating-buttons-container">
-                <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
-            </div>
+            {permission === 'admin' && (
+                <div className="floating-buttons-container">
+                    <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
+                </div>
+            )}
         </div>
-        
     );
 };
 
-export default MyProjects;
+export default Projects;

@@ -49,7 +49,7 @@ const CreateProject = () => {
     // Include the current user's ID in the project data
     const projectDataWithUser = {
       ...projectData,
-      user_id: currentUser,
+      user_id: currentUser.id,
     };
     console.log(projectDataWithUser);
 
@@ -66,11 +66,15 @@ const CreateProject = () => {
     .catch((err) => console.error(err));
   };
 
+  const handleGoBack = () => {
+    navigate(-1); // This will navigate back to the previous page
+  };
+
   return (
     <div>
       <div className={"title"}><span>C</span>reate <span>P</span>roject</div>
       <div className={"create-form projects"}>
-        <Link to="/projects" className="go-back">←</Link>
+        <button onClick={handleGoBack} className="go-back">←</button>
         <form onSubmit={handleSubmit}>
           <div className={"subtitle"}>New Project</div>
           <label>
