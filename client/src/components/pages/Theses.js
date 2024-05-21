@@ -77,6 +77,9 @@ class Theses extends React.Component {
                         <option value="">All Editions</option>
                         {editions.map((edition, index) => <option key={index} value={edition}>{edition}</option>)}
                     </select>
+                    <Link to="/createThesis" className="create-thesis">
+                        <button>Create New Thesis</button>
+                    </Link>
                 </div>
                 <div>
                     {filteredTheses.map((thesis) => {

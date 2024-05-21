@@ -26,7 +26,7 @@ div#state {
     text-align: end;
 }
 
-.thesis .line .item:not(#state) {
+.thesis .line > div {
     flex: 1;
 }
 
@@ -46,11 +46,32 @@ div#state {
 .thesis-link, .thesis-link:visited {
     text-decoration: none;
     color: black;
+    min-width: -webkit-fill-available;
 }
 
 .thesis-link:hover, .thesis-link:active {
     text-decoration: none;
     color: black; 
+}
+
+#search_filters .create-thesis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    background-color: hsl(0, 0%, 75%);
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition-duration: 0.2s;
+    border-radius: 5px;
+    border: none;
+    margin-left: auto;
+}
+
+#search_filters .create-thesis:hover {
+    background-color: white;
+    border: 1px solid hsl(0, 0%, 75%);
 }
 
 
@@ -205,4 +226,28 @@ div#state {
 
 #buttons button:hover {
     background-color: hsl(0, 0%, 85%);
+}
+
+.single-thesis select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    margin-left: 3px;
+    background-color: #fff;
+}
+
+.single-thesis select:focus {
+    border-color: var(--primary-color); /* changes the border color when the select is focused */
+    outline: none;
+}
+
+.single-thesis input[type="checkbox"] {
+    width: auto; /* overrides the 100% width set for inputs */
+    margin: 0 10px 0 0; /* adds some margin to the right of the checkbox */
+}
+
+.single-thesis input[type="checkbox"]:focus {
+    border-color: var(--primary-color); /* changes the border color when the checkbox is focused */
+    outline: none;
 }
