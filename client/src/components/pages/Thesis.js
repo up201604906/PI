@@ -1,11 +1,10 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import "../../styles/Home.css";
 import "../../styles/Theses.css";
 
 class Thesis extends React.Component {
     state = {
-        thesis: null,
+        thesis: null
     };
 
     callAPI() {
@@ -33,13 +32,14 @@ class Thesis extends React.Component {
         return (
             <div>
                 {thesis && thesis.map(thesis => {
-                    const { id, course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, observations, state } = thesis;
+                    const { id, course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, edition, observations, state } = thesis;
                     return (
                         <div key={id} className="single-thesis">
                             <div className="thesis-header">
                                 <div className="title">{title}</div>
                                 <div className="thesis-header-right">
                                     <div><strong>{course}</strong></div>
+                                    <div><strong>Edition:</strong> {edition}</div>
                                     <div><strong>State:</strong> {state}</div>
                                 </div>
                             </div>

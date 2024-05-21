@@ -42,7 +42,7 @@ CREATE TYPE resources_priority_enum AS ENUM ('low', 'medium', 'high');
 CREATE TYPE article_state_enum AS ENUM ('in writing', 'in revision', 'published');
 CREATE TYPE wishlist_state_enum AS ENUM ('open', 'ordered', 'delivered');
 CREATE TYPE theses_course_enum AS ENUM ('MEIC', 'MEEC', 'MM', 'MESW', 'MECD');
-CREATE TYPE theses_state_enum AS ENUM ('proposed', 'written', 'submitted');
+CREATE TYPE theses_state_enum AS ENUM ('Proposed', 'Written', 'Submitted', 'Assigned');
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -163,8 +163,9 @@ CREATE TABLE theses (
   work_plan TEXT, -- Work Plan (preparatory phase + development phase)
   bibliography TEXT,
   candidate_profile TEXT,
-  work_after_dissertation BOOLEAN,
+  work_after_dissertation TEXT,
   conferences_and_scientific_journals TEXT,
+  edition VARCHAR,
   observations TEXT,
   state theses_state_enum NOT NULL
 );

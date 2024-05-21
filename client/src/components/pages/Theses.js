@@ -8,7 +8,8 @@ class Theses extends React.Component {
         theses: [],
         searchTerm: '',
         courseFilter: '',
-        stateFilter: ''
+        stateFilter: '',
+        editionFilter: ''
     };
 
     callAPI() {
@@ -38,9 +39,14 @@ class Theses extends React.Component {
         this.setState({ stateFilter: event.target.value });
     }
 
+    handleEditionFilterChange = (event) => {
+        this.setState({ editionFilter: event.target.value });
+    }
+
     render() {
         const courses = [...new Set(this.state.theses.map(thesis => thesis.course))].filter(course => course && course !== '');
         const states = [...new Set(this.state.theses.map(thesis => thesis.state))].filter(state => state && state !== '');
+        const editions = [...new Set(this.state.theses.map(thesis => thesis.edition))].filter(edition => edition && edition !== '');
         const filteredTheses = this.state.theses.filter(thesis => {
             const { id, title, mentor, comentor, proposer_name, host_institution_name, description, involved_areas } = thesis;
             const fieldsToSearch = [id, title, mentor, comentor, proposer_name, host_institution_name, description, involved_areas];
@@ -49,6 +55,8 @@ class Theses extends React.Component {
             thesis => this.state.courseFilter === '' || thesis.course === this.state.courseFilter
         ).filter(
             thesis => this.state.stateFilter === '' || thesis.state === this.state.stateFilter
+        ).filter(
+            thesis => this.state.editionFilter === '' || thesis.edition === this.state.editionFilter
         );
 
         return (
@@ -65,16 +73,23 @@ class Theses extends React.Component {
                         <option value="">All States</option>
                         {states.map((state, index) => <option key={index} value={state}>{state}</option>)}
                     </select>
+                    <select value={this.state.editionFilter} onChange={this.handleEditionFilterChange}>
+                        <option value="">All Editions</option>
+                        {editions.map((edition, index) => <option key={index} value={edition}>{edition}</option>)}
+                    </select>
                 </div>
                 <div>
                     {filteredTheses.map((thesis) => {
-                        const { id, course, title, host_institution_name, description, involved_areas, state } = thesis;
+                        const { id, course, title, host_institution_name, description, involved_areas, edition, state } = thesis;
                         return (
                             <div className="thesis" key={id}>
                                 <Link className="thesis-link" to={`/thesis/${id}`} key={id}>    
                                     <div className="line" id="line1">
                                         <div className="title">{title}</div>
-                                        <div className="item" id="state"><strong>State:</strong> {state}</div>
+                                        <div id="state">
+                                            <div className="item"><strong>Edition:</strong> {edition}</div>
+                                            <div className="item"><strong>State:</strong> {state}</div>
+                                        </div>
                                     </div>
                                     <div className="description">{description}</div>
                                     <div className="line" id="line2">

@@ -22,8 +22,8 @@
     font-size: 1.6em;
 }
 
-.thesis .line#state {
-    font-size: 0.9em;
+div#state {
+    text-align: end;
 }
 
 .thesis .line .item:not(#state) {

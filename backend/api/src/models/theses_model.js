@@ -1,6 +1,6 @@
 /*
 CREATE TYPE theses_course_enum AS ENUM ('MEIC', 'MEEC', 'MM', 'MESW', 'MECD');
-CREATE TYPE theses_state_enum AS ENUM ('proposed', 'written', 'submitted');
+CREATE TYPE theses_state_enum AS ENUM ('Proposed', 'Written', 'Submitted', 'Assigned');
 
 CREATE TABLE theses (
   id SERIAL PRIMARY KEY,
@@ -21,9 +21,10 @@ CREATE TABLE theses (
   work_plan TEXT, -- Work Plan (preparatory phase + development phase)
   bibliography TEXT,
   candidate_profile TEXT,
-  work_after_dissertation BOOLEAN,
+  work_after_dissertation TEXT,
   conferences_and_scientific_journals TEXT,
   observations TEXT,
+  edition VARCHAR,
   state theses_state_enum NOT NULL
 );
 
@@ -32,11 +33,11 @@ CREATE TABLE theses (
 
 const pool = require("./database");
 
-async function create_thesis(course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, observations) {
+async function create_thesis(course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, edition, observations) {
     try {
         const result = await pool.query(
-            'INSERT INTO theses (course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, observations, state) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) RETURNING id',
-            [course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, observations, 'proposed']
+            'INSERT INTO theses (course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, edition, observations, state) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22) RETURNING id',
+            [course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, edition, observations, 'proposed']
         );
         return result.rows[0].id;
     }
@@ -90,11 +91,11 @@ const delete_thesis = async (thesisId) => {
     }
 }
 
-const update_thesis = async (thesisId, course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, observations, state) => {
+const update_thesis = async (thesisId, course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, edition, observations, state) => {
     try {
         await pool.query(
-            'UPDATE theses SET course = $2, title = $3, mentor = $4, comentor = $5, host_institution_name = $6, host_institution_description = $7, proposer_name = $8, proposer_email = $9, proposer_phone = $10, proposer_position = $11, involved_areas = $12, description = $13, goals = $14, innovative_aspects = $15, work_plan = $16, bibliography = $17, candidate_profile = $18, work_after_dissertation = $19, conferences_and_scientific_journals = $20, observations = $21, state = $22 WHERE id = $1',
-            [thesisId, course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, observations, state]
+            'UPDATE theses SET course = $2, title = $3, mentor = $4, comentor = $5, host_institution_name = $6, host_institution_description = $7, proposer_name = $8, proposer_email = $9, proposer_phone = $10, proposer_position = $11, involved_areas = $12, description = $13, goals = $14, innovative_aspects = $15, work_plan = $16, bibliography = $17, candidate_profile = $18, work_after_dissertation = $19, conferences_and_scientific_journals = $20, edition = $21, observations = $22, state = $23 WHERE id = $1',
+            [thesisId, course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, edition, observations, state]
         );
     } catch (error) {
         console.error("Error updating thesis:", error);
