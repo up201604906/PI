@@ -47,7 +47,9 @@ class Theses extends React.Component {
         const courses = [...new Set(this.state.theses.map(thesis => thesis.course))].filter(course => course && course !== '');
         const states = [...new Set(this.state.theses.map(thesis => thesis.state))].filter(state => state && state !== '');
         const editions = [...new Set(this.state.theses.map(thesis => thesis.edition))].filter(edition => edition && edition !== '');
-        const filteredTheses = this.state.theses.filter(thesis => {
+       
+        const sortedTheses = [...this.state.theses].sort((a, b) => b.id - a.id);
+        const filteredTheses = sortedTheses.filter(thesis => {
             const { id, title, mentor, comentor, proposer_name, host_institution_name, description, involved_areas } = thesis;
             const fieldsToSearch = [id, title, mentor, comentor, proposer_name, host_institution_name, description, involved_areas];
             return fieldsToSearch.some(field => field ? field.toString().toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false);

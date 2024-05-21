@@ -28,7 +28,8 @@ class CreateThesis extends React.Component {
             observations: "",
             state: "Proposed"
         },
-        involvedAreasOptions: []
+        involvedAreasOptions: [],
+        editions: []
     };
 
     handleInputChange = (event) => {
@@ -114,6 +115,20 @@ class CreateThesis extends React.Component {
         .catch((err) => console.error(err));
     }
 
+    componentDidMount() {
+        // Fetch all existing theses from the server
+        fetch('http://localhost:4000/theses')
+            .then(res => res.json())
+            .then(allTheses => {
+                // Get the editions from the theses
+                const thesisEditions = allTheses.flatMap(thesis => thesis.edition);
+
+                // Store the filtered theses and the editions in the state
+                this.setState({ editions: [...new Set(thesisEditions)] });
+            })
+            .catch(err => console.error(err));
+    }
+
     render() {
         const { thesis, involvedAreasOptions } = this.state;
 
@@ -133,7 +148,14 @@ class CreateThesis extends React.Component {
                                     <option value="MECD">MECD</option>
                                 </select>
                             </div>
-                            <div><strong>Edition: </strong> <input type="text" name="edition" value={thesis.edition} onChange={this.handleInputChange} /></div>
+                            <div><strong>Edition: </strong> 
+                                <input list="editions" name="edition" value={this.state.thesis.edition} onChange={this.handleInputChange} />
+                                <datalist id="editions">
+                                    {this.state.editions.map((option, index) => (
+                                        <option key={index} value={option} />
+                                    ))}
+                                </datalist>
+                            </div>
                             <div><strong>State:</strong> 
                                 <select name="state" value={thesis.state} onChange={this.handleInputChange} required>
                                     <option value="Proposed">Proposed</option>
