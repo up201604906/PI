@@ -133,3 +133,76 @@ div#state {
     margin-top: 30px;
     margin-bottom: 5px !important;
 }
+
+.single-thesis .thesis-header input {
+    max-width: fit-content;
+}
+
+.single-thesis textarea {
+    width: 100%;
+}
+
+.single-thesis input,
+.single-thesis textarea {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 10px;
+    resize: vertical; /* allows the user to resize the textarea vertically */
+}
+
+.single-thesis input:focus,
+.single-thesis textarea:focus {
+    border-color: var(--primary-color); /* changes the border color when the input or textarea is focused */
+    outline: none;
+}
+
+#buttons2 {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#editButton, #deleteButton {
+    padding: 5px 10px;
+    background-color: #FFE3D7;
+    border: 1px solid lightgray;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+#editButton:hover, #deleteButton:hover {
+    background-color:hsl(0, 0%, 85%);
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#buttons button {
+    padding: 5px 10px;
+    background-color: #FFE3D7;
+    border: 1px solid lightgray;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+#buttons button:hover {
+    background-color: hsl(0, 0%, 85%);
+}
