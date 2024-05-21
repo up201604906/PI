@@ -1,6 +1,5 @@
-INSERT INTO users (name, email, password, permission, picture) VALUES 
-('sampleName', 'sampleEmail@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL); -- password é samplePassword
-INSERT INTO users (name, email, password, permission, picture) VALUES 
+INSERT INTO users (name, contact_email, password, permission, picture) VALUES
+('sampleName', 'sampleEmail@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL), -- password é samplePassword
 ('ntsay', 'ntsay@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL);
 
 INSERT INTO resources (name, description, category, quantity, available, supplier, room, cabinet, shelf, box, priority) VALUES
@@ -81,6 +80,11 @@ INSERT INTO research_team (name, field, email, optional_email, capacity) VALUES
 ('Ana', 'Data Scientist', 'ana@example.com', NULL, 'Full-time'),
 ('Carlos', 'Machine Learning Engineer', 'carlos@example.com', 'carlos_optional@example.com', 'Part-time');
 
+-- Insert into user_project_type
+INSERT INTO user_project_type (user_id, project_type_id) VALUES
+(1, 1),
+(1, 2);
+
 
 -- Insert into user_projects
 INSERT INTO user_projects (user_id, project_id) VALUES
@@ -112,33 +116,33 @@ INSERT INTO sharing_communication (project_id, link_type, link_url) VALUES
 
 
 INSERT INTO articles (title, year, type, journal, booktitle, publisher, address, pages, volume, number, series, month, note, url, doi, isbn, howpublished, organization, reference, abstract, keywords, cite, user_id)
-VALUES 
+VALUES
 ('A Study on Machine Learning', 2024, 'journal', 'Journal of Machine Learning', NULL, 'Tech Publishers', '123 Main St', '12-34', 15, 1, NULL, 'January', 'Important study', 'http://example.com/article1', '10.1234/example.doi', '1234567890', NULL, 'ML Org', NULL, 'This is an abstract.', 'machine learning, AI', 'citekey2024', NULL),
 ('Data Science Techniques', 2023, 'book', NULL, 'Data Science Book', 'Data Science Publishers', '456 High St', '56-78', NULL, NULL, NULL, 'February', 'Comprehensive guide', 'http://example.com/book1', '10.5678/example.doi', '0987654321', NULL, 'Data Org', NULL, 'This is an abstract.', 'data science, analytics', 'citekey2023', NULL);
 
 -- Insert into authors table
 INSERT INTO authors (name)
-VALUES 
+VALUES
 ('John Doe'),
 ('Jane Smith'),
 ('Alice Johnson');
 
 -- Insert into article_authors table
 INSERT INTO article_authors (article_id, author_id)
-VALUES 
+VALUES
 (1, 1),
 (1, 2),
 (2, 3);
 
 -- Insert into editors table
 INSERT INTO editors (name)
-VALUES 
+VALUES
 ('Michael Brown'),
 ('Laura White');
 
 -- Insert into article_editors table
 INSERT INTO article_editors (article_id, editor_id)
-VALUES 
+VALUES
 (1, 1),
 (2, 2);
 

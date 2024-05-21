@@ -96,26 +96,45 @@ const getUsers = async (req, res) => {
 
         res.json(users);
     } catch (err) {
-        res.status(500).send('Error retrieving Home.');
+        res.status(500).send('Error retrieving User.');
+        console.error(err.message);
+    }
+};
+
+const getUserAreas = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const areas = await user_model.get_user_areas(userId);
+
+        res.json(areas);
+    } catch (err) {
+        res.status(500).send('Error retrieving User Areas.');
         console.error(err.message);
     }
 };
 
 const updateUser = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const { name, email, password, permission } = req.body;
+        const { id, name, contact_email, personal_email, phone_number, password, permission, areas } = req.body;
 
         // Hash the password
         const hashedPassword = await argon2.hash(password);
 
-        const user = await user_model.update_user(userId, name, email, hashedPassword, permission);
+        const updatedUser = await user_model.update_user(id, name, contact_email, personal_email, phone_number, hashedPassword, permission);
 
-        if (!user) {
+        if (!updatedUser) {
             return res.status(404).send("User not found.");
         }
 
-        res.json(user);
+        const updatedAreas = await user_model.update_user_areas(id, areas);
+
+        const responseJson = {
+            user: updatedUser,
+            areas: updatedAreas
+        };
+
+
+        res.json(responseJson);
     } catch (error) {
         console.error("Error updating user:", error);
         res.status(500).send("Internal Server Error");
@@ -144,6 +163,7 @@ module.exports = {
     logout,
     getUserById,
     getUsers,
+    getUserAreas,
     updateUser,
     deleteUser
 };

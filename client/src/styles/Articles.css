@@ -8,12 +8,6 @@
     border-radius: 8px; /* Rounded corners for modern look */
   }
   
-  .title {
-    text-align: center; /* Centering the title */
-    color: var(--primary-color); /* Styling with primary color */
-    margin-bottom: 20px; /* Spacing below the title */
-  }
-  
   .articles-list {
     margin-top: 20px;
     max-height: 800px; /* Set maximum height for the articles list */

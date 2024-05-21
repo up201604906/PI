@@ -67,7 +67,7 @@ const MyProjects = () => {
 
     return (
         <div className="my-projects-page">
-            <h1>My Projects</h1>
+            <h1 className={"title"}>My Projects</h1>
             <div className="projects-list">
                 {projects.map(project => (
                     <Link to={`/project/${project.id}`} key={project.id} className="project-card-link">

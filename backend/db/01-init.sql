@@ -41,6 +41,7 @@ DROP TABLE IF EXISTS article_editors CASCADE;
 DROP TABLE IF EXISTS projects CASCADE;
 DROP TABLE IF EXISTS user_projects CASCADE;
 DROP TABLE IF EXISTS project_types CASCADE;
+DROP TABLE IF EXISTS user_project_type CASCADE;
 DROP TABLE IF EXISTS project_status CASCADE;
 DROP TABLE IF EXISTS research_team CASCADE;
 DROP TABLE IF EXISTS project_assignments CASCADE;
@@ -59,7 +60,9 @@ CREATE TYPE theses_state_enum AS ENUM ('proposed', 'written', 'submitted');
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name VARCHAR NOT NULL,
-  email VARCHAR UNIQUE NOT NULL,
+  contact_email VARCHAR UNIQUE NOT NULL,
+  personal_email VARCHAR UNIQUE,
+  phone_number VARCHAR UNIQUE,
   password VARCHAR NOT NULL,
   permission users_permissions_enum NOT NULL,
   picture BYTEA
@@ -68,6 +71,12 @@ CREATE TABLE users (
 CREATE TABLE project_types (
   id SERIAL PRIMARY KEY,
   type_name VARCHAR NOT NULL UNIQUE
+);
+
+CREATE TABLE user_project_type(
+    user_id INTEGER REFERENCES users(id),
+    project_type_id INTEGER REFERENCES project_types(id),
+    PRIMARY KEY (user_id, project_type_id)
 );
 
 -- Project Status Table
@@ -318,6 +327,6 @@ CREATE TABLE wishlist (
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (resource_id) REFERENCES resources(id),
   FOREIGN KEY (potential_resource_id) REFERENCES potential_resources(id),
-  CHECK ((resource_id IS NOT NULL AND potential_resource_id IS NULL) OR 
+  CHECK ((resource_id IS NOT NULL AND potential_resource_id IS NULL) OR
          (resource_id IS NULL AND potential_resource_id IS NOT NULL))
 );

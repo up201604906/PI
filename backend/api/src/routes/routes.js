@@ -74,6 +74,7 @@ router.post("/inventory/createResource", resourcesController.createResource);
 // user routes
 router.get("/user-mgmt", userController.getUsers);
 router.get('/user/:id', userController.getUserById);
+router.get('/user-areas/:id', userController.getUserAreas);
 router.put('/user/:id', userController.updateUser);
 router.delete('/user/:id', userController.deleteUser);
 

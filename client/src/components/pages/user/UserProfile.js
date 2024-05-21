@@ -83,8 +83,17 @@ class Filters extends React.Component {
 }
 
 function UserProfile() {
-    const [user, setUser] = useState({name: '', email: '', permission: '', picture: ''});
+    const [user, setUser] = useState({
+        name: '',
+        contact_email: '',
+        personal_email: '',
+        phone_number: '',
+        permission: '',
+        picture: ''
+    });
     const [articles, setArticles] = useState([]);
+    const [allAreas, setAllAreas] = useState([]);
+    const [areas, setAreas] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const {id} = useParams();
     const navigate = useNavigate();
@@ -93,11 +102,11 @@ function UserProfile() {
         if (!isEditing) {
             getUserData(id);
             getUserProjects(id);
+            getUserAreas(id)
         }
     }, [id, isEditing]);
 
     function getUserData(userId) {
-        console.log(userId)
         fetch(`http://localhost:4000/user/${userId}`)
             .then(response => response.json())
             .then(data => setUser(data))
@@ -111,13 +120,25 @@ function UserProfile() {
             .catch(err => console.error("Error fetching articles:", err));
     }
 
+    function getUserAreas(userId) {
+        fetch(`http://localhost:4000/user-areas/${userId}`)
+            .then(response => response.json())
+            .then(data => setAreas(data))
+            .catch(err => console.error("Error fetching user areas:", err));
+        console.log(areas)
+    }
+
     function saveUser() {
+        const combinedData = {
+            ...user,
+            areas
+        };
         fetch(`http://localhost:4000/user/${user.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(user),
+            body: JSON.stringify(combinedData),
         })
             .then(response => response.json())
             .then(data => {
@@ -127,69 +148,28 @@ function UserProfile() {
             .catch(err => console.error("Error updating user:", err));
     }
 
-    const handleDelete = () => {
-        fetch(`http://localhost:4000/user/${user.id}`, {
-            method: 'DELETE',
-        })
-            .then(response => {
-                if (response.ok) {
-                    navigate("/user-mgmt");
-                }
-            })
-            .catch(err => console.error("Error deleting user:", err));
+    const removeArea = (index) => {
+        setAreas(areas.filter((_, i) => i !== index));
     };
 
-    function deleteModal() {
-        return (
-            <>
-                <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div className="modal-dialog d-flex align-self-center" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                Are you sure you want to delete this user?
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn-secondary rounded" data-bs-dismiss="modal">Close</button>
-                                <button type="button" className="btn-primary rounded ms-3" data-bs-dismiss="modal" onClick={handleDelete}>Delete User</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" className="btn-secondary rounded ms-5" data-bs-toggle="modal"
-                        data-bs-target="#deleteModal">
-                    Delete User
-                </button>
-            </>
-        )
-    }
-
     function profileData() {
-        // Ensure isEditing state is declared above or passed as a prop if this function is in a functional component.
-
         return (
-            <div className="container">
-                <div className={"d-flex flex-row mb-3"}>
+            <div className="col-7">
+                <div className={"d-flex flex-row justify-content-between mb-3"}>
                     <div className={"title"}>{user.name} Profile</div>
                     {isEditing ? (
                         <>
-                            <button className="btn-primary rounded ms-5 col-1" onClick={saveUser}>Save</button>
-                            <button className="btn-secondary rounded ms-5 col-1"
+                            <button className="btn-primary rounded ms-5" onClick={saveUser}>Save</button>
+                            <button className="btn-secondary rounded ms-5"
                                     onClick={() => setIsEditing(false)}>Cancel
                             </button>
                         </>
                     ) : (
                         <>
-                            <button className={"btn-primary rounded ms-5 col-1"} onClick={() => setIsEditing(true)}>
+                            <button className={"btn-primary rounded ms-5"} onClick={() => setIsEditing(true)}>
                                 Edit Profile
                             </button>
-                            {deleteModal()}
+                            {/*deleteModal()*/}
                         </>
                     )}
                 </div>
@@ -203,11 +183,11 @@ function UserProfile() {
             <div className="container">
                 <div className="profile-info d-flex flex-column">
                     <div className="form-group mb-3 d-inline-flex w-50">
-                        <label className={"col-1 fw-bold align-self-center"} htmlFor="nameInput">Name:</label>
+                        <label className={"col-4 fw-bold align-self-center"} htmlFor="nameInput">Name:</label>
                         <input
                             id="nameInput"
                             type="text"
-                            className="form-control ms-1 w-50"
+                            className="form-control ms-1"
                             value={user.name}
                             onChange={(e) => setUser({...user, name: e.target.value})}
                             placeholder="Name"
@@ -215,22 +195,48 @@ function UserProfile() {
                         />
                     </div>
                     <div className="form-group mb-3 d-inline-flex w-50">
-                        <label className={"col-1 fw-bold align-self-center"} htmlFor="emailInput">Email:</label>
+                        <label className={"col-4 fw-bold align-self-center"} htmlFor="email1Input">Contact
+                            Email:</label>
                         <input
-                            id="emailInput"
+                            id="email1Input"
                             type="email"
-                            className="form-control ms-1 w-50"
-                            value={user.email}
-                            onChange={(e) => setUser({...user, email: e.target.value})}
-                            placeholder="Email"
+                            className="form-control ms-1"
+                            value={user.contact_email}
+                            onChange={(e) => setUser({...user, contact_email: e.target.value})}
+                            placeholder="example@email.com"
                             disabled={!isEditing}  // Disable input if not editing
                         />
                     </div>
                     <div className="form-group mb-3 d-inline-flex w-50">
-                        <label className={"col-1 fw-bold align-self-center"} htmlFor="roleSelect">Role:</label>
+                        <label className={"col-4 fw-bold align-self-center"} htmlFor="email2Input">Personal
+                            Email:</label>
+                        <input
+                            id="email2Input"
+                            type="email"
+                            className="form-control ms-1"
+                            value={user.personal_email || ""}
+                            onChange={(e) => setUser({...user, personal_email: e.target.value})}
+                            placeholder="no email"
+                            disabled={!isEditing}  // Disable input if not editing
+                        />
+                    </div>
+                    <div className="form-group mb-3 d-inline-flex w-50">
+                        <label className={"col-4 fw-bold align-self-center"} htmlFor="phone">Phone Number:</label>
+                        <input
+                            id="phone"
+                            type="phone"
+                            className="form-control ms-1"
+                            value={user.phone_number || ""}
+                            onChange={(e) => setUser({...user, phone_number: e.target.value})}
+                            placeholder="no number"
+                            disabled={!isEditing}  // Disable input if not editing
+                        />
+                    </div>
+                    <div className="form-group mb-3 d-inline-flex w-50">
+                        <label className={"col-4 fw-bold align-self-center"} htmlFor="roleSelect">Role:</label>
                         <select
                             id="roleSelect"
-                            className="form-control ms-1 w-50"
+                            className="form-control ms-1"
                             value={user.permission}
                             onChange={(e) => setUser({...user, permission: e.target.value})}
                             disabled={!isEditing}  // Disable select if not editing
@@ -242,6 +248,38 @@ function UserProfile() {
                 </div>
             </div>
         );
+    }
+
+    function researchAreas() {
+        return (
+            <div>
+                <h1 className={"title text-end"}>
+                    Areas of Interest
+                </h1>
+                <div className={"container"}>
+                    <div className={"d-flex flex-row justify-content-end align-items-center"}>
+                        {areas.map((area, index) => (
+                            <div key={index} className={"badgeArea rounded-pill me-2 d-flex flex-row"}>
+                                {area.type_name}
+                                {isEditing && (
+                                    <button className={"ms-1 square-icon-btn rounded-circle"}
+                                            onClick={() => removeArea(index)}>
+                                        <i className="bi bi-x-lg btn-primary square-icon-btn rounded-circle"></i>
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                        {areas.length < 5 && isEditing &&
+                            <div className={"badgeArea rounded-pill me-2 p-2 d-flex flex-row btn-secondary"}>
+                                <button className={"square-icon-btn"}>
+                                    <i className="bi bi-plus-lg"></i>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     function userProjects() {
@@ -264,10 +302,61 @@ function UserProfile() {
 
     return (
         <div>
-            {profileData()}
+            <div className={"container d-flex flex-row justify-content-between"}>
+                {profileData()}
+                {researchAreas()}
+            </div>
             {userProjects()}
         </div>
     );
 }
 
 export default UserProfile;
+
+
+/*
+        const handleDelete = () => {
+            fetch(`http://localhost:4000/user/${user.id}`, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        navigate("/user-mgmt");
+                    }
+                })
+                .catch(err => console.error("Error deleting user:", err));
+        };
+
+        function deleteModal() {
+            return (
+                <>
+                    <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div className="modal-dialog d-flex align-self-center" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    Are you sure you want to delete this user?
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn-secondary rounded" data-bs-dismiss="modal">Close
+                                    </button>
+                                    <button type="button" className="btn-primary rounded ms-3" data-bs-dismiss="modal"
+                                            onClick={handleDelete}>Delete User
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" className="btn-secondary rounded ms-5" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal">
+                        Delete User
+                    </button>
+                </>
+            )
+        }*/
