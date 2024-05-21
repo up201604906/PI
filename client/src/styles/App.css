@@ -155,3 +155,19 @@ footer *{
     justify-content: center;
     padding: 0;
 }
+
+.dropdown-btn{
+    padding: 0; /* Remove any default padding */
+    width: fit-content; /* Set width to fit the content (the icon) */
+    height: fit-content; /* Set height to fit the content (the icon) */
+}
+
+.dropdown-btn:active{
+    background: transparent;
+    outline: none;
+    font-weight: bold;
+}
+
+.btn.show{
+    border: none;
+}

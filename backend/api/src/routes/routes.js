@@ -9,6 +9,7 @@ const bibtexParse = require('bibtex-parse-js');
 const wishlistController = require("../controllers/wishlist_controller");
 const licensesController = require("../controllers/licenses_controller");
 const pcAllocationController = require("../controllers/pcallocation_controller");
+const areaController = require("../controllers/area_controller");
 
 const router = express.Router();
 
@@ -176,5 +177,7 @@ router.get("/inventory/pcallocation/:id", pcAllocationController.getPCAllocation
 router.delete("/inventory/pcallocation/:id", pcAllocationController.deletePCAllocationById);
 
 router.post("/inventory/createPCAllocation", pcAllocationController.createPCAllocation);
+
+router.get("/areas", areaController.getAreas);
 
 module.exports = router;

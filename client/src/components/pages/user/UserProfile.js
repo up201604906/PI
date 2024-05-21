@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Link, useParams, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import "../../../styles/App.css";
 
 const projectTypes = ["Type 1", "Type 2", "Type 3", "Type 4"];
@@ -92,8 +92,11 @@ function UserProfile() {
         picture: ''
     });
     const [articles, setArticles] = useState([]);
+
     const [allAreas, setAllAreas] = useState([]);
     const [areas, setAreas] = useState([]);
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
     const [isEditing, setIsEditing] = useState(false);
     const {id} = useParams();
     const navigate = useNavigate();
@@ -102,7 +105,7 @@ function UserProfile() {
         if (!isEditing) {
             getUserData(id);
             getUserProjects(id);
-            getUserAreas(id)
+            fetchAndFilterAreas(id).then(r => r);
         }
     }, [id, isEditing]);
 
@@ -120,12 +123,39 @@ function UserProfile() {
             .catch(err => console.error("Error fetching articles:", err));
     }
 
-    function getUserAreas(userId) {
-        fetch(`http://localhost:4000/user-areas/${userId}`)
-            .then(response => response.json())
-            .then(data => setAreas(data))
-            .catch(err => console.error("Error fetching user areas:", err));
-        console.log(areas)
+    async function getUserAreas(userId) {
+        try {
+            const response = await fetch(`http://localhost:4000/user-areas/${userId}`);
+            const userData = await response.json();
+            setAreas(userData);
+            return userData
+        } catch (err) {
+            console.error("Error fetching user areas:", err);
+        }
+    }
+
+    async function getAllAreas() {
+        try {
+            const response = await fetch(`http://localhost:4000/areas`);
+            return await response.json();
+        } catch (err) {
+            console.error("Error fetching all areas:", err);
+            return [];
+        }
+    }
+
+    async function fetchAndFilterAreas(userId) {
+        const userAreas = await getUserAreas(userId);
+        const allAreas = await getAllAreas();
+
+        sortAreas(userAreas);
+        sortAreas(allAreas);
+
+        const userAreaNames = userAreas.map(area => area.type_name);
+
+        const filteredAreas = allAreas.filter(area => !userAreaNames.includes(area.type_name));
+
+        setAllAreas(filteredAreas);
     }
 
     function saveUser() {
@@ -148,8 +178,48 @@ function UserProfile() {
             .catch(err => console.error("Error updating user:", err));
     }
 
-    const removeArea = (index) => {
-        setAreas(areas.filter((_, i) => i !== index));
+    function sortAreas(areas) {
+        areas.sort((a, b) => {
+            const typeA = a.type_name.toUpperCase(); // ignore upper and lowercase
+            const typeB = b.type_name.toUpperCase(); // ignore upper and lowercase
+
+            if (typeA < typeB) {
+                return -1;
+            }
+            if (typeA > typeB) {
+                return 1;
+            }
+            return 0;
+        });
+    }
+
+    const handleSelectChange = (type_name) => {
+        console.log(type_name)
+
+        if (type_name) {
+            setAreas((prevAreas) => {
+                const newAreas = [...prevAreas, {type_name: type_name}];
+
+                sortAreas(newAreas);
+
+                setAllAreas(prevAllAreas => prevAllAreas.filter(area => area.type_name !== type_name));
+
+                return newAreas;
+            });
+        }
+    };
+
+    const removeArea = (areaName) => {
+        setAreas((prevAreas) => {
+            return prevAreas.filter((area) => area.type_name !== areaName);
+        });
+
+        setAllAreas((prevAllAreas) => {
+            const newAllAreas = [...prevAllAreas, {type_name: areaName}];
+            console.log("Updated All Areas:", newAllAreas); // Debugging: Log the updated all areas
+            return newAllAreas;
+        });
+        sortAreas(allAreas);
     };
 
     function profileData() {
@@ -253,33 +323,46 @@ function UserProfile() {
     function researchAreas() {
         return (
             <div>
-                <h1 className={"title text-end"}>
+                <h1 className="title text-end">
                     Areas of Interest
                 </h1>
-                <div className={"container"}>
-                    <div className={"d-flex flex-row justify-content-end align-items-center"}>
+                <div className="container">
+                    <div className="d-flex flex-row flex-wrap justify-content-end align-items-center">
+                        {areas.length < 6 && isEditing && (
+                            <div className={"area-dropdown"}>
+                                <button type={"button"} className={"btn dropdown-btn m-0 mb-2"} data-bs-toggle={"dropdown"}
+                                        aria-expanded={"false"}>
+                                    <i className="bi bi-plus-lg btn-secondary mx-auto py-3 px-3 rounded-circle square-icon-btn"></i>
+                                </button>
+                                <ul className={"dropdown-menu"}>
+                                    {allAreas.map((area, index) => (
+                                        <li key={index}>
+                                            <button onClick={() => handleSelectChange(area.type_name)}
+                                                    className={"dropdown-item"}>
+                                                {area.type_name}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                         {areas.map((area, index) => (
-                            <div key={index} className={"badgeArea rounded-pill me-2 d-flex flex-row"}>
+                            <div key={index} className="badgeArea rounded-pill me-2 mb-2 d-flex flex-row">
                                 {area.type_name}
                                 {isEditing && (
-                                    <button className={"ms-1 square-icon-btn rounded-circle"}
-                                            onClick={() => removeArea(index)}>
-                                        <i className="bi bi-x-lg btn-primary square-icon-btn rounded-circle"></i>
+                                    <button
+                                        className="ms-1 square-icon-btn rounded-circle"
+                                        onClick={() => removeArea(area.type_name)}
+                                    >
+                                        <i className="bi bi-x-lg p-0 btn-primary square-icon-btn rounded-circle"></i>
                                     </button>
                                 )}
                             </div>
                         ))}
-                        {areas.length < 5 && isEditing &&
-                            <div className={"badgeArea rounded-pill me-2 p-2 d-flex flex-row btn-secondary"}>
-                                <button className={"square-icon-btn"}>
-                                    <i className="bi bi-plus-lg"></i>
-                                </button>
-                            </div>
-                        }
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 
     function userProjects() {
@@ -292,7 +375,7 @@ function UserProfile() {
                     </div>
 
                     <div className="projects">
-                        <Filters/>
+                    <Filters/>
                         <Table/>
                     </div>
                 </div>
