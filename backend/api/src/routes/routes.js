@@ -10,6 +10,7 @@ const wishlistController = require("../controllers/wishlist_controller");
 const licensesController = require("../controllers/licenses_controller");
 const pcAllocationController = require("../controllers/pcallocation_controller");
 const areaController = require("../controllers/area_controller");
+const thesesController = require("../controllers/theses_controller");
 
 const router = express.Router();
 
@@ -157,6 +158,7 @@ router.get('/articles/:id/export', async (req, res) => {
 router.get("/inventory/wishlist", wishlistController.getWishlist);
 router.delete("/inventory/wishlist/:user_name/:resource_name/:potential_resource_name", wishlistController.deleteResourceFromWishlist);
 router.put("/inventory/wishlist/:user_name/:resource_name/:potential_resource_name", wishlistController.updateResourceInWishlist);
+router.post("/inventory/wishlist/moveToResources", wishlistController.moveToResources);
 
 router.post("/inventory/addToWishlist", wishlistController.addResourceToWishlist);
 
@@ -179,5 +181,14 @@ router.delete("/inventory/pcallocation/:id", pcAllocationController.deletePCAllo
 router.post("/inventory/createPCAllocation", pcAllocationController.createPCAllocation);
 
 router.get("/areas", areaController.getAreas);
+
+// theses routes
+router.get("/theses", thesesController.getTheses);
+
+router.get("/thesis/:id", thesesController.getThesisById);
+router.put("/thesis/:id", thesesController.updateThesis);
+router.delete("/thesis/:id", thesesController.deleteThesisById);
+
+router.post("/createThesis", thesesController.createThesis);
 
 module.exports = router;

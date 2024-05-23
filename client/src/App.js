@@ -30,6 +30,9 @@ import MyProjects from "./components/pages/projects/MyProjects";
 import Project from "./components/pages/projects/Project";
 import CreateProject from "./components/pages/projects/CreateProject";
 import Projects from "./components/pages/projects/Projects";
+import Theses from "./components/pages/Theses";
+import Thesis from "./components/pages/Thesis";
+import CreateThesis from "./components/pages/CreateThesis";
 
 
 function App() {
@@ -65,12 +68,16 @@ function App() {
                     <Route path="/inventory/createLicense" element={<ProtectedRoute><CreateLicense /></ProtectedRoute>}/>
                     <Route path="/inventory/pcallocation" element={<ProtectedRoute><PCAllocation /></ProtectedRoute>}/>
                     <Route path="/inventory/createPCAllocation" element={<ProtectedRoute><CreatePCAllocation /></ProtectedRoute>}/>
+                    <Route path="/theses" element={<ProtectedRoute><Theses /></ProtectedRoute>}/>
+                    <Route path="/thesis/:id" element={<ProtectedRoute><Thesis /></ProtectedRoute>}/>
+                    <Route path="/createThesis" element={<ProtectedRoute><CreateThesis /></ProtectedRoute>}/>
                     <Route path="*" element={<Navigate to={currentUser ? "/home" : "/"}/>}/> {/* catch-all route*/}
                 </Routes>
             </div>
             <Footer/>
         </Router>
     );
+    
 }
 
 export default App;
