@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import "../../../styles/App.css";
 
-function Table(projects, projectTypes) {
-
+function Table({projects, projectTypes}) {
     return (
         <table>
             <thead>
@@ -16,41 +15,31 @@ function Table(projects, projectTypes) {
             <tbody>
             {projects.map((project, index) => (
                 <tr key={index}>
-                    <td><Link to={"http://localhost:3000/project/" + project.id}>{project.acronym}</Link></td>
+                    <td><Link to={`/project/${project.id}`}>{project.acronym}</Link></td>
                     <td>
-                        {projectTypes.find(area => area.id === project.project_type_id).type_name}
+                        {projectTypes.find(area => area.id === project.project_type_id)?.type_name}
                     </td>
-                    <td>
-                        {project.state}
-                    </td>
+                    <td>{project.state}</td>
                 </tr>
             ))}
             </tbody>
         </table>
     );
-
 }
 
-function Filters(projectTypes, projectStatus) {
+function Filters({projectTypes, selectedType, onTypeChange}) {
     return (
-        <div id={"search_filters"}>
+        <div id="search_filters">
             <input type="text" placeholder={'\uD83D\uDD0E\uFE0E Search...'}/>
             <label>Filters:</label>
-            <select>
+            <select value={selectedType} onChange={onTypeChange}>
                 <option value="">All Types</option>
                 {projectTypes.map((type, index) => (
                     <option key={index} value={type.id}>{type.type_name}</option>
                 ))}
             </select>
-            <select>
-                <option value="">All Status</option>
-                {projectStatus.map((status, index) => (
-                    <option key={index} value={status.id}>{status.status_name}</option>
-                ))}
-            </select>
         </div>
-    )
-
+    );
 }
 
 function UserProfile() {
@@ -68,19 +57,11 @@ function UserProfile() {
 
     const [projects, setProjects] = useState([]);
     const [projectTypes, setProjectTypes] = useState([]);
-    const [projectStatus, setProjectStatuses] = useState([]);
-    // const filteredProjects = projects.filter(
-    //     project => (project[0] ? project[0].toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false) ||
-    //         (project[1] ? project[1].toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false)
-    // ).filter(
-    //     resource => this.state.roomFilter === '' || resource[6] === this.state.roomFilter
-    // ).filter(
-    //     resource => this.state.categoryFilter === '' || resource[2] === this.state.categoryFilter
-    // );
+
+    const [selectedType, setSelectedType] = useState('');
 
     const [isEditing, setIsEditing] = useState(false);
     const {id} = useParams();
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (!isEditing) {
@@ -89,7 +70,6 @@ function UserProfile() {
 
             fetchUserProjects(id);
             fetchProjectTypes();
-            fetchProjectStatuses();
         }
     }, [id, isEditing]);
 
@@ -105,7 +85,7 @@ function UserProfile() {
             const response = await fetch(`http://localhost:4000/user-areas/${userId}`);
             const userData = await response.json();
             setAreas(userData);
-            return userData
+            return userData;
         } catch (err) {
             console.error("Error fetching user areas:", err);
         }
@@ -154,13 +134,6 @@ function UserProfile() {
             .then(data => setProjectTypes(data));
     }
 
-    function fetchProjectStatuses() {
-        fetch('http://localhost:4000/projects/statuses')
-            .then(response => response.json())
-            .then(data => setProjectStatuses(data));
-    }
-
-
     function saveUser() {
         const combinedData = {
             ...user,
@@ -197,8 +170,6 @@ function UserProfile() {
     }
 
     const handleSelectChange = (type_name) => {
-        console.log(type_name)
-
         if (type_name) {
             setAreas((prevAreas) => {
                 const newAreas = [...prevAreas, {type_name: type_name}];
@@ -218,12 +189,22 @@ function UserProfile() {
         });
 
         setAllAreas((prevAllAreas) => {
-            const newAllAreas = [...prevAllAreas, {type_name: areaName}];
-            console.log("Updated All Areas:", newAllAreas); // Debugging: Log the updated all areas
-            return newAllAreas;
+            return [...prevAllAreas, {type_name: areaName}];
         });
         sortAreas(allAreas);
     };
+
+    const handleTypeChange = (event) => {
+        setSelectedType(event.target.value);
+    };
+
+    const filteredProjects = projects.filter(project => {
+        return selectedType === '' || project.project_type_id.toString() === selectedType.toString();
+    });
+
+    const filteredProjectTypes = projectTypes.filter(type =>
+        projects.some(project => project.project_type_id === type.id)
+    );
 
     function profileData() {
         return (
@@ -379,8 +360,12 @@ function UserProfile() {
                     </div>
 
                     <div className="projects">
-                        {Filters(projectTypes, projectStatus)}
-                        {Table(projects, projectTypes)}
+                        <Filters
+                            projectTypes={filteredProjectTypes}
+                            selectedType={selectedType}
+                            onTypeChange={handleTypeChange}
+                        />
+                        <Table projects={filteredProjects} projectTypes={filteredProjectTypes}/>
                     </div>
                 </div>
             </div>
