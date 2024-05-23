@@ -7,9 +7,19 @@ class Table extends React.Component {
     state = {
         editingRow: null,
         editedData: null,
+        users: [],
     };
 
     handleEdit = (index, row) => {
+        // Fetch users
+        fetch('http://localhost:4000/user-mgmt')
+            .then(res => res.json())
+            .then(users => {
+                this.setState({ users });
+            })
+            .catch(err => console.error(err));
+
+        // Fetch PC allocation
         fetch(`http://localhost:4000/inventory/pcallocation/${row[0]}`)
             .then(res => res.json())
             .then(pcallocation => {
@@ -71,10 +81,24 @@ class Table extends React.Component {
                 <tbody>
                     {data.map((row, index) => (
                         <tr key={index}>
-                            {row.slice(1).map((cell, i) => this.state.editingRow === index ? (
-                                <td key={i}><input value={this.state.editedData[i+1] || ''} onChange={(event) => this.handleChange(event, i+1)} /></td>
+                            {row.slice(1, -1).map((cell, i) => this.state.editingRow === index ? (
+                                i === 0 ? (
+                                    <td key={i}>
+                                        <select class="priority-edit-select" name="user_name" value={this.state.editedData[i+1] || ''} onChange={(event) => this.handleChange(event, i+1)} required>
+                                            {this.state.users.map((user, userIndex) => (
+                                                <option key={userIndex} value={user.name}>{user.name}</option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                ) : (
+                                    <td key={i}><input value={this.state.editedData[i+1] || ''} onChange={(event) => this.handleChange(event, i+1)} /></td>
+                                )
                             ) : (
-                                <td key={i}>{cell}</td>
+                                i === 0 ? (
+                                    <td key={i}><Link to={`/user/${row[6]}`} style={{ color: 'black' }}>{cell}</Link></td>
+                                ) : (
+                                    <td key={i}>{cell}</td>
+                                )
                             ))}
                             <td className="actions">
                                 {this.state.editingRow === index ? (
@@ -108,10 +132,23 @@ class PCAllocation extends React.Component {
     callAPI() {
         fetch("http://localhost:4000/inventory/pcallocation")
             .then((res) => res.json())
-            .then((res) => {
-                const pcAllocations = res.map((pcAllocation) => pcAllocation);
+            .then((pcAllocations) => {
                 pcAllocations.sort((a, b) => a.name.localeCompare(b.name)); // Sort pcAllocations by name
-                this.setState({ pcAllocations });
+
+                // Fetch users
+                fetch('http://localhost:4000/user-mgmt')
+                    .then(res => res.json())
+                    .then(users => {
+                        // Add user id to pcAllocations
+                        const pcAllocationsWithUserId = pcAllocations.map(pcAllocation => {
+                            const user = users.find(user => user.name === pcAllocation.user_name);
+                            const userId = user ? user.id : null;
+                            return { ...pcAllocation, userId };
+                        });
+
+                        this.setState({ pcAllocations: pcAllocationsWithUserId });
+                    })
+                    .catch(err => console.error(err));
             })
             .catch((err) => console.error(err));
     }
@@ -142,7 +179,7 @@ class PCAllocation extends React.Component {
             pcAllocation => this.state.roomFilter === '' || pcAllocation.room === this.state.roomFilter
         );
 
-        const tableData = filteredPCAllocations.map(pcAllocation => [pcAllocation.id, pcAllocation.user_name, pcAllocation.name, pcAllocation.serial_number, pcAllocation.room]);
+        const tableData = filteredPCAllocations.map(pcAllocation => [pcAllocation.id, pcAllocation.user_name, pcAllocation.name, pcAllocation.serial_number, pcAllocation.room, pcAllocation.userId]);
 
         return (
             <div className={"d-flex flex-column"}>

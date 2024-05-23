@@ -79,7 +79,6 @@ async function update_item_in_wishlist(user_name, resource_name, potential_resou
 async function delete_item_from_wishlist(user_name, resource_name, potential_resource_name) {
     try {
         if (resource_name !== "null") {
-            console.log('RESOURCE NAME:', resource_name);
             await pool.query(
                 `DELETE FROM wishlist 
                  WHERE user_id = (SELECT id FROM users WHERE name = $1) 

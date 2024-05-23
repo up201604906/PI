@@ -46,8 +46,7 @@ function App() {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
                     <Route path="/inventory/resources" element={<ProtectedRoute><Resources/></ProtectedRoute>}/>
-                    <Route path="/inventory/createResource"
-                           element={<ProtectedRoute><CreateResource/></ProtectedRoute>}/>
+                    <Route path="/inventory/createResource" element={<ProtectedRoute><CreateResource/></ProtectedRoute>}/>
                     <Route path="/user-mgmt" element={<ProtectedRoute><UserManagement/></ProtectedRoute>}/>
                     <Route path="/add-user" element={<ProtectedRoute><AddUser/></ProtectedRoute>}/>
                     <Route path="/myArticles/:id" element={<ProtectedRoute><MyArticles/></ProtectedRoute>} />

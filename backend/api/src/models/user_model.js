@@ -56,8 +56,8 @@ const get_user_by_email = async (email) => {
 
 const get_all_users = async () => {
     try {
-        const result = await pool.query(`SELECT id, name, contact_email, personal_email, permission, picture
-                                         FROM users`);
+        const result = await pool.query(`SELECT id, name, contact_email, personal_email, permission, picture FROM users`);
+
         return result.rows;
     } catch (error) {
         console.error("Error fetching user by name or email:", error);

@@ -5,6 +5,7 @@ import "../../styles/Create.css";
 
 class CreatePCAllocation extends React.Component {
     state = {
+        users: [],
         user_name: '',
         name: '',
         serial_number: '',
@@ -36,6 +37,15 @@ class CreatePCAllocation extends React.Component {
             .catch((err) => console.error(err));
     }
 
+    componentDidMount() {
+        fetch('http://localhost:4000/user-mgmt')
+            .then(res => res.json())
+            .then((data) => {
+                this.setState({ users: data });
+            })
+            .catch((err) => console.error(err));
+    }
+
     render() {
         return (
             <div>
@@ -46,7 +56,12 @@ class CreatePCAllocation extends React.Component {
                         <div className={"subtitle"}>New PC Allocation</div>
                         <label>
                             User Name:
-                            <input type="text" name="user_name" value={this.state.user_name} onChange={this.handleChange} required />
+                            <select name="user_name" value={this.state.user_name} onChange={this.handleChange} required>
+                                <option value="" disabled selected>Select a user</option>
+                                {this.state.users.map((user, index) => (
+                                    <option key={index} value={user.name}>{user.name}</option>
+                                ))}
+                            </select>
                         </label>
                         <label>
                             Name:
