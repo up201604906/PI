@@ -12,7 +12,7 @@ class AddToWishlist extends React.Component {
         name: '',
         description: '',
         category: '',
-        quantity: 0,
+        quantity: 1,
         supplier: '',
         price: 0,
         priority: 'low',
@@ -129,7 +129,7 @@ class AddToWishlist extends React.Component {
             name: '',
             description: '',
             category: '',
-            quantity: 0,
+            quantity: 1,
             supplier: '',
             price: 0,
             priority: 'low',
@@ -212,15 +212,15 @@ class AddToWishlist extends React.Component {
                                 </label>
                                 <label>
                                     Price:
-                                    <input type="number" name="price" value={this.state.price} onChange={this.handleChange} required />
+                                    <input type="number" name="price" value={this.state.price} onChange={this.handleChange} min="0" required />
                                 </label>
                                 <label>
                                     Supplier:
-                                    <input type="text" name="supplier" value={this.state.supplier} onChange={this.handleChange} />
+                                    <input type="text" name="supplier" value={this.state.supplier} onChange={this.handleChange} required />
                                 </label>
                                 <label>
                                     Quantity:
-                                    <input type="number" name="quantity" value={this.state.quantity} onChange={this.handleChange} required />
+                                    <input type="number" name="quantity" value={this.state.quantity} onChange={this.handleChange} min="1" required />
                                 </label>
                                 <label>
                                     Priority:

@@ -1,0 +1,253 @@
+.thesis {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+}
+
+.thesis .line {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.thesis .line .title {
+    font-size: 1.6em;
+}
+
+div#state {
+    text-align: end;
+}
+
+.thesis .line > div {
+    flex: 1;
+}
+
+.thesis .line#line2 .item, .thesis .item {
+    font-size: 0.9em;
+}
+
+.thesis .line#line2 {
+    margin-bottom: -2px;
+}
+
+.thesis .description {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.thesis-link, .thesis-link:visited {
+    text-decoration: none;
+    color: black;
+    min-width: -webkit-fill-available;
+}
+
+.thesis-link:hover, .thesis-link:active {
+    text-decoration: none;
+    color: black; 
+}
+
+#search_filters .create-thesis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    background-color: hsl(0, 0%, 75%);
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition-duration: 0.2s;
+    border-radius: 5px;
+    border: none;
+    margin-left: auto;
+}
+
+#search_filters .create-thesis:hover {
+    background-color: white;
+    border: 1px solid hsl(0, 0%, 75%);
+}
+
+
+
+.single-thesis {
+    width: 90%;
+    margin: 30px auto;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.single-thesis .thesis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.single-thesis .thesis-title {
+    font-size: 2.3em;
+    color: #333;
+}
+
+.single-thesis .thesis-header-right {
+    text-align: end;
+    color: #5b5a5a;
+}
+
+.single-thesis .thesis-body {
+    margin-top: 20px;
+}
+
+.single-thesis .thesis-body div {
+    margin-bottom: 5px;
+}
+
+.single-thesis .thesis-subtitle {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.single-thesis .thesis-body div div {
+    color: #5b5a5a;
+    line-height: 1.6;
+}
+
+.single-thesis .thesis-host-institution,
+.single-thesis .thesis-mentors,
+.single-thesis .thesis-proposer,
+.single-thesis .thesis-details,
+.single-thesis .thesis-references,
+.single-thesis .thesis-additional {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px !important;
+}
+
+.thesis-host-institution div:first-of-type,
+.thesis-mentors div:first-of-type,
+.thesis-proposer div:first-of-type,
+.thesis-details div:first-of-type,
+.thesis-references div:first-of-type,
+.thesis-additional div:first-of-type {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.single-thesis .thesis-observations {
+    margin-left: 12px;
+}
+
+.single-thesis .thesis-observations label {
+    margin-top: 30px;
+    margin-bottom: 5px !important;
+}
+
+.single-thesis .thesis-header input {
+    max-width: fit-content;
+}
+
+.single-thesis textarea {
+    width: 100%;
+}
+
+.single-thesis input,
+.single-thesis textarea {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 10px;
+    resize: vertical; /* allows the user to resize the textarea vertically */
+}
+
+.single-thesis input:focus,
+.single-thesis textarea:focus {
+    border-color: var(--primary-color); /* changes the border color when the input or textarea is focused */
+    outline: none;
+}
+
+#buttons2 {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#editButton, #deleteButton {
+    padding: 5px 10px;
+    background-color: #FFE3D7;
+    border: 1px solid lightgray;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+#editButton:hover, #deleteButton:hover {
+    background-color:hsl(0, 0%, 85%);
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#buttons button {
+    padding: 5px 10px;
+    background-color: #FFE3D7;
+    border: 1px solid lightgray;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+#buttons button:hover {
+    background-color: hsl(0, 0%, 85%);
+}
+
+.single-thesis select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    margin-left: 3px;
+    background-color: #fff;
+}
+
+.single-thesis select:focus {
+    border-color: var(--primary-color); /* changes the border color when the select is focused */
+    outline: none;
+}
+
+.single-thesis input[type="checkbox"] {
+    width: auto; /* overrides the 100% width set for inputs */
+    margin: 0 10px 0 0; /* adds some margin to the right of the checkbox */
+}
+
+.single-thesis input[type="checkbox"]:focus {
+    border-color: var(--primary-color); /* changes the border color when the checkbox is focused */
+    outline: none;
+}

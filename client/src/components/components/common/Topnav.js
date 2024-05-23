@@ -16,6 +16,7 @@ function Topnav() {
     }, [currentUser]);
 
     const linksData = [
+        {text: "Theses", href: "/theses"},
         {text: "My Projects", href: "/my-projects/" + user.id},  //from this page, you should be able to see your team + all projects
         {text: "My Articles", href: "/myArticles/" + user.id},  //this page should have an option to see all articles
         {text: "Events", href: "/events"},

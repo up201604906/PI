@@ -15,6 +15,9 @@ import CreateLicense from "./components/pages/CreateLicense";
 import PCAllocation from "./components/pages/PCAllocation";
 import CreatePCAllocation from "./components/pages/CreatePCAllocation";
 import Login from "./components/components/auth/Login";
+import Theses from "./components/pages/Theses";
+import Thesis from "./components/pages/Thesis";
+import CreateThesis from "./components/pages/CreateThesis";
 import UserManagement from "./components/pages/user/UserManagement";
 import AddUser from "./components/pages/user/AddUser";
 import EventManagement from "./components/pages/events/EventManagement";
@@ -65,6 +68,9 @@ function App() {
                     <Route path="/inventory/createLicense" element={<ProtectedRoute><CreateLicense /></ProtectedRoute>}/>
                     <Route path="/inventory/pcallocation" element={<ProtectedRoute><PCAllocation /></ProtectedRoute>}/>
                     <Route path="/inventory/createPCAllocation" element={<ProtectedRoute><CreatePCAllocation /></ProtectedRoute>}/>
+                    <Route path="/theses" element={<ProtectedRoute><Theses /></ProtectedRoute>}/>
+                    <Route path="/thesis/:id" element={<ProtectedRoute><Thesis /></ProtectedRoute>}/>
+                    <Route path="/createThesis" element={<ProtectedRoute><CreateThesis /></ProtectedRoute>}/>
                     <Route path="*" element={<Navigate to={currentUser ? "/home" : "/"}/>}/> {/* catch-all route*/}
                 </Routes>
             </div>
