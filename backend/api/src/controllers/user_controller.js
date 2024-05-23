@@ -41,7 +41,7 @@ const login = async (req, res) => {
         else{
             const token = jwt.sign(
                 { userId: user.id, name: user.name },
-                process.env.JWT_SECRET,  // TODO: replace with process.env.JWT_SECRET
+                process.env.JWT_SECRET,
                 { expiresIn: '1h' }
             );
             return res.json({ success: true, token: token, user: user.id, permission: user.permission });

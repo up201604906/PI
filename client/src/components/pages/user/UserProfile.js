@@ -2,84 +2,55 @@ import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import "../../../styles/App.css";
 
-const projectTypes = ["Type 1", "Type 2", "Type 3", "Type 4"];
-const projectStatus = ["Ongoing", "Finished"];
+function Table(projects, projectTypes) {
 
-class Table extends React.Component {
-
-    render() {
-        const projects = [
-            {
-                id: 1,
-                title: "Project 1",
-                type: "Type 1",
-                status: "Ongoing",
-            },
-            {
-                id: 2,
-                title: "Project 2",
-                type: "Type 2",
-                status: "Finished"
-            }
-        ]
-
-        return (
-            <table>
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Status</th>
+    return (
+        <table>
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {projects.map((project, index) => (
+                <tr key={index}>
+                    <td><Link to={"http://localhost:3000/project/" + project.id}>{project.acronym}</Link></td>
+                    <td>
+                        {projectTypes.find(area => area.id === project.project_type_id).type_name}
+                    </td>
+                    <td>
+                        {project.state}
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                {projects.map((project, index) => (
-                    <tr key={index}>
-                        <td><Link to={"http://localhost:3000/project/" + project.id}>{project.title}</Link></td>
-                        <td>
-                            <select defaultValue={project.type}>
-                                {projectTypes.map((role, index) => (
-                                    <option key={index} value={role}>{role}</option>
-                                ))}
-                            </select>
-                        </td>
-                        <td>
-                            <select defaultValue={project.status}>
-                                {projectStatus.map((status, index) => (
-                                    <option key={index} value={status}>{status}</option>
-                                ))}
-                            </select>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        );
-    }
+            ))}
+            </tbody>
+        </table>
+    );
+
 }
 
-class Filters extends React.Component {
-    render() {
+function Filters(projectTypes, projectStatus) {
+    return (
+        <div id={"search_filters"}>
+            <input type="text" placeholder={'\uD83D\uDD0E\uFE0E Search...'}/>
+            <label>Filters:</label>
+            <select>
+                <option value="">All Types</option>
+                {projectTypes.map((type, index) => (
+                    <option key={index} value={type.id}>{type.type_name}</option>
+                ))}
+            </select>
+            <select>
+                <option value="">All Status</option>
+                {projectStatus.map((status, index) => (
+                    <option key={index} value={status.id}>{status.status_name}</option>
+                ))}
+            </select>
+        </div>
+    )
 
-        return (
-            <div id={"search_filters"}>
-                <input type="text" placeholder={'\uD83D\uDD0E\uFE0E Search...'}/>
-                <label>Filters:</label>
-                <select>
-                    <option value="">All Types</option>
-                    {projectTypes.map((type, index) => (
-                        <option key={index} value={type}>{type}</option>
-                    ))}
-                </select>
-                <select>
-                    <option value="">All Status</option>
-                    {projectStatus.map((status, index) => (
-                        <option key={index} value={status}>{status}</option>
-                    ))}
-                </select>
-            </div>
-        )
-    }
 }
 
 function UserProfile() {
@@ -91,11 +62,21 @@ function UserProfile() {
         permission: '',
         picture: ''
     });
-    const [articles, setArticles] = useState([]);
 
     const [allAreas, setAllAreas] = useState([]);
     const [areas, setAreas] = useState([]);
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+    const [projects, setProjects] = useState([]);
+    const [projectTypes, setProjectTypes] = useState([]);
+    const [projectStatus, setProjectStatuses] = useState([]);
+    // const filteredProjects = projects.filter(
+    //     project => (project[0] ? project[0].toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false) ||
+    //         (project[1] ? project[1].toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false)
+    // ).filter(
+    //     resource => this.state.roomFilter === '' || resource[6] === this.state.roomFilter
+    // ).filter(
+    //     resource => this.state.categoryFilter === '' || resource[2] === this.state.categoryFilter
+    // );
 
     const [isEditing, setIsEditing] = useState(false);
     const {id} = useParams();
@@ -104,8 +85,11 @@ function UserProfile() {
     useEffect(() => {
         if (!isEditing) {
             getUserData(id);
-            getUserProjects(id);
             fetchAndFilterAreas(id).then(r => r);
+
+            fetchUserProjects(id);
+            fetchProjectTypes();
+            fetchProjectStatuses();
         }
     }, [id, isEditing]);
 
@@ -114,13 +98,6 @@ function UserProfile() {
             .then(response => response.json())
             .then(data => setUser(data))
             .catch(err => console.error("Error fetching user:", err));
-    }
-
-    function getUserProjects(userId) {
-        fetch(`http://localhost:4000/articles?userId=${encodeURIComponent(userId)}`)
-            .then(response => response.json())
-            .then(data => setArticles(data))
-            .catch(err => console.error("Error fetching articles:", err));
     }
 
     async function getUserAreas(userId) {
@@ -157,6 +134,32 @@ function UserProfile() {
 
         setAllAreas(filteredAreas);
     }
+
+    function fetchUserProjects(userId) {
+        fetch(`http://localhost:4000/projects/assigned/${userId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch projects');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setProjects(data);
+            });
+    }
+
+    function fetchProjectTypes() {
+        fetch('http://localhost:4000/projects/types')
+            .then(response => response.json())
+            .then(data => setProjectTypes(data));
+    }
+
+    function fetchProjectStatuses() {
+        fetch('http://localhost:4000/projects/statuses')
+            .then(response => response.json())
+            .then(data => setProjectStatuses(data));
+    }
+
 
     function saveUser() {
         const combinedData = {
@@ -330,7 +333,8 @@ function UserProfile() {
                     <div className="d-flex flex-row flex-wrap justify-content-end align-items-center">
                         {areas.length < 6 && isEditing && (
                             <div className={"area-dropdown"}>
-                                <button type={"button"} className={"btn dropdown-btn m-0 mb-2"} data-bs-toggle={"dropdown"}
+                                <button type={"button"} className={"btn dropdown-btn m-0 mb-2"}
+                                        data-bs-toggle={"dropdown"}
                                         aria-expanded={"false"}>
                                     <i className="bi bi-plus-lg btn-secondary mx-auto py-3 px-3 rounded-circle square-icon-btn"></i>
                                 </button>
@@ -375,8 +379,8 @@ function UserProfile() {
                     </div>
 
                     <div className="projects">
-                    <Filters/>
-                        <Table/>
+                        {Filters(projectTypes, projectStatus)}
+                        {Table(projects, projectTypes)}
                     </div>
                 </div>
             </div>

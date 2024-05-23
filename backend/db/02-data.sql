@@ -1,5 +1,5 @@
 INSERT INTO users (name, contact_email, password, permission, picture) VALUES
-('sampleName', 'sampleEmail@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL), -- password é samplePassword
+('sampleName', 'sampleEmail@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$FPoBgqNyM8n18tjtfm5GTA$gQXD4PNWXyysxiShzcOPBuzoQLUZ+pkVn3867zOHkPE', 'admin', NULL), -- password é samplePassword
 ('ntsay', 'ntsay@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL);
 
 INSERT INTO resources (name, description, category, quantity, available, supplier, room, cabinet, shelf, box, priority) VALUES
