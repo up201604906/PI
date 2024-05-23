@@ -43,7 +43,7 @@ button {
     min-height: 100vh;
 }
 
-.title, .sub-title{
+.title, .sub-title {
     color: var(--tertiary-color);
     font-weight: bold;
 }
@@ -56,7 +56,7 @@ button {
     color: var(--primary-color);
 }
 
-.sub-title{
+.sub-title {
     font-size: var(--font-size-xm);
 }
 
@@ -65,38 +65,109 @@ button {
     border-radius: 0.5rem;
 }
 
-#table-head *, #table-body *{
-    padding:0.25rem;
+#table-head *, #table-body * {
+    padding: 0.25rem;
 }
 
-#table-head{
+#table-head {
     border-bottom: 1px solid var(--detail-color);
     background: var(--secondary-color);
     border-radius: 0.5rem 0.5rem 0 0;
 }
 
-#table-body{
+#table-body {
     padding: 0 0.5rem;
 }
 
-#table-body > * > *{
+#table-body > * > * {
     width: 33.33%;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-#table-body > * > *:nth-child(2){
+#table-body > * > *:nth-child(2) {
     width: fit-content;
     background: lightgrey;
     border-radius: 0.5rem;
     padding: 0.2rem 0.4rem;
 }
 
-#table-body a{
+#table-body a {
     text-decoration: none;
     color: black;
 }
 
-.table-title a{
+.table-title a {
     color: var(--detail-color)
+}
+
+.btn-primary {
+    background: var(--primary-color) !important;
+    border: 2px solid var(--primary-color) !important;
+    font-weight: bold;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--detail-color) !important;
+    border: 2px solid var(--detail-color) !important;
+    color: white !important;
+}
+
+.btn-secondary {
+    background: white !important;
+    border: 2px solid var(--primary-color) !important;
+    color: var(--detail-color) !important;
+    font-weight: bold;
+}
+
+.btn-secondary:hover {
+    background: var(--secondary-color) !important;
+    border: 2px solid var(--primary-color) !important;
+}
+
+footer img {
+    height: 3rem;
+}
+
+footer *{
+    margin-bottom: 0 !important;
+    padding: 0;
+}
+
+#footer-logo {
+    color: var(--secondary-color);
+}
+
+
+.badgeArea {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    font-weight: bold;
+}
+
+.square-icon-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.dropdown-btn{
+    padding: 0; /* Remove any default padding */
+    width: fit-content; /* Set width to fit the content (the icon) */
+    height: fit-content; /* Set height to fit the content (the icon) */
+}
+
+.dropdown-btn:active{
+    background: transparent;
+    outline: none;
+    font-weight: bold;
+}
+
+.btn.show{
+    border: none;
 }

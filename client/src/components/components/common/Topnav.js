@@ -1,17 +1,24 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import '../../../styles/Topnav.css'
-
+import {AuthContext, useAuth} from '../../../contexts/AuthContext';
 import gatito from '../../../images/default.png'
 import logo from '../../../images/digi2_orange.svg'
 
 
-class Topnav extends React.Component {
+function Topnav() {
+    const { logout } = useContext(AuthContext);
+    const [user, setUser] = useState({name: '', email: '', permission: '', picture: ''});
+    const {currentUser} = useAuth();
 
-    linksData = [
+    useEffect(() => {
+        getUserData(currentUser);
+    }, [currentUser]);
+
+    const linksData = [
         {text: "Theses", href: "/theses"},
-        {text: "My Projects", href: "/myProjects"},  //from this page, you should be able to see your team + all projects
-        {text: "My Articles", href: "/myArticles"},  //this page should have an option to see all articles
+        {text: "My Projects", href: "/my-projects/" + user.id},  //from this page, you should be able to see your team + all projects
+        {text: "My Articles", href: "/myArticles/" + user.id},  //this page should have an option to see all articles
         {text: "Events", href: "/events"},
 
         // Make these into a bottom bar or remove them and keep it only on the base website
@@ -19,21 +26,28 @@ class Topnav extends React.Component {
         // {text: "Communication", href: "/Communication"},
     ]
 
-    inventoryDropdownData = [
+    const inventoryDropdownData = [
         {text: "Resources", href: "/inventory/resources"},
         {text: "PC Allocation", href: "/inventory/pcallocation"},
         {text: "Licenses", href: "/inventory/licenses"},
         {text: "Wishlist", href: "/inventory/wishlist"},
     ]
 
-    userDropdownData = [
-        {text: "My Profile", href: "/user/1"},
-        {text: "Notifications", href: "/notifications"},
-        {text: "Logout", href: "/logout"},
-    ]
+    const userDropdownData = [
+        { text: "My Profile", href: "/user/" + user.id },
+        { text: "Notifications", href: "/notifications" },
+        { text: "Logout", onClick: () => logout() },
+    ];
 
+    function getUserData(userId) {
+        console.log(userId);
+        fetch(`http://localhost:4000/user/${userId}`)
+            .then(response => response.json())
+            .then(data => setUser(data))
+            .catch(err => console.error("Error fetching user:", err));
+    }
 
-    get_logo() {
+    function get_logo() {
         return (
             <Link to="/" className={"navbar-brand"}>
                 <button className={"d-flex flex-row"}>
@@ -44,10 +58,10 @@ class Topnav extends React.Component {
         )
     }
 
-    get_links() {
+    function get_links() {
         return (
             <>
-                {this.linksData.map((item, index) => (
+                {linksData.map((item, index) => (
                     <li key={index} className={"nav-item fw-bold"}>
                         <Link to={item.href} className={"text-decoration-none fw-bold me-3"}>
                             {item.text}
@@ -59,7 +73,8 @@ class Topnav extends React.Component {
         );
     }
 
-    get_inventory() {
+    function get_inventory() {
+
         return (
             <li className={"nav-item"}>
                 <div className="dropdown">
@@ -67,7 +82,7 @@ class Topnav extends React.Component {
                         Inventory
                     </button>
                     <ul className="dropdown-menu">
-                        {this.inventoryDropdownData.map((item, index) => (
+                        {inventoryDropdownData.map((item, index) => (
                             <li key={index}>
                                 <Link to={item.href} className={"dropdown-item"}>
                                     {item.text}
@@ -80,20 +95,24 @@ class Topnav extends React.Component {
         );
     }
 
-    get_user() {
+    function get_user() {
         return (
             <li className={"nav-item"}>
                 <div id="user" className={"d-flex flex-column dropdown"}>
-                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" className={"d-flex flex-row mb-3 p-0"}>
+                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                            className={"d-flex flex-row mb-3 p-0"}>
                         <img className={"rounded-circle me-2 my-auto"} src={gatito} alt={"user"}/>
                         <div className={"d-flex flex-column my-auto"}>
-                            <b>John Doe</b>
+                            <b>{user.name}</b>
                         </div>
                     </button>
                     <ul className={"dropdown-menu"}>
-                        {this.userDropdownData.map((item, index) => (
+                        {userDropdownData.map((item, index) => (
                             <li key={index}>
-                                <Link to={item.href} className={"dropdown-item"}>{item.text}</Link>
+                                {item.onClick ?
+                                    <button onClick={item.onClick} className="dropdown-item">{item.text}</button> :
+                                    <Link to={item.href} className="dropdown-item">{item.text}</Link>
+                                }
                             </li>
                         ))}
                     </ul>
@@ -102,40 +121,40 @@ class Topnav extends React.Component {
         );
     }
 
-    get_items() {
+    function get_items() {
         return (
             <div className={"d-flex align-items-center me-0"}>
                 <ul className={"navbar-nav"}>
                     <div className={"d-flex me-5"}>
-                        {this.get_links()}
-                        {this.get_inventory()}
+                        {get_links()}
+                        {get_inventory()}
                     </div>
-                    {this.get_user()}
+                    {get_user()}
                 </ul>
             </div>
         );
     }
 
-    render() {
-        return (
-            <nav id={"topnav"} className={"navbar navbar-expand-lg top-bar"}>
-                <div className={"container-fluid"}>
-                    {this.get_logo()}
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
 
-                    <div id={"navbarText"}  className={"collapse navbar-collapse"}>
-                        {this.get_items()}
-                    </div>
+    return (
+        <nav id={"topnav"} className={"navbar navbar-expand-lg top-bar"}>
+            <div className={"container-fluid"}>
+                {get_logo()}
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
 
+                <div id={"navbarText"} className={"collapse navbar-collapse"}>
+                    {get_items()}
                 </div>
-            </nav>
-        );
-    }
+
+            </div>
+        </nav>
+    );
+
 }
 
 
-export default Topnav
+export default Topnav;

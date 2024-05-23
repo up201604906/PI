@@ -1,0 +1,87 @@
+.import-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 1000px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input[type="text"],
+.input-group input[type="file"],
+.input-group input[type="url"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-group input[type="text"]:focus,
+.input-group input[type="url"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.edit-section {
+    margin-top: 20px;
+}
+
+.form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.main-data, .additional-data {
+    flex: 1;
+    min-width: 300px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.additional-data {
+    max-height: 600px;
+    overflow-y: auto;
+}
