@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import MyModal from './MyModal';
 import EditModal from './EditModal';
 import { Button } from 'react-bootstrap';
+import { useAuth } from '../../../contexts/AuthContext'; // Import useAuth hook
 import "../../../styles/Projects.css";
 
 const Table = ({ title, columns, data }) => (
@@ -34,6 +35,7 @@ const Table = ({ title, columns, data }) => (
 
 const Project = () => {
   const { id } = useParams();
+  const { currentUser, permission } = useAuth(); // Access current user and their permissions
   const [project, setProject] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [projectTypes, setProjectTypes] = useState([]);
@@ -305,7 +307,11 @@ const Project = () => {
     return <div>No project found.</div>;
   }
 
-  const taskColumns = ["Description", "Assignee", "Due Date", "Status", "Actions"];
+  const taskColumns = ["Description", "Assignee", "Due Date", "Status"];
+  if (permission === 'admin') {
+    taskColumns.push("Actions");
+  }
+
   const taskData = (project.assignments || []).map(task => [
     editingTaskId === task.id ? (
       <input
@@ -345,39 +351,53 @@ const Project = () => {
     ) : (
       task.status
     ),
-    editingTaskId === task.id ? (
-      <>
-        <div className="actions">
-          <button variant="link" onClick={handleSaveTask}>Save</button>
-          <button variant="link" onClick={() => setEditingTaskId(null)}>Cancel</button>
-        </div>
-      </>
-    ) : (
-      <>
-        <div className="actions">
-          <button variant="link" onClick={() => handleEditTask(task)}>Edit</button>
-          <button variant="link" onClick={() => handleDeleteTask(task)}>Delete</button>
-        </div>
-      </>
-    )
+    ...(permission === 'admin' ? [
+      editingTaskId === task.id ? (
+        <>
+          <div className="actions">
+            <button variant="link" onClick={handleSaveTask}>Save</button>
+            <button variant="link" onClick={() => setEditingTaskId(null)}>Cancel</button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="actions">
+            <button variant="link" onClick={() => handleEditTask(task)}>Edit</button>
+            <button variant="link" onClick={() => handleDeleteTask(task)}>Delete</button>
+          </div>
+        </>
+      )
+    ] : [])
   ]);
+
 
   const historyColumns = ["Event"];
   const historyData = [];
 
-  const memberColumns = ["Name", "Field", "Email", "Optional Email", "Capacity", "Actions"];
+  const memberColumns = ["Name", "Field", "Email", "Optional Email", "Capacity"];
+  if (permission === 'admin') {
+    memberColumns.push("Actions");
+  }
+
   const memberData = teamMembers.map(member => [
     member.name,
     member.field,
     member.email,
     member.optional_email,
     member.capacity,
-    <div className="actions">
-      <button onClick={() => handleDeleteMember(member)}>Remove</button>
-    </div>
+    ...(permission === 'admin' ? [
+      <div className="actions">
+        <button onClick={() => handleDeleteMember(member)}>Remove</button>
+      </div>
+    ] : [])
   ]);
 
-  const linkColumns = ["Type", "URL", "Actions"];
+
+  const linkColumns = ["Type", "URL"];
+  if (permission === 'admin') {
+    linkColumns.push("Actions");
+  }
+
   const linkData = (project.sharingLinks || []).map(link => [
     editingLinkId === link.id ? (
       <input
@@ -397,22 +417,25 @@ const Project = () => {
     ) : (
       <a href={link.link_url} target="_blank" rel="noopener noreferrer">{link.link_url}</a>
     ),
-    editingLinkId === link.id ? (
-      <>
-         <div className="actions">
-          <button onClick={handleSaveLink}>Save</button>
-          <button  onClick={() => setEditingLinkId(null)}>Cancel</button>
-        </div>
-      </>
-    ) : (
-      <>
-         <div className="actions">
-          <button onClick={() => handleEditLink(link)}>Edit</button>
-          <button onClick={() => handleDeleteLink(link)}>Delete</button>
-        </div>
-      </>
-    )
+    ...(permission === 'admin' ? [
+      editingLinkId === link.id ? (
+        <>
+          <div className="actions">
+            <button onClick={handleSaveLink}>Save</button>
+            <button onClick={() => setEditingLinkId(null)}>Cancel</button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="actions">
+            <button onClick={() => handleEditLink(link)}>Edit</button>
+            <button onClick={() => handleDeleteLink(link)}>Delete</button>
+          </div>
+        </>
+      )
+    ] : [])
   ]);
+
 
   return (
     <div className="project-page">
@@ -431,24 +454,34 @@ const Project = () => {
         <div className="header-right">
           <p>Start Date: {format(new Date(project.start_date), 'dd/MM/yyyy')}</p>
           <p>Due on: {format(new Date(project.end_date), 'dd/MM/yyyy')}</p>
-          <Button onClick={() => setEditModalOpen(true)}>EDIT PROJECT</Button>
+          {permission === 'admin' && (
+            <Button onClick={() => setEditModalOpen(true)}>EDIT PROJECT</Button>
+          )}
         </div>
       </div>
       <div className="project-content">
         <div className='collaboration-hub'>
           <Table title="Task Assignments" columns={taskColumns} data={taskData} />
-          <Button onClick={() => { setModalType('Task'); setModalOpen(true); }} className="mt-2 add-button">Create</Button>
+          {permission === 'admin' && (
+            <Button onClick={() => { setModalType('Task'); setModalOpen(true); }} className="mt-2 add-button">Create</Button>
+          )}
         </div>
         <div className="collaboration-hub">
           <Table title="Members" columns={memberColumns} data={memberData} />
-          <Button onClick={() => { setModalType('Member'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
+          {permission === 'admin' && (
+            <Button onClick={() => { setModalType('Member'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
+          )}
           <Table title="Sharing & Communication" columns={linkColumns} data={linkData} />
-          <Button onClick={() => { setModalType('Link'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
+          {permission === 'admin' && (
+            <Button onClick={() => { setModalType('Link'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
+          )}
         </div>
       </div>
-      <div className="floating-buttons-container">
-        <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
-      </div>
+      {permission === 'admin' && (
+        <div className="floating-buttons-container">
+          <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
+        </div>
+      )}
       <MyModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}

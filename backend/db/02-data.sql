@@ -1,6 +1,7 @@
 INSERT INTO users (name, contact_email, password, permission, picture) VALUES
 ('sampleName', 'sampleEmail@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$FPoBgqNyM8n18tjtfm5GTA$gQXD4PNWXyysxiShzcOPBuzoQLUZ+pkVn3867zOHkPE', 'admin', NULL), -- password é samplePassword
-('ntsay', 'ntsay@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL);
+('ntsay', 'ntsay@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'admin', NULL),
+('collab', 'collaborator@mail.com', '$argon2id$v=19$m=65536,t=3,p=4$oQTOYg1Mw870OD8EhedmJA$pSOaSQuy+qfjyn6SBeVsrEtxtaQVTqxS2TERhirWxM8', 'collaborator', NULL);
 
 INSERT INTO resources (name, description, category, quantity, available, supplier, room, cabinet, shelf, box, priority) VALUES
 ('Libelium Waspmote (v 1.2)', '1. Batteries - 2300 mA-h Rechargeable; 2.Two batteries have damaged connectors 3. With 6 antenna extensions', 'sensor board',6, 6, 'Website', 'I112', '1', 'C', 'B3', 'low'),
@@ -89,7 +90,8 @@ INSERT INTO user_project_type (user_id, project_type_id) VALUES
 -- Insert into user_projects
 INSERT INTO user_projects (user_id, project_id) VALUES
 (1, 1),
-(2, 1);
+(2, 1),
+(3,1);
 
 -- Insert into project_research_team
 INSERT INTO project_research_team (project_id, research_team_id) VALUES
