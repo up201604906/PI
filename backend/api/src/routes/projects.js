@@ -3,6 +3,7 @@ const router = express.Router();
 const projectController = require('../controllers/project_controller');
 const userController = require('../controllers/user_controller')
 
+router.put('/projects/:id', projectController.updateProject);
 router.get('/users', userController.getUsersWithProjectTypes);
 router.get('/assigned/:userId', projectController.getAssignedProjects);
 router.post('/create', projectController.createProject);
@@ -12,7 +13,6 @@ router.get('/', projectController.getAllAProjects);
 router.get('/:id', projectController.getProjectById);
 router.get('/recent/:limit', projectController.getRecentProjects);
 
-router.put('/projects/:id', projectController.updateProject);
 router.put('/assignments/:id', projectController.updateAssignment);
 router.delete('/assignments/:id', projectController.deleteAssignment);
 router.put('/sharingLinks/:id', projectController.updateSharingLink);

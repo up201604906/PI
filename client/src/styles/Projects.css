@@ -140,7 +140,6 @@
 .collaboration-hub h2,
 .members h3,
 .sharing-communication h3 {
-  background-color: #f9f9f9;
   padding: 10px;
   margin: 0;
 }
@@ -408,4 +407,28 @@
 
 .create-form .form-row label:last-child {
   margin-right: 0;
+}
+
+
+
+.actions button {
+  max-width: 85px;
+}
+
+.actions button, .move-to-resources button {
+  background-color: hsl(0, 0%, 75%);
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 0px;
+  transition-duration: 0.2s;
+  border-radius: 5px;
+  padding: 2px 8px;
+}
+
+.actions button:hover button:hover {
+  background-color: white;
+  border: 1px solid hsl(0, 0%, 75%);
 }

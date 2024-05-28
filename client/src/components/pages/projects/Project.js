@@ -4,8 +4,33 @@ import { format } from 'date-fns';
 import MyModal from './MyModal';
 import EditModal from './EditModal';
 import { Button } from 'react-bootstrap';
-import "../../../styles/Home.css";
-import '../../../styles/Projects.css';
+import "../../../styles/Projects.css";
+
+const Table = ({ title, columns, data }) => (
+  <div className="">
+    <div className='title'>
+      <span>{title}</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          {columns.map((col, index) => (
+            <th key={index}>{col}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.map((cell, cellIndex) => (
+              <td key={cellIndex}>{cell}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
 
 const Project = () => {
   const { id } = useParams();
@@ -16,91 +41,52 @@ const Project = () => {
   const [statuses, setStatuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editingTask, setEditingTask] = useState(null);
-  const [editingLink, setEditingLink] = useState(null);
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editingLinkId, setEditingLinkId] = useState(null);
   const [taskDescription, setTaskDescription] = useState("");
   const [taskAssignee, setTaskAssignee] = useState("");
   const [taskDueDate, setTaskDueDate] = useState("");
   const [taskStatus, setTaskStatus] = useState("");
-  const [projectStatuses, setProjectStatuses] = useState([]);
   const [linkDescription, setLinkDescription] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState('');
 
   useEffect(() => {
-    const fetchProject = async () => {
+    const fetchProjectData = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/projects/${id}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setProject(data);
-        setTeamMembers(data.teamMembers); // Assuming team members are included in the project response
+        const [projectRes, projectTypesRes, usersRes, statusesRes] = await Promise.all([
+          fetch(`http://localhost:4000/projects/${id}`),
+          fetch(`http://localhost:4000/projects/types`),
+          fetch(`http://localhost:4000/projects/users`),
+          fetch(`http://localhost:4000/projects/statuses`)
+        ]);
+
+        const projectData = await projectRes.json();
+        const projectTypesData = await projectTypesRes.json();
+        const usersData = await usersRes.json();
+        const statusesData = await statusesRes.json();
+
+        setProject({
+          ...projectData,
+          assignments: projectData.assignments || [],
+          sharingLinks: projectData.sharingLinks || []
+        });
+        setTeamMembers(projectData.teamMembers || []); // Assuming team members are included in the project response
+        setProjectTypes(projectTypesData);
+        setUsers(usersData);
+        setStatuses(statusesData);
       } catch (error) {
-        console.error('Error fetching project:', error);
+        console.error('Error fetching data:', error);
         setError(error);
       } finally {
         setLoading(false);
       }
     };
 
-    const fetchProjectStatuses = fetch('http://localhost:4000/projects/statuses')
-      .then(response => response.json())
-      .then(data => setProjectStatuses(data));
-
-    const fetchProjectTypes = async () => {
-      try {
-        const response = await fetch(`http://localhost:4000/projects/types`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setProjectTypes(data);
-      } catch (error) {
-        console.error('Error fetching project types:', error);
-      }
-    };
-
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(`http://localhost:4000/projects/users`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setUsers(data);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
-
-    const fetchStatuses = async () => {
-      try {
-        const response = await fetch(`http://localhost:4000/projects/statuses`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setStatuses(data);
-      } catch (error) {
-        console.error('Error fetching statuses:', error);
-      }
-    };
-
-    fetchProject();
-    fetchProjectTypes();
-    fetchUsers();
-    fetchStatuses();
+    fetchProjectData();
   }, [id]);
-
-  const getAssigneeName = (assigneeId) => {
-    const member = teamMembers.find(member => member.id === assigneeId);
-    return member ? member.name : "Unknown";
-  };
 
   const handleSaveNewItem = async (data) => {
     try {
@@ -148,33 +134,62 @@ const Project = () => {
   };
 
   const handleEditTask = (task) => {
-    setEditingTask(task.id);
+    setEditingTaskId(task.id);
     setTaskDescription(task.description);
-    setTaskAssignee(task.assignee);
+    setTaskAssignee(task.assignee); // Use task.assignee instead of task.assignee_id
     setTaskDueDate(format(new Date(task.due_date), 'yyyy-MM-dd'));
     setTaskStatus(task.status);
   };
 
-  const handleSaveTask = async (task) => {
+  const handleSaveTask = async () => {
     try {
-      await fetch(`http://localhost:4000/projects/assignments/${task.id}`, {
+      await fetch(`http://localhost:4000/projects/assignments/${editingTaskId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ...task, description: taskDescription, assignee_id: taskAssignee, due_date: taskDueDate, status: taskStatus })
+        body: JSON.stringify({ description: taskDescription, assignee_id: taskAssignee, due_date: taskDueDate, status: taskStatus })
       });
 
       setProject(prevProject => ({
         ...prevProject,
         assignments: prevProject.assignments.map(t =>
-          t.id === task.id ? { ...t, description: taskDescription, assignee_id: taskAssignee, due_date: taskDueDate, status: taskStatus } : t
+          t.id === editingTaskId ? { ...t, description: taskDescription, assignee_id: taskAssignee, due_date: taskDueDate, status: taskStatus } : t
         )
       }));
 
-      setEditingTask(null);
+      setEditingTaskId(null);
     } catch (error) {
       console.error('Error saving task:', error);
+    }
+  };
+
+  const handleEditLink = (link) => {
+    setEditingLinkId(link.id);
+    setLinkDescription(link.link_type);
+    setLinkUrl(link.link_url);
+  };
+
+  const handleSaveLink = async () => {
+    try {
+      await fetch(`http://localhost:4000/projects/sharingLinks/${editingLinkId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ link_type: linkDescription, link_url: linkUrl })
+      });
+
+      setProject(prevProject => ({
+        ...prevProject,
+        sharingLinks: prevProject.sharingLinks.map(l =>
+          l.id === editingLinkId ? { ...l, link_type: linkDescription, link_url: linkUrl } : l
+        )
+      }));
+
+      setEditingLinkId(null);
+    } catch (error) {
+      console.error('Error saving link:', error);
     }
   };
 
@@ -193,35 +208,6 @@ const Project = () => {
       } catch (error) {
         console.error('Error deleting task:', error);
       }
-    }
-  };
-
-  const handleEditLink = (link) => {
-    setEditingLink(link.id);
-    setLinkDescription(link.link_type);
-    setLinkUrl(link.link_url);
-  };
-
-  const handleSaveLink = async (link) => {
-    try {
-      await fetch(`http://localhost:4000/projects/sharingLinks/${link.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ ...link, link_type: linkDescription, link_url: linkUrl })
-      });
-
-      setProject(prevProject => ({
-        ...prevProject,
-        sharingLinks: prevProject.sharingLinks.map(l =>
-          l.id === link.id ? { ...l, link_type: linkDescription, link_url: linkUrl } : l
-        )
-      }));
-
-      setEditingLink(null);
-    } catch (error) {
-      console.error('Error saving link:', error);
     }
   };
 
@@ -262,7 +248,7 @@ const Project = () => {
   };
 
   const getProjectStatusName = (statusId) => {
-    const status = projectStatuses.find(status => status.id === statusId);
+    const status = statuses.find(status => status.id === statusId);
     return status ? status.status_name : 'Unknown Status';
   };
 
@@ -276,7 +262,10 @@ const Project = () => {
         body: JSON.stringify(updatedProjectData)
       });
 
-      setProject(updatedProjectData);
+      setProject(prevProject => ({
+        ...prevProject,
+        ...updatedProjectData
+      }));
       setEditModalOpen(false);
     } catch (error) {
       console.error('Error saving project:', error);
@@ -295,6 +284,115 @@ const Project = () => {
     return <div>No project found.</div>;
   }
 
+  const taskColumns = ["Description", "Assignee", "Due Date", "Status", "Actions"];
+  const taskData = (project.assignments || []).map(task => [
+    editingTaskId === task.id ? (
+      <input
+        type="text"
+        value={taskDescription}
+        onChange={(e) => setTaskDescription(e.target.value)}
+      />
+    ) : (
+      task.description
+    ),
+    editingTaskId === task.id ? (
+      <select value={taskAssignee} onChange={(e) => setTaskAssignee(e.target.value)}>
+        <option value="">Select an assignee</option>
+        {teamMembers.map(member => (
+          <option key={member.id} value={member.id}>{member.name}</option>
+        ))}
+      </select>
+    ) : (
+      teamMembers.find(member => member.id === task.assignee)?.name || "Unknown"
+    ),
+    editingTaskId === task.id ? (
+      <input
+        type="date"
+        value={taskDueDate}
+        onChange={(e) => setTaskDueDate(e.target.value)}
+      />
+    ) : (
+      format(new Date(task.due_date), 'dd/MM/yyyy')
+    ),
+    editingTaskId === task.id ? (
+      <select value={taskStatus} onChange={(e) => setTaskStatus(e.target.value)}>
+        <option value="">Select status</option>
+        {statuses.map(status => (
+          <option key={status.id} value={status.status_name}>{status.status_name}</option>
+        ))}
+      </select>
+    ) : (
+      task.status
+    ),
+    editingTaskId === task.id ? (
+      <>
+        <div className="actions">
+          <button variant="link" onClick={handleSaveTask}>Save</button>
+          <button variant="link" onClick={() => setEditingTaskId(null)}>Cancel</button>
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="actions">
+          <button variant="link" onClick={() => handleEditTask(task)}>Edit</button>
+          <button variant="link" onClick={() => handleDeleteTask(task)}>Delete</button>
+        </div>
+      </>
+    )
+  ]);
+
+  const historyColumns = ["Event"];
+  const historyData = [];
+
+  const memberColumns = ["Name", "Field", "Email", "Optional Email", "Capacity", "Actions"];
+  const memberData = teamMembers.map(member => [
+    member.name,
+    member.field,
+    member.email,
+    member.optional_email,
+    member.capacity,
+    <div className="actions">
+      <button onClick={() => handleDeleteMember(member)}>Remove</button>
+    </div>
+  ]);
+
+  const linkColumns = ["Type", "URL", "Actions"];
+  const linkData = (project.sharingLinks || []).map(link => [
+    editingLinkId === link.id ? (
+      <input
+        type="text"
+        value={linkDescription}
+        onChange={(e) => setLinkDescription(e.target.value)}
+      />
+    ) : (
+      link.link_type
+    ),
+    editingLinkId === link.id ? (
+      <input
+        type="text"
+        value={linkUrl}
+        onChange={(e) => setLinkUrl(e.target.value)}
+      />
+    ) : (
+      <a href={link.link_url} target="_blank" rel="noopener noreferrer">{link.link_url}</a>
+    ),
+    editingLinkId === link.id ? (
+      <>
+         <div className="actions">
+          <button onClick={handleSaveLink}>Save</button>
+          <button  onClick={() => setEditingLinkId(null)}>Cancel</button>
+        </div>
+      </>
+    ) : (
+      <>
+         <div className="actions">
+          <button onClick={() => handleEditLink(link)}>Edit</button>
+          <button onClick={() => handleDeleteLink(link)}>Delete</button>
+        </div>
+      </>
+    )
+  ]);
+
   return (
     <div className="project-page">
       <div className="project-header">
@@ -304,164 +402,31 @@ const Project = () => {
           <p className="status">Status: {getProjectStatusName(project.project_status_id)}</p>
         </div>
         <div className="header-center">
-          <p> <b>Website:</b> <a href={project.website} target="_blank" rel="noopener noreferrer">{project.website}</a></p>
-          <p> <b>Funding:</b> {project.funding}</p>
-          <p> <b>Reference:</b> {project.funding_reference}</p>
-          <p> <b>External Partners:</b> {project.external_partners}</p>
+          <p><b>Website:</b> <a href={project.website} target="_blank" rel="noopener noreferrer">{project.website}</a></p>
+          <p><b>Funding:</b> {project.funding}</p>
+          <p><b>Reference:</b> {project.funding_reference}</p>
+          <p><b>External Partners:</b> {project.external_partners}</p>
         </div>
         <div className="header-right">
           <p>Start Date: {format(new Date(project.start_date), 'dd/MM/yyyy')}</p>
           <p>Due on: {format(new Date(project.end_date), 'dd/MM/yyyy')}</p>
-          <Button onClick={() => setEditModalOpen(true)} className="">EDIT PROJECT</Button>
+          <Button onClick={() => setEditModalOpen(true)}>EDIT PROJECT</Button>
         </div>
       </div>
       <div className="project-content">
-        <div className="task-assignments">
-          <h2>Task Assignments</h2>
-          <div className="scrollable-content">
-            {project.assignments.length > 0 ? (
-              project.assignments.map(task => (
-                <div key={task.id} className="task-card">
-                  {editingTask === task.id ? (
-                    <>
-                      <input
-                        type="text"
-                        value={taskDescription}
-                        onChange={(e) => setTaskDescription(e.target.value)}
-                        className="form-control"
-                      />
-                      <select
-                        value={taskAssignee}
-                        onChange={(e) => setTaskAssignee(e.target.value)}
-                        className="form-control"
-                      >
-                        {teamMembers.map(member => (
-                          <option key={member.id} value={member.id}>
-                            {member.name}
-                          </option>
-                        ))}
-                      </select>
-                      <input
-                        type="date"
-                        value={taskDueDate}
-                        onChange={(e) => setTaskDueDate(e.target.value)}
-                        className="form-control"
-                      />
-                      <select
-                        value={taskStatus}
-                        onChange={(e) => setTaskStatus(e.target.value)}
-                        className="form-control"
-                      >
-                        {statuses.map(status => (
-                          <option key={status.id} value={status.status_name}>
-                            {status.status_name}
-                          </option>
-                        ))}
-                      </select>
-                      <Button onClick={() => handleSaveTask(task)} variant="primary" className="mt-2">Save</Button>
-                      <Button onClick={() => setEditingTask(null)} variant="secondary" className="mt-2">Cancel</Button>
-                    </>
-                  ) : (
-                    <>
-                      <p>{task.description}</p>
-                      <span>Assigned to: {getAssigneeName(task.assignee)}</span>
-                      <p>Due Date: {format(new Date(task.due_date), 'dd/MM/yyyy')}</p>
-                      <p>Status: {task.status}</p>
-                      <div className="action-buttons">
-                        <Button className="edit" onClick={() => handleEditTask(task)} variant="link">Edit</Button>
-                        <Button className="delete" onClick={() => handleDeleteTask(task)} variant="link">Delete</Button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              ))
-            ) : (
-              <p>No task assignments available.</p>
-            )}
-          </div>
+        <div className='collaboration-hub'>
+          <Table title="Task Assignments" columns={taskColumns} data={taskData} />
           <Button onClick={() => { setModalType('Task'); setModalOpen(true); }} className="mt-2 add-button">Create</Button>
         </div>
-        <div className="history">
-          <h2>History</h2>
-          <div className="scrollable-content">
-            {project.history && project.history.length > 0 ? (
-              project.history.map(event => (
-                <p key={event.id}>{event.description}</p>
-              ))
-            ) : (
-              <p>No history available.</p>
-            )}
-          </div>
-        </div>
         <div className="collaboration-hub">
-          <h2>Collaboration Hub</h2>
-          <div className="members">
-            <h3>Members</h3>
-            <div className="scrollable-content">
-              {teamMembers.length > 0 ? (
-                teamMembers.map(member => (
-                  <div key={member.id} className="member-card">
-                    <h4>{member.name}</h4>
-                    <p>Field: {member.field}</p>
-                    <p>Email: {member.email}</p>
-                    {member.optional_email && <p>Optional Email: {member.optional_email}</p>}
-                    <p>Capacity: {member.capacity}</p>
-                    <div className="action-buttons">
-                      <Button className="delete" onClick={() => handleDeleteMember(member)} variant="link">Remove</Button>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>No team members available.</p>
-              )}
-            </div>
-            <Button onClick={() => { setModalType('Member'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
-          </div>
-          <div className="sharing-communication">
-            <h3>Sharing & Communication</h3>
-            <div className="scrollable-content">
-              {project.sharingLinks.length > 0 ? (
-                project.sharingLinks.map(link => (
-                  <div className="communication-item">
-                    {editingLink === link.id ? (
-                      <>
-                        <input
-                          type="text"
-                          value={linkDescription}
-                          onChange={(e) => setLinkDescription(e.target.value)}
-                          className="form-control"
-                        />
-                        <input
-                          type="text"
-                          value={linkUrl}
-                          onChange={(e) => setLinkUrl(e.target.value)}
-                          className="form-control"
-                        />
-                        <Button onClick={() => handleSaveLink(link)} variant="primary" className="mt-2">Save</Button>
-                        <Button onClick={() => setEditingLink(null)} variant="secondary" className="mt-2">Cancel</Button>
-                      </>
-                    ) : (
-                      <>
-                        <span>{link.link_type} - <a href={link.link_url} target="_blank" rel="noopener noreferrer">{link.link_url}</a></span>
-                        <div className="action-buttons">
-                          <Button className="edit" onClick={() => handleEditLink(link)} variant="link">Edit</Button>
-                          <Button className="delete" onClick={() => handleDeleteLink(link)} variant="link">Delete</Button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <p>No sharing and communication links available.</p>
-              )}
-            </div>
-            <Button onClick={() => { setModalType('Link'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
-          </div>
+          <Table title="Members" columns={memberColumns} data={memberData} />
+          <Button onClick={() => { setModalType('Member'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
+          <Table title="Sharing & Communication" columns={linkColumns} data={linkData} />
+          <Button onClick={() => { setModalType('Link'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
         </div>
       </div>
       <div className="floating-buttons-container">
         <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
-        
       </div>
       <MyModal
         isOpen={isModalOpen}
@@ -478,7 +443,7 @@ const Project = () => {
         onClose={() => setEditModalOpen(false)}
         project={project}
         projectTypes={projectTypes}
-        projectStatuses={projectStatuses}
+        projectStatuses={statuses}
         onSave={handleSaveProject}
       />
     </div>
