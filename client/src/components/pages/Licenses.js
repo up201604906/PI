@@ -7,6 +7,7 @@ class Table extends React.Component {
     state = {
         editingRow: null,
         editedData: null,
+        deletingRow: null,
     };
 
     handleEdit = (index, row) => {
@@ -40,15 +41,13 @@ class Table extends React.Component {
     }
 
     handleDelete = (row) => {
-        if (window.confirm("Are you sure you want to delete this license?")) {
-            fetch(`http://localhost:4000/inventory/licenses/${row[0]}`, {
-                method: 'DELETE',
-            })
-            .then(() => {
-                this.props.refreshData();
-            })
-            .catch((err) => console.error(err));
-        }
+        fetch(`http://localhost:4000/inventory/licenses/${row[0]}`, {
+            method: 'DELETE',
+        })
+        .then(() => {
+            this.props.refreshData();
+        })
+        .catch((err) => console.error(err));
     }
 
     handleChange = (event, cellIndex) => {
@@ -61,6 +60,7 @@ class Table extends React.Component {
         const { tableHead, data } = this.props;
 
         return (
+            <>
             <table>
                 <thead>
                     <tr>
@@ -85,7 +85,9 @@ class Table extends React.Component {
                                 ) : (
                                     <>
                                         <button onClick={() => this.handleEdit(index, row)}>Edit</button>
-                                        <button onClick={() => this.handleDelete(row)}>Delete</button>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={() => this.setState({ deletingRow: row })}>
+                                            Delete
+                                        </button>
                                     </>
                                 )}
                             </td>
@@ -93,6 +95,27 @@ class Table extends React.Component {
                     ))}
                 </tbody>
             </table>
+            <div className="modal fade custom-modal" id="deleteModal" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                        </div>
+                        <div className="modal-body">
+                            Are you sure you want to delete this License?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary btn-sm rounded custom-btn" data-bs-dismiss="modal"
+                                    onClick={() => this.handleDelete(this.state.deletingRow)}>Delete License
+                            </button>
+                            <button type="button" className="btn btn-secondary btn-sm rounded custom-btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </>
         );
     }
 }

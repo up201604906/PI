@@ -11,19 +11,18 @@ class Table extends React.Component {
         isResource: null,
         row: null,
         users: [],
+        deletingRow: null
     };
 
     handleDelete = (row, isResource) => {
-        if (window.confirm("Are you sure you want to delete this resource?")) {
         const endpoint = isResource
             ? `http://localhost:4000/inventory/wishlist/${row[0]}/${row[1]}/null`
             : `http://localhost:4000/inventory/wishlist/${row[0]}/null/${row[1]}`;
         fetch(endpoint, {
             method: "DELETE",
         })
-            .then(() => this.props.refreshData())
-            .catch((err) => console.error(err));
-        }
+        .then(() => this.props.refreshData())
+        .catch((err) => console.error(err));
     };
 
     handleEdit = (index, row) => {
@@ -85,71 +84,95 @@ class Table extends React.Component {
         const { tableHead, data } = this.props;
 
         return (
-        <table>
-            <thead>
-                <tr>
-                    {tableHead.map((head, index) => <th key={index}>{head}</th>)}
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {data.map((row, index) => (
-                    <tr key={index}>
-                        {row.map((cell, i) => {
-                        if (i === 11) return null; // Skip the isResource column
-                        if (i === 12) return null; // Skip the userId column
-                        return this.state.editingRow === index && i !== 7 && i !== 9 ? ( // Prevent the total price & added at from being edited
-                            <td key={i}>
-                                {i === 0 ? ( // If it's the user cell
-                                    <select className="priority-edit-select" value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
-                                        {this.state.users.map((user, userIndex) => (
-                                            <option key={userIndex} value={user.name}>{user.name}</option>
-                                        ))}
-                                    </select>
-                                ) : i === 8 ? ( // If it's the priority cell
-                                    <select className={"priority-edit-select"} value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
-                                        <option value="low">low</option>
-                                        <option value="medium">medium</option>
-                                        <option value="high">high</option>
-                                    </select>
-                                ) : i === 10 ? ( // If it's the state cell
-                                    <select className={"priority-edit-select"} value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
-                                        <option value="open">open</option>
-                                        <option value="ordered">ordered</option>
-                                        <option value="delivered">delivered</option>
-                                    </select>
-                                ) : (
-                                    <input value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)} />
-                                )}
-                            </td>
-                        ) : (
-                            <td className="move-to-resources" key={i}>
-                                {i === 0 ? ( // If it's the user cell
-                                    <Link to={`/user/${row[12]}`} style={{ color: 'black' }}>{cell}</Link> // Use the user ID from the end of the row
-                                ) : (
-                                    cell
-                                )}
-                                { i === 10 && cell === 'delivered' && <button id="moveToResourcesButton" onClick={() => this.props.handleMoveToResourcesClick(row[0], row[1], row[11], row[5])}>Move to Resources</button> } 
-                            </td>
-                        );
-                    })}
-                        <td className="actions">
-                            {this.state.editingRow === index ? (
-                                <>
-                                    <button onClick={this.handleSave}>Save</button>
-                                    <button onClick={this.handleCancel}>Cancel</button>
-                                </>
-                            ) : (
-                                <>
-                                    <button onClick={() => this.handleEdit(index, row)}>Edit</button>
-                                    <button onClick={() => this.handleDelete(row, row[11])}>Delete</button>
-                                </>
-                            )}
-                        </td>
+            <>
+            <table>
+                <thead>
+                    <tr>
+                        {tableHead.map((head, index) => <th key={index}>{head}</th>)}
+                        <th>Actions</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {data.map((row, index) => (
+                        <tr key={index}>
+                            {row.map((cell, i) => {
+                            if (i === 11) return null; // Skip the isResource column
+                            if (i === 12) return null; // Skip the userId column
+                            return this.state.editingRow === index && i !== 7 && i !== 9 ? ( // Prevent the total price & added at from being edited
+                                <td key={i}>
+                                    {i === 0 ? ( // If it's the user cell
+                                        <select className="priority-edit-select" value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
+                                            {this.state.users.map((user, userIndex) => (
+                                                <option key={userIndex} value={user.name}>{user.name}</option>
+                                            ))}
+                                        </select>
+                                    ) : i === 8 ? ( // If it's the priority cell
+                                        <select className={"priority-edit-select"} value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
+                                            <option value="low">low</option>
+                                            <option value="medium">medium</option>
+                                            <option value="high">high</option>
+                                        </select>
+                                    ) : i === 10 ? ( // If it's the state cell
+                                        <select className={"priority-edit-select"} value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
+                                            <option value="open">open</option>
+                                            <option value="ordered">ordered</option>
+                                            <option value="delivered">delivered</option>
+                                        </select>
+                                    ) : (
+                                        <input value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)} />
+                                    )}
+                                </td>
+                            ) : (
+                                <td className="move-to-resources" key={i}>
+                                    {i === 0 ? ( // If it's the user cell
+                                        <Link to={`/user/${row[12]}`} style={{ color: 'black' }}>{cell}</Link> // Use the user ID from the end of the row
+                                    ) : (
+                                        cell
+                                    )}
+                                    { i === 10 && cell === 'delivered' && <button id="moveToResourcesButton" onClick={() => this.props.handleMoveToResourcesClick(row[0], row[1], row[11], row[5])}>Move to Resources</button> } 
+                                </td>
+                            );
+                        })}
+                            <td className="actions">
+                                {this.state.editingRow === index ? (
+                                    <>
+                                        <button onClick={this.handleSave}>Save</button>
+                                        <button onClick={this.handleCancel}>Cancel</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button onClick={() => this.handleEdit(index, row)}>Edit</button>
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={() => this.setState({ deletingRow: row })}>
+                                            Delete
+                                        </button>
+                                    </>
+                                )}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <div className="modal fade custom-modal" id="deleteModal" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="deleteModalLabel">Confirm Removal</h5>
+                        </div>
+                        <div className="modal-body">
+                            Are you sure you want to remove this item?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary btn-sm rounded custom-btn" data-bs-dismiss="modal"
+                                    onClick={() => this.handleDelete(this.state.deletingRow, this.state.deletingRow[11])}>Remove from Wishlist
+                            </button>
+                            <button type="button" className="btn btn-secondary btn-sm rounded custom-btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </>
         );
     }
 }
