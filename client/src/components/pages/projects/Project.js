@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import MyModal from './MyModal';
 import EditModal from './EditModal';
@@ -9,24 +9,26 @@ import '../../../styles/Projects.css';
 
 const Project = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [projectTypes, setProjectTypes] = useState([]);
   const [users, setUsers] = useState([]);
   const [statuses, setStatuses] = useState([]);
-  const [projectStatuses, setProjectStatuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingTask, setEditingTask] = useState(null);
   const [editingLink, setEditingLink] = useState(null);
   const [taskDescription, setTaskDescription] = useState("");
   const [taskAssignee, setTaskAssignee] = useState("");
+  const [taskDueDate, setTaskDueDate] = useState("");
+  const [taskStatus, setTaskStatus] = useState("");
+  const [projectStatuses, setProjectStatuses] = useState([]);
   const [linkDescription, setLinkDescription] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState('');
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -37,7 +39,7 @@ const Project = () => {
         }
         const data = await response.json();
         setProject(data);
-        setTeamMembers(data.teamMembers);
+        setTeamMembers(data.teamMembers); // Assuming team members are included in the project response
       } catch (error) {
         console.error('Error fetching project:', error);
         setError(error);
@@ -45,6 +47,10 @@ const Project = () => {
         setLoading(false);
       }
     };
+
+    const fetchProjectStatuses = fetch('http://localhost:4000/projects/statuses')
+      .then(response => response.json())
+      .then(data => setProjectStatuses(data));
 
     const fetchProjectTypes = async () => {
       try {
@@ -79,19 +85,9 @@ const Project = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        setStatuses(data.map(status => status.status_name));
+        setStatuses(data);
       } catch (error) {
         console.error('Error fetching statuses:', error);
-      }
-    };
-
-    const fetchProjectStatuses = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/projects/statuses');
-        const data = await response.json();
-        setProjectStatuses(data);
-      } catch (error) {
-        console.error('Error fetching project statuses:', error);
       }
     };
 
@@ -99,7 +95,6 @@ const Project = () => {
     fetchProjectTypes();
     fetchUsers();
     fetchStatuses();
-    fetchProjectStatuses();
   }, [id]);
 
   const getAssigneeName = (assigneeId) => {
@@ -118,7 +113,7 @@ const Project = () => {
         url = `http://localhost:4000/projects/sharingLinks`;
       }
 
-      await fetch(url, {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -126,9 +121,25 @@ const Project = () => {
         body: JSON.stringify({ ...data, project_id: id })
       });
 
-      const response = await fetch(`http://localhost:4000/projects/${id}`);
-      const updatedData = await response.json();
-      setProject(updatedData);
+      const newItem = await response.json();
+
+      if (modalType === 'Task') {
+        setProject(prevProject => ({
+          ...prevProject,
+          assignments: [...prevProject.assignments, newItem]
+        }));
+      } else if (modalType === 'Member') {
+        setProject(prevProject => ({
+          ...prevProject,
+          teamMembers: [...prevProject.teamMembers, newItem]
+        }));
+      } else if (modalType === 'Link') {
+        setProject(prevProject => ({
+          ...prevProject,
+          sharingLinks: [...prevProject.sharingLinks, newItem]
+        }));
+      }
+
     } catch (error) {
       console.error(`Error saving new ${modalType.toLowerCase()}:`, error);
     } finally {
@@ -136,30 +147,12 @@ const Project = () => {
     }
   };
 
-  const handleSaveEditProject = async (updatedProject) => {
-    try {
-      await fetch(`http://localhost:4000/projects/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedProject)
-      });
-
-      const response = await fetch(`http://localhost:4000/projects/${id}`);
-      const updatedData = await response.json();
-      setProject(updatedData);
-    } catch (error) {
-      console.error('Error updating project:', error);
-    } finally {
-      setEditModalOpen(false);
-    }
-  };
-
   const handleEditTask = (task) => {
     setEditingTask(task.id);
     setTaskDescription(task.description);
     setTaskAssignee(task.assignee);
+    setTaskDueDate(format(new Date(task.due_date), 'yyyy-MM-dd'));
+    setTaskStatus(task.status);
   };
 
   const handleSaveTask = async (task) => {
@@ -169,11 +162,16 @@ const Project = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ...task, description: taskDescription, assignee_id: taskAssignee })
+        body: JSON.stringify({ ...task, description: taskDescription, assignee_id: taskAssignee, due_date: taskDueDate, status: taskStatus })
       });
-      const response = await fetch(`http://localhost:4000/projects/${id}`);
-      const data = await response.json();
-      setProject(data);
+
+      setProject(prevProject => ({
+        ...prevProject,
+        assignments: prevProject.assignments.map(t =>
+          t.id === task.id ? { ...t, description: taskDescription, assignee_id: taskAssignee, due_date: taskDueDate, status: taskStatus } : t
+        )
+      }));
+
       setEditingTask(null);
     } catch (error) {
       console.error('Error saving task:', error);
@@ -186,9 +184,12 @@ const Project = () => {
         await fetch(`http://localhost:4000/projects/assignments/${task.id}`, {
           method: 'DELETE'
         });
-        const response = await fetch(`http://localhost:4000/projects/${id}`);
-        const data = await response.json();
-        setProject(data);
+
+        setProject(prevProject => ({
+          ...prevProject,
+          assignments: prevProject.assignments.filter(t => t.id !== task.id)
+        }));
+
       } catch (error) {
         console.error('Error deleting task:', error);
       }
@@ -210,9 +211,14 @@ const Project = () => {
         },
         body: JSON.stringify({ ...link, link_type: linkDescription, link_url: linkUrl })
       });
-      const response = await fetch(`http://localhost:4000/projects/${id}`);
-      const data = await response.json();
-      setProject(data);
+
+      setProject(prevProject => ({
+        ...prevProject,
+        sharingLinks: prevProject.sharingLinks.map(l =>
+          l.id === link.id ? { ...l, link_type: linkDescription, link_url: linkUrl } : l
+        )
+      }));
+
       setEditingLink(null);
     } catch (error) {
       console.error('Error saving link:', error);
@@ -225,9 +231,12 @@ const Project = () => {
         await fetch(`http://localhost:4000/projects/sharingLinks/${link.id}`, {
           method: 'DELETE'
         });
-        const response = await fetch(`http://localhost:4000/projects/${id}`);
-        const data = await response.json();
-        setProject(data);
+
+        setProject(prevProject => ({
+          ...prevProject,
+          sharingLinks: prevProject.sharingLinks.filter(l => l.id !== link.id)
+        }));
+
       } catch (error) {
         console.error('Error deleting link:', error);
       }
@@ -240,9 +249,12 @@ const Project = () => {
         await fetch(`http://localhost:4000/projects/teamMembers/${member.id}`, {
           method: 'DELETE'
         });
-        const response = await fetch(`http://localhost:4000/projects/${id}`);
-        const data = await response.json();
-        setProject(data);
+
+        setProject(prevProject => ({
+          ...prevProject,
+          teamMembers: prevProject.teamMembers.filter(m => m.id !== member.id)
+        }));
+
       } catch (error) {
         console.error('Error removing member:', error);
       }
@@ -252,6 +264,23 @@ const Project = () => {
   const getProjectStatusName = (statusId) => {
     const status = projectStatuses.find(status => status.id === statusId);
     return status ? status.status_name : 'Unknown Status';
+  };
+
+  const handleSaveProject = async (updatedProjectData) => {
+    try {
+      await fetch(`http://localhost:4000/projects/${project.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedProjectData)
+      });
+
+      setProject(updatedProjectData);
+      setEditModalOpen(false);
+    } catch (error) {
+      console.error('Error saving project:', error);
+    }
   };
 
   if (loading) {
@@ -283,7 +312,7 @@ const Project = () => {
         <div className="header-right">
           <p>Start Date: {format(new Date(project.start_date), 'dd/MM/yyyy')}</p>
           <p>Due on: {format(new Date(project.end_date), 'dd/MM/yyyy')}</p>
-          <Button className="" onClick={() => setEditModalOpen(true)}>EDIT PROJECT</Button>
+          <Button onClick={() => setEditModalOpen(true)} className="">EDIT PROJECT</Button>
         </div>
       </div>
       <div className="project-content">
@@ -314,18 +343,18 @@ const Project = () => {
                       </select>
                       <input
                         type="date"
-                        value={task.due_date}
-                        onChange={(e) => task.due_date = e.target.value}
+                        value={taskDueDate}
+                        onChange={(e) => setTaskDueDate(e.target.value)}
                         className="form-control"
                       />
                       <select
-                        value={task.status}
-                        onChange={(e) => task.status = e.target.value}
+                        value={taskStatus}
+                        onChange={(e) => setTaskStatus(e.target.value)}
                         className="form-control"
                       >
                         {statuses.map(status => (
-                          <option key={status} value={status}>
-                            {status}
+                          <option key={status.id} value={status.status_name}>
+                            {status.status_name}
                           </option>
                         ))}
                       </select>
@@ -444,16 +473,14 @@ const Project = () => {
         users={users}
         statuses={statuses}
       />
-      {project && (
-        <EditModal
-          isOpen={isEditModalOpen}
-          onClose={() => setEditModalOpen(false)}
-          project={project}
-          projectTypes={projectTypes}
-          projectStatuses={projectStatuses}
-          onSave={handleSaveEditProject}
-        />
-      )}
+      <EditModal
+        isOpen={isEditModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        project={project}
+        projectTypes={projectTypes}
+        projectStatuses={projectStatuses}
+        onSave={handleSaveProject}
+      />
     </div>
   );
 };

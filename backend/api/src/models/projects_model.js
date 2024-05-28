@@ -179,25 +179,100 @@ const createSharingLink = async ({ project_id, link_type, link_url }) => {
     return result.rows[0];
 };
 
-const createTeamMember = async ({ project_id, name, field, user_id }) => {
-    const query = `
-        INSERT INTO research_team (name, field, user_id)
-        VALUES ($1, $2, $3)
-        RETURNING *;
+const createTeamMember = async ({ project_id, name, field, email, optional_email, capacity, user_id }) => {
+    let query = `
+      INSERT INTO research_team (name, field, email, optional_email, capacity, user_id)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *;
     `;
-    const values = [name, field, user_id];
+  
+    let values = [name, field, email, optional_email, capacity, user_id];
+  
+
+    if (!user_id) {
+      query = `
+        INSERT INTO research_team (name, field, email, optional_email, capacity)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *;
+      `;
+      values = [name, field, email, optional_email, capacity];
+    }
+  
     const result = await pool.query(query, values);
     const teamMember = result.rows[0];
-
+  
     const associationQuery = `
-        INSERT INTO project_research_team (project_id, research_team_id)
-        VALUES ($1, $2);
+      INSERT INTO project_research_team (project_id, research_team_id)
+      VALUES ($1, $2);
     `;
     const associationValues = [project_id, teamMember.id];
     await pool.query(associationQuery, associationValues);
-
+  
     return teamMember;
-};
+  };
+  
+
+  const updateProject = async (projectId, projectData) => {
+    const {
+      name,
+      acronym,
+      description,
+      state,
+      website,
+      start_date,
+      end_date,
+      funding,
+      funding_reference,
+      external_partners,
+      media,
+      created_by,
+      project_type_id,
+      project_status_id
+    } = projectData;
+  
+    const query = `
+      UPDATE projects
+      SET
+        name = $1,
+        acronym = $2,
+        description = $3,
+        state = $4,
+        website = $5,
+        start_date = $6,
+        end_date = $7,
+        funding = $8,
+        funding_reference = $9,
+        external_partners = $10,
+        media = $11,
+        created_by = $12,
+        project_type_id = $13,
+        project_status_id = $14
+      WHERE id = $15
+      RETURNING *;
+    `;
+  
+    const values = [
+      name,
+      acronym,
+      description,
+      state,
+      website,
+      start_date,
+      end_date,
+      funding,
+      funding_reference,
+      external_partners,
+      media,
+      created_by,
+      project_type_id,
+      project_status_id,
+      projectId
+    ];
+  
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  };
+  
 
 module.exports = {
     getProjectsByUser,
@@ -219,4 +294,5 @@ module.exports = {
     createAssignment,
     createSharingLink,
     createTeamMember,
+    updateProject
 };

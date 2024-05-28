@@ -52,6 +52,13 @@
   border-color: var(--primary-color);
 }
 
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100% - 1rem);
+}
+
 
 .project-header {
   display: flex;

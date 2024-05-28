@@ -176,15 +176,29 @@ const createSharingLink = async (req, res) => {
 };
 
 const createTeamMember = async (req, res) => {
-    const { project_id, name, field, user_id } = req.body;
+    const { project_id, name, field, email, optional_email, capacity, user_id } = req.body;
     try {
-        const member = await projectsModel.createTeamMember({ project_id, name, field, user_id });
-        res.status(201).json(member);
+      const member = await projectsModel.createTeamMember({ project_id, name, field, email, optional_email, capacity, user_id });
+      res.status(201).json(member);
     } catch (error) {
-        console.error("Error creating team member:", error);
-        res.status(500).send("Internal Server Error");
+      console.error("Error creating team member:", error);
+      res.status(500).send("Internal Server Error");
     }
-};
+  };
+
+  const updateProject = async (req, res) => {
+    const projectId = req.params.id;
+    const projectData = req.body;
+  
+    try {
+      const updatedProject = await projectsModel.updateProject(projectId, projectData);
+      res.json(updatedProject);
+    } catch (error) {
+      console.error('Error updating project:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  };
+  
 
 module.exports = {
     createProject,
@@ -201,5 +215,6 @@ module.exports = {
     getRecentProjects,
     createAssignment,
     createSharingLink,
-    createTeamMember
+    createTeamMember,
+    updateProject
 };
