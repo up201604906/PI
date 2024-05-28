@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import MyModal from './MyModal';
+import EditModal from './EditModal';
 import { Button } from 'react-bootstrap';
 import "../../../styles/Home.css";
 import '../../../styles/Projects.css';
 
 const Project = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
   const [projectTypes, setProjectTypes] = useState([]);
   const [users, setUsers] = useState([]);
   const [statuses, setStatuses] = useState([]);
+  const [projectStatuses, setProjectStatuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingTask, setEditingTask] = useState(null);
@@ -21,9 +24,9 @@ const Project = () => {
   const [taskAssignee, setTaskAssignee] = useState("");
   const [linkDescription, setLinkDescription] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
-
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState('');
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -34,7 +37,7 @@ const Project = () => {
         }
         const data = await response.json();
         setProject(data);
-        setTeamMembers(data.teamMembers); // Assuming team members are included in the project response
+        setTeamMembers(data.teamMembers);
       } catch (error) {
         console.error('Error fetching project:', error);
         setError(error);
@@ -82,10 +85,21 @@ const Project = () => {
       }
     };
 
+    const fetchProjectStatuses = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/projects/statuses');
+        const data = await response.json();
+        setProjectStatuses(data);
+      } catch (error) {
+        console.error('Error fetching project statuses:', error);
+      }
+    };
+
     fetchProject();
     fetchProjectTypes();
     fetchUsers();
     fetchStatuses();
+    fetchProjectStatuses();
   }, [id]);
 
   const getAssigneeName = (assigneeId) => {
@@ -122,10 +136,30 @@ const Project = () => {
     }
   };
 
+  const handleSaveEditProject = async (updatedProject) => {
+    try {
+      await fetch(`http://localhost:4000/projects/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedProject)
+      });
+
+      const response = await fetch(`http://localhost:4000/projects/${id}`);
+      const updatedData = await response.json();
+      setProject(updatedData);
+    } catch (error) {
+      console.error('Error updating project:', error);
+    } finally {
+      setEditModalOpen(false);
+    }
+  };
+
   const handleEditTask = (task) => {
     setEditingTask(task.id);
     setTaskDescription(task.description);
-    setTaskAssignee(task.assignee); // Assuming assignee_id is the field for the member's id
+    setTaskAssignee(task.assignee);
   };
 
   const handleSaveTask = async (task) => {
@@ -215,6 +249,11 @@ const Project = () => {
     }
   };
 
+  const getProjectStatusName = (statusId) => {
+    const status = projectStatuses.find(status => status.id === statusId);
+    return status ? status.status_name : 'Unknown Status';
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -233,7 +272,7 @@ const Project = () => {
         <div className="header-left">
           <h1>{project.name}</h1>
           <p>Acronym: {project.acronym}</p>
-          <p>Status: {project.state}</p>
+          <p className="status">Status: {getProjectStatusName(project.project_status_id)}</p>
         </div>
         <div className="header-center">
           <p> <b>Website:</b> <a href={project.website} target="_blank" rel="noopener noreferrer">{project.website}</a></p>
@@ -244,6 +283,7 @@ const Project = () => {
         <div className="header-right">
           <p>Start Date: {format(new Date(project.start_date), 'dd/MM/yyyy')}</p>
           <p>Due on: {format(new Date(project.end_date), 'dd/MM/yyyy')}</p>
+          <Button className="" onClick={() => setEditModalOpen(true)}>EDIT PROJECT</Button>
         </div>
       </div>
       <div className="project-content">
@@ -296,6 +336,8 @@ const Project = () => {
                     <>
                       <p>{task.description}</p>
                       <span>Assigned to: {getAssigneeName(task.assignee)}</span>
+                      <p>Due Date: {format(new Date(task.due_date), 'dd/MM/yyyy')}</p>
+                      <p>Status: {task.status}</p>
                       <div className="action-buttons">
                         <Button className="edit" onClick={() => handleEditTask(task)} variant="link">Edit</Button>
                         <Button className="delete" onClick={() => handleDeleteTask(task)} variant="link">Delete</Button>
@@ -307,8 +349,8 @@ const Project = () => {
             ) : (
               <p>No task assignments available.</p>
             )}
-            <Button onClick={() => { setModalType('Task'); setModalOpen(true); }} className="mt-2">Create</Button>
           </div>
+          <Button onClick={() => { setModalType('Task'); setModalOpen(true); }} className="mt-2 add-button">Create</Button>
         </div>
         <div className="history">
           <h2>History</h2>
@@ -331,7 +373,10 @@ const Project = () => {
                 teamMembers.map(member => (
                   <div key={member.id} className="member-card">
                     <h4>{member.name}</h4>
-                    <p>{member.field}</p>
+                    <p>Field: {member.field}</p>
+                    <p>Email: {member.email}</p>
+                    {member.optional_email && <p>Optional Email: {member.optional_email}</p>}
+                    <p>Capacity: {member.capacity}</p>
                     <div className="action-buttons">
                       <Button className="delete" onClick={() => handleDeleteMember(member)} variant="link">Remove</Button>
                     </div>
@@ -340,15 +385,15 @@ const Project = () => {
               ) : (
                 <p>No team members available.</p>
               )}
-              <Button onClick={() => { setModalType('Member'); setModalOpen(true); }} className="mt-2">Add</Button>
             </div>
+            <Button onClick={() => { setModalType('Member'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
           </div>
           <div className="sharing-communication">
             <h3>Sharing & Communication</h3>
             <div className="scrollable-content">
               {project.sharingLinks.length > 0 ? (
                 project.sharingLinks.map(link => (
-                  <div key={link.id} className="communication-item">
+                  <div className="communication-item">
                     {editingLink === link.id ? (
                       <>
                         <input
@@ -380,13 +425,14 @@ const Project = () => {
               ) : (
                 <p>No sharing and communication links available.</p>
               )}
-              <Button onClick={() => { setModalType('Link'); setModalOpen(true); }} className="mt-2">Add</Button>
             </div>
+            <Button onClick={() => { setModalType('Link'); setModalOpen(true); }} className="mt-2 add-button">Add</Button>
           </div>
         </div>
       </div>
       <div className="floating-buttons-container">
         <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
+        
       </div>
       <MyModal
         isOpen={isModalOpen}
@@ -398,6 +444,16 @@ const Project = () => {
         users={users}
         statuses={statuses}
       />
+      {project && (
+        <EditModal
+          isOpen={isEditModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          project={project}
+          projectTypes={projectTypes}
+          projectStatuses={projectStatuses}
+          onSave={handleSaveEditProject}
+        />
+      )}
     </div>
   );
 };
