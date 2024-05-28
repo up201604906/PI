@@ -162,16 +162,12 @@ class PCAllocation extends React.Component {
                 fetch('http://localhost:4000/user-mgmt')
                     .then(res => res.json())
                     .then(users => {
-                        console.log(users);
-                        console.log(pcAllocations);
                         // Add user id to pcAllocations
                         const pcAllocationsWithUserId = pcAllocations.map(pcAllocation => {
                             const user = users.find(user => user.name === pcAllocation.user_name);
                             const userId = user ? user.id : null;
                             return { ...pcAllocation, userId };
                         });
-
-                        console.log(pcAllocationsWithUserId);
 
                         this.setState({ pcAllocations: pcAllocationsWithUserId });
                     })
