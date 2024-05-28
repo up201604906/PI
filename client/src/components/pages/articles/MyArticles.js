@@ -1,103 +1,137 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../../contexts/AuthContext';
 import "../../../styles/Home.css";
-import "../../../styles/Create.css";
-import "../../../styles/Articles.css";
-import "../../../styles/Projects.css";
-import BibTeXImportModal from './BibTeXImportPage'; // Import the new component
+import "../../../styles/Theses.css";
 
-const MyArticles = () => {
-    const [articles, setArticles] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [noArticlesFound, setNoArticlesFound] = useState(false);
-    const [showImportModal, setShowImportModal] = useState(false); // State to control the modal
-    const { id } = useParams();
-
-    useEffect(() => {
-        if (id) {
-            fetchArticles(id);
-        } else {
-            console.error('User ID not provided.');
-            setIsLoading(false);
-        }
-
-        const noArticlesTimeout = setTimeout(() => {
-            if (articles.length === 0 && !isLoading) {
-                setNoArticlesFound(true);
-            }
-        }, 5000);
-
-        return () => {
-            clearTimeout(noArticlesTimeout);
-        };
-    }, [id]);
-
-    const fetchArticles = async (userId) => {
-        setIsLoading(true);
-        try {
-            const response = await fetch(`http://localhost:4000/getArticles/${userId}`);
-            const data = await response.json();
-            if (data.length === 0) {
-                setNoArticlesFound(true);
-            } else {
-                setArticles(data);
-            }
-        } catch (error) {
-            console.error('Error fetching articles:', error);
-            setNoArticlesFound(true);
-        } finally {
-            setIsLoading(false);
-        }
+class Articles extends Component {
+    state = {
+        articles: [],
+        searchTerm: '',
+        typeFilter: '',
+        yearFilter: ''
     };
 
-    const formatAuthors = (authors) => {
-        if (Array.isArray(authors)) {
-            return authors.join(', ');
-        } else if (typeof authors === 'string') {
-            return authors;
-        } else if (typeof authors === 'object' && authors !== null) {
-            return Object.values(authors).join(', ');
-        }
-        return 'Unknown Author';
-    };
-
-    if (isLoading) {
-        return <div className="loading-container">Loading articles...</div>;
+    callAPI() {
+        fetch("http://localhost:4000/articles")
+            .then((res) => res.json())
+            .then((articles) => this.setState({ articles }))
+            .catch((err) => console.error(err));
     }
 
-    if (noArticlesFound) {
+    componentDidMount() {
+        this.callAPI();
+    }
+
+    refreshData = () => {
+        this.callAPI();
+    }
+
+    handleSearch = (event) => {
+        this.setState({ searchTerm: event.target.value });
+    }
+
+    handleTypeFilterChange = (event) => {
+        this.setState({ typeFilter: event.target.value });
+    }
+
+    handleYearFilterChange = (event) => {
+        this.setState({ yearFilter: event.target.value });
+    }
+
+    render() {
+        const { currentUser } = this.props;
+        const types = [...new Set(this.state.articles.map(article => article.type))].filter(type => type && type !== '');
+        const years = [...new Set(this.state.articles.map(article => article.year))].filter(year => year && year !== '');
+
+        const sortedArticles = [...this.state.articles].sort((a, b) => b.id - a.id);
+        const filteredArticles = sortedArticles.filter(article => {
+            const { title, journal, booktitle, publisher, abstract, keywords } = article;
+            const fieldsToSearch = [title, journal, booktitle, publisher, abstract, keywords];
+            return fieldsToSearch.some(field => field ? field.toString().toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false);
+        }).filter(
+            article => this.state.typeFilter === '' || article.type === this.state.typeFilter
+        ).filter(
+            article => this.state.yearFilter === '' || article.year === parseInt(this.state.yearFilter)
+        );
+
+        const myArticles = filteredArticles.filter(article => article.user_id === currentUser.id);
+        const allArticles = filteredArticles.filter(article => article.user_id !== currentUser.id);
+
         return (
-            <div className="article-management">
-                <div className="title">My Articles</div>
-                <div>No articles found, but you can check out other articles <Link to="/articles">here</Link>.</div>
-                <div className="floating-buttons-container">
-                    <Link to="/createArticle" className="floating-button">Create New Article</Link>
-                    <Link to="/importArticle" className="floating-button">Import Article</Link>
+            <div className={"d-flex flex-column"}>
+                <div className={"title"}><span>A</span>rticles</div>
+                <div id={"search_filters"}>
+                    <input type="text" placeholder={'\uD83D\uDD0E\uFE0E Search...'} value={this.state.searchTerm} onChange={this.handleSearch} />
+                    <label>Filter:</label>
+                    <select value={this.state.typeFilter} onChange={this.handleTypeFilterChange}>
+                        <option value="">All Types</option>
+                        {types.map((type, index) => <option key={index} value={type}>{type}</option>)}
+                    </select>
+                    <select value={this.state.yearFilter} onChange={this.handleYearFilterChange}>
+                        <option value="">All Years</option>
+                        {years.map((year, index) => <option key={index} value={year}>{year}</option>)}
+                    </select>
+                    <Link to="/createArticle" className="create-article">
+                        <button>Create New Article</button>
+                    </Link>
+                </div>
+                <div>
+                    <h2>My Articles</h2>
+                    {myArticles.map((article) => {
+                        const { id, title, year, journal, booktitle, publisher, abstract, type } = article;
+                        return (
+                            <div className="thesis" key={id}>
+                                <Link className="thesis-link" to={`/article/${id}`} key={id}>
+                                    <div className="line" id="line1">
+                                        <div className="title">{title}</div>
+                                        <div id="state">
+                                            <div className="item"><strong>Year:</strong> {year}</div>
+                                            <div className="item"><strong>Type:</strong> {type}</div>
+                                        </div>
+                                    </div>
+                                    <div className="description">{abstract}</div>
+                                    <div className="line" id="line2">
+                                        <div className="item"><strong>Journal/Booktitle:</strong> {journal || booktitle}</div>
+                                        <div className="item"><strong>Publisher:</strong> {publisher}</div>
+                                    </div>
+                                </Link>
+                            </div>
+                        );
+                    })}
+                </div>
+                <div>
+                    <h2>All Articles</h2>
+                    {allArticles.map((article) => {
+                        const { id, title, year, journal, booktitle, publisher, abstract, type } = article;
+                        return (
+                            <div className="thesis" key={id}>
+                                <Link className="thesis-link" to={`/article/${id}`} key={id}>
+                                    <div className="line" id="line1">
+                                        <div className="title">{title}</div>
+                                        <div id="state">
+                                            <div className="item"><strong>Year:</strong> {year}</div>
+                                            <div className="item"><strong>Type:</strong> {type}</div>
+                                        </div>
+                                    </div>
+                                    <div className="description">{abstract}</div>
+                                    <div className="line" id="line2">
+                                        <div className="item"><strong>Journal/Booktitle:</strong> {journal || booktitle}</div>
+                                        <div className="item"><strong>Publisher:</strong> {publisher}</div>
+                                    </div>
+                                </Link>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         );
     }
+}
 
-    return (
-        <div className="article-management">
-            <div className="title">My Articles</div>
-            <div className="articles-list">
-                {articles.map((article, index) => (
-                    <Link key={index} to={`/articles/${article.id}`} className="article-card-link">
-                        <div className="article-card">
-                            <h3>{article.title}</h3>
-                            <h4>Authors: {formatAuthors(article.authors)}</h4>
-                            <p>Year: {article.year}, Type: {article.type}</p>
-                        </div>
-                    </Link>
-                ))}
-            </div>
-            <div className="floating-buttons-container">
-                <Link to="/createArticle" className="floating-button">Create New Article</Link>
-                <Link to="/importArticle" className="floating-button">Import Article</Link>
-            </div>
-        </div>
-    );
+const ArticlesWithAuth = () => {
+    const { currentUser } = useAuth();
+    return <Articles currentUser={currentUser} />;
 };
 
-export default MyArticles;
+export default ArticlesWithAuth;
