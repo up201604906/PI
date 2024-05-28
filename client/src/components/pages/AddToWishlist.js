@@ -41,6 +41,14 @@ class AddToWishlist extends React.Component {
                     .catch(err => console.error(err));
             })
             .catch(err => console.error(err));
+
+            // Fetch users
+            fetch('http://localhost:4000/user-mgmt')
+                .then(res => res.json())
+                .then((data) => {
+                    this.setState({ users: data });
+                })
+                .catch((err) => console.error(err));
     }
 
     handleResourceSelection = (resourceName) => {
@@ -102,7 +110,7 @@ class AddToWishlist extends React.Component {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            user_name: 'sampleName', // Hardcoded for now
+                            user_name: this.state.user_name,
                             resource_name: this.state.selectedResource ? this.state.selectedResource.name : null,
                             potential_resource_name: this.state.newResource ? this.state.newResource.name : null,
                             description: this.state.description,
@@ -221,6 +229,15 @@ class AddToWishlist extends React.Component {
                                         <option value="low">Low</option>
                                         <option value="medium">Medium</option>
                                         <option value="high">High</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    User Name:
+                                    <select name="user_name" value={this.state.user_name} onChange={this.handleChange} required>
+                                        <option value="" disabled selected>Select a user</option>
+                                        {this.state.users.map((user, index) => (
+                                            <option key={index} value={user.name}>{user.name}</option>
+                                        ))}
                                     </select>
                                 </label>
                                 <button type="submit">Add to Wishlist</button>
