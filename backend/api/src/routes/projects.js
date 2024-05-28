@@ -3,7 +3,7 @@ const router = express.Router();
 const projectController = require('../controllers/project_controller');
 const userController = require('../controllers/user_controller')
 
-router.put('/projects/:id', projectController.updateProject);
+router.put('/:id', projectController.updateProject);
 router.get('/users', userController.getUsersWithProjectTypes);
 router.get('/assigned/:userId', projectController.getAssignedProjects);
 router.post('/create', projectController.createProject);
