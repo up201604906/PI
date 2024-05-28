@@ -143,22 +143,26 @@ const Project = () => {
 
   const handleSaveTask = async () => {
     try {
-      await fetch(`http://localhost:4000/projects/assignments/${editingTaskId}`, {
+      const response = await fetch(`http://localhost:4000/projects/assignments/${editingTaskId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ description: taskDescription, assignee_id: taskAssignee, due_date: taskDueDate, status: taskStatus })
+        body: JSON.stringify({ description: taskDescription, assignee: taskAssignee, due_date: taskDueDate, status: taskStatus })
       });
 
-      setProject(prevProject => ({
-        ...prevProject,
-        assignments: prevProject.assignments.map(t =>
-          t.id === editingTaskId ? { ...t, description: taskDescription, assignee_id: taskAssignee, due_date: taskDueDate, status: taskStatus } : t
-        )
-      }));
+      if (response.ok) {
+        setProject(prevProject => ({
+          ...prevProject,
+          assignments: prevProject.assignments.map(t =>
+            t.id === editingTaskId ? { ...t, description: taskDescription, assignee: taskAssignee, due_date: taskDueDate, status: taskStatus } : t
+          )
+        }));
 
-      setEditingTaskId(null);
+        setEditingTaskId(null);
+      } else {
+        console.error('Error saving task:', response.statusText);
+      }
     } catch (error) {
       console.error('Error saving task:', error);
     }
@@ -172,7 +176,7 @@ const Project = () => {
 
   const handleSaveLink = async () => {
     try {
-      await fetch(`http://localhost:4000/projects/sharingLinks/${editingLinkId}`, {
+      const response = await fetch(`http://localhost:4000/projects/sharingLinks/${editingLinkId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -180,14 +184,18 @@ const Project = () => {
         body: JSON.stringify({ link_type: linkDescription, link_url: linkUrl })
       });
 
-      setProject(prevProject => ({
-        ...prevProject,
-        sharingLinks: prevProject.sharingLinks.map(l =>
-          l.id === editingLinkId ? { ...l, link_type: linkDescription, link_url: linkUrl } : l
-        )
-      }));
+      if (response.ok) {
+        setProject(prevProject => ({
+          ...prevProject,
+          sharingLinks: prevProject.sharingLinks.map(l =>
+            l.id === editingLinkId ? { ...l, link_type: linkDescription, link_url: linkUrl } : l
+          )
+        }));
 
-      setEditingLinkId(null);
+        setEditingLinkId(null);
+      } else {
+        console.error('Error saving link:', response.statusText);
+      }
     } catch (error) {
       console.error('Error saving link:', error);
     }
@@ -196,15 +204,18 @@ const Project = () => {
   const handleDeleteTask = async (task) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       try {
-        await fetch(`http://localhost:4000/projects/assignments/${task.id}`, {
+        const response = await fetch(`http://localhost:4000/projects/assignments/${task.id}`, {
           method: 'DELETE'
         });
 
-        setProject(prevProject => ({
-          ...prevProject,
-          assignments: prevProject.assignments.filter(t => t.id !== task.id)
-        }));
-
+        if (response.ok) {
+          setProject(prevProject => ({
+            ...prevProject,
+            assignments: prevProject.assignments.filter(t => t.id !== task.id)
+          }));
+        } else {
+          console.error('Error deleting task:', response.statusText);
+        }
       } catch (error) {
         console.error('Error deleting task:', error);
       }
@@ -214,15 +225,18 @@ const Project = () => {
   const handleDeleteLink = async (link) => {
     if (window.confirm("Are you sure you want to delete this link?")) {
       try {
-        await fetch(`http://localhost:4000/projects/sharingLinks/${link.id}`, {
+        const response = await fetch(`http://localhost:4000/projects/sharingLinks/${link.id}`, {
           method: 'DELETE'
         });
 
-        setProject(prevProject => ({
-          ...prevProject,
-          sharingLinks: prevProject.sharingLinks.filter(l => l.id !== link.id)
-        }));
-
+        if (response.ok) {
+          setProject(prevProject => ({
+            ...prevProject,
+            sharingLinks: prevProject.sharingLinks.filter(l => l.id !== link.id)
+          }));
+        } else {
+          console.error('Error deleting link:', response.statusText);
+        }
       } catch (error) {
         console.error('Error deleting link:', error);
       }
@@ -232,15 +246,18 @@ const Project = () => {
   const handleDeleteMember = async (member) => {
     if (window.confirm("Are you sure you want to remove this member?")) {
       try {
-        await fetch(`http://localhost:4000/projects/teamMembers/${member.id}`, {
+        const response = await fetch(`http://localhost:4000/projects/teamMembers/${member.id}`, {
           method: 'DELETE'
         });
 
-        setProject(prevProject => ({
-          ...prevProject,
-          teamMembers: prevProject.teamMembers.filter(m => m.id !== member.id)
-        }));
-
+        if (response.ok) {
+          setProject(prevProject => ({
+            ...prevProject,
+            teamMembers: prevProject.teamMembers.filter(m => m.id !== member.id)
+          }));
+        } else {
+          console.error('Error removing member:', response.statusText);
+        }
       } catch (error) {
         console.error('Error removing member:', error);
       }
@@ -254,7 +271,7 @@ const Project = () => {
 
   const handleSaveProject = async (updatedProjectData) => {
     try {
-      await fetch(`http://localhost:4000/projects/${project.id}`, {
+      const response = await fetch(`http://localhost:4000/projects/${project.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -262,11 +279,15 @@ const Project = () => {
         body: JSON.stringify(updatedProjectData)
       });
 
-      setProject(prevProject => ({
-        ...prevProject,
-        ...updatedProjectData
-      }));
-      setEditModalOpen(false);
+      if (response.ok) {
+        setProject(prevProject => ({
+          ...prevProject,
+          ...updatedProjectData
+        }));
+        setEditModalOpen(false);
+      } else {
+        console.error('Error saving project:', response.statusText);
+      }
     } catch (error) {
       console.error('Error saving project:', error);
     }
