@@ -60,22 +60,21 @@ class Thesis extends React.Component {
     }
 
     handleDelete = () => {
-        if (window.confirm("Are you sure you want to delete this thesis?")) {
-            const thesisId = window.location.pathname.split("/").pop();
-            fetch(`http://localhost:4000/thesis/${thesisId}`, {
-                method: 'DELETE',
-            })
-            .then(() => {
-                window.location.href = "/theses";
-            })
-            .catch((err) => console.error(err));
-        }
+        const thesisId = window.location.pathname.split("/").pop();
+        fetch(`http://localhost:4000/thesis/${thesisId}`, {
+            method: 'DELETE',
+        })
+        .then(() => {
+            window.location.href = "/theses";
+        })
+        .catch((err) => console.error(err));
     }
 
     render() {
         const { thesis, isEditing, editedThesis } = this.state;
 
         return (
+            <>
             <div>
                 {thesis && thesis.map(thesis => {
                     const { id, course, title, mentor, comentor, host_institution_name, host_institution_description, proposer_name, proposer_email, proposer_phone, proposer_position, involved_areas, description, goals, innovative_aspects, work_plan, bibliography, candidate_profile, work_after_dissertation, conferences_and_scientific_journals, edition, observations, state } = thesis;
@@ -141,13 +140,34 @@ class Thesis extends React.Component {
                             {!isEditing && 
                                 <div id="buttons2">
                                     <button id="editButton" onClick={this.toggleEdit}>Edit Thesis</button>
-                                    <button id="deleteButton" onClick={this.handleDelete}>Delete Thesis</button>
+                                    <button id="deleteButton" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Thesis</button>
                                 </div>
                             }
                         </div>
                     );
                 })}
             </div>
+            <div className="modal fade custom-modal" id="deleteModal" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                        </div>
+                        <div className="modal-body">
+                            Are you sure you want to delete this Thesis?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary btn-sm rounded custom-btn" data-bs-dismiss="modal"
+                                    onClick={this.handleDelete}>Delete Thesis
+                            </button>
+                            <button type="button" className="btn btn-secondary btn-sm rounded custom-btn" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </>
         );
     }
 }
