@@ -157,6 +157,48 @@ const removeTeamMember = async (memberId) => {
     await pool.query(query, values);
 };
 
+const createAssignment = async ({ project_id, description, assignee_id, due_date, status }) => {
+    const query = `
+        INSERT INTO project_assignments (project_id, description, assignee, due_date, status)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *;
+    `;
+    const values = [project_id, description, assignee_id, due_date, status];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+};
+
+const createSharingLink = async ({ project_id, link_type, link_url }) => {
+    const query = `
+        INSERT INTO sharing_communication (project_id, link_type, link_url)
+        VALUES ($1, $2, $3)
+        RETURNING *;
+    `;
+    const values = [project_id, link_type, link_url];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+};
+
+const createTeamMember = async ({ project_id, name, field, user_id }) => {
+    const query = `
+        INSERT INTO research_team (name, field, user_id)
+        VALUES ($1, $2, $3)
+        RETURNING *;
+    `;
+    const values = [name, field, user_id];
+    const result = await pool.query(query, values);
+    const teamMember = result.rows[0];
+
+    const associationQuery = `
+        INSERT INTO project_research_team (project_id, research_team_id)
+        VALUES ($1, $2);
+    `;
+    const associationValues = [project_id, teamMember.id];
+    await pool.query(associationQuery, associationValues);
+
+    return teamMember;
+};
+
 module.exports = {
     getProjectsByUser,
     getProjectById,
@@ -173,5 +215,8 @@ module.exports = {
     updateSharingLink,
     deleteSharingLink,
     removeTeamMember,
-    getRecentProjects
+    getRecentProjects,
+    createAssignment,
+    createSharingLink,
+    createTeamMember,
 };

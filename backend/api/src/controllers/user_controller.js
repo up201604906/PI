@@ -156,6 +156,16 @@ const deleteUser = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 };
+const getUsersWithProjectTypes = async (req, res) => {
+    try {
+        const users = await user_model.getUsersWithProjectTypes();
+        console.log("users!");
+        res.json(users);
+    } catch (error) {
+        console.error("Error fetching users with project types:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
 
 module.exports = { 
     signup,
@@ -165,5 +175,6 @@ module.exports = {
     getUsers,
     getUserAreas,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUsersWithProjectTypes
 };

@@ -156,6 +156,17 @@ const delete_user = async (userId) => {
 
 }
 
+const getUsersWithProjectTypes = async () => {
+    const query = `
+        SELECT u.id, u.name, u.contact_email, u.personal_email, u.phone_number, pt.type_name
+        FROM users u
+        LEFT JOIN user_project_type upt ON u.id = upt.user_id
+        LEFT JOIN project_types pt ON upt.project_type_id = pt.id
+    `;
+    const result = await pool.query(query);
+    return result.rows;
+};
+
 
 module.exports = {
     doesUserExist,
@@ -166,5 +177,6 @@ module.exports = {
     get_user_areas,
     update_user,
     update_user_areas,
-    delete_user
+    delete_user,
+    getUsersWithProjectTypes
 };

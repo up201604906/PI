@@ -153,6 +153,38 @@ const getRecentProjects = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 };
+const createAssignment = async (req, res) => {
+    const { project_id, description, assignee_id, due_date, status } = req.body;
+    try {
+        const assignment = await projectsModel.createAssignment({ project_id, description, assignee_id, due_date, status });
+        res.status(201).json(assignment);
+    } catch (error) {
+        console.error("Error creating assignment:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const createSharingLink = async (req, res) => {
+    const { project_id, link_type, link_url } = req.body;
+    try {
+        const link = await projectsModel.createSharingLink({ project_id, link_type, link_url });
+        res.status(201).json(link);
+    } catch (error) {
+        console.error("Error creating sharing link:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const createTeamMember = async (req, res) => {
+    const { project_id, name, field, user_id } = req.body;
+    try {
+        const member = await projectsModel.createTeamMember({ project_id, name, field, user_id });
+        res.status(201).json(member);
+    } catch (error) {
+        console.error("Error creating team member:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
 
 module.exports = {
     createProject,
@@ -166,5 +198,8 @@ module.exports = {
     removeTeamMember,
     updateAssignment,
     updateSharingLink,
-    getRecentProjects
+    getRecentProjects,
+    createAssignment,
+    createSharingLink,
+    createTeamMember
 };

@@ -10,6 +10,9 @@ const Project = () => {
   const { id } = useParams();
   const [project, setProject] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
+  const [projectTypes, setProjectTypes] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [statuses, setStatuses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingTask, setEditingTask] = useState(null);
@@ -40,7 +43,49 @@ const Project = () => {
       }
     };
 
+    const fetchProjectTypes = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/projects/types`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setProjectTypes(data);
+      } catch (error) {
+        console.error('Error fetching project types:', error);
+      }
+    };
+
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/projects/users`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    const fetchStatuses = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/projects/statuses`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setStatuses(data.map(status => status.status_name));
+      } catch (error) {
+        console.error('Error fetching statuses:', error);
+      }
+    };
+
     fetchProject();
+    fetchProjectTypes();
+    fetchUsers();
+    fetchStatuses();
   }, [id]);
 
   const getAssigneeName = (assigneeId) => {
@@ -227,6 +272,23 @@ const Project = () => {
                           </option>
                         ))}
                       </select>
+                      <input
+                        type="date"
+                        value={task.due_date}
+                        onChange={(e) => task.due_date = e.target.value}
+                        className="form-control"
+                      />
+                      <select
+                        value={task.status}
+                        onChange={(e) => task.status = e.target.value}
+                        className="form-control"
+                      >
+                        {statuses.map(status => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
                       <Button onClick={() => handleSaveTask(task)} variant="primary" className="mt-2">Save</Button>
                       <Button onClick={() => setEditingTask(null)} variant="secondary" className="mt-2">Cancel</Button>
                     </>
@@ -331,6 +393,10 @@ const Project = () => {
         onClose={() => setModalOpen(false)}
         type={modalType}
         onSave={handleSaveNewItem}
+        teamMembers={teamMembers}
+        projectTypes={projectTypes}
+        users={users}
+        statuses={statuses}
       />
     </div>
   );
