@@ -188,14 +188,7 @@ class AddToWishlist extends React.Component {
                                 )}
                                 <label>
                                     Name:
-                                    <input 
-                                        type="text" 
-                                        name="name" 
-                                        value={this.state.name} 
-                                        onChange={this.handleChange} 
-                                        required 
-                                        disabled={this.state.isExistingResource} // Disable the input field when an existing resource is selected
-                                    />
+                                    <input type="text" name="name" value={this.state.name} onChange={this.handleChange} required disabled={this.state.isExistingResource} />
                                 </label>
                                 <label>
                                     Description:

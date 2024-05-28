@@ -9,7 +9,8 @@ class Table extends React.Component {
         editingRow: null,
         editedData: null,
         isResource: null,
-        row: null
+        row: null,
+        users: [],
     };
 
     handleDelete = (row, isResource) => {
@@ -26,6 +27,14 @@ class Table extends React.Component {
     };
 
     handleEdit = (index, row) => {
+        // Fetch users
+        fetch('http://localhost:4000/user-mgmt')
+            .then(res => res.json())
+            .then(users => {
+                this.setState({ users });
+            })
+            .catch(err => console.error(err));
+
         const editedRow = [...row];
         // Remove '€' from price
         editedRow[6] = parseFloat(editedRow[6].replace(' €', ''));
@@ -33,8 +42,14 @@ class Table extends React.Component {
         this.setState({ editingRow: index, editedData: editedRow, row: editedRow, isResource: row[11] });
     };
 
+    handleChange = (event, cellIndex) => {
+        const editedData = [...this.state.editedData];
+        editedData[cellIndex] = event.target.value;
+        this.setState({ editedData });
+    }
+
     handleSave = () => {
-        const { editedData, isResource, row } = this.state;
+        const { editedData, isResource } = this.state;
         const updatedItem = {
             user_name: editedData[0],
             name: editedData[1],
@@ -48,8 +63,8 @@ class Table extends React.Component {
         };
 
         const endpoint = isResource
-            ? `http://localhost:4000/inventory/wishlist/${row[0]}/${row[1]}/null`
-            : `http://localhost:4000/inventory/wishlist/${row[0]}/null/${row[1]}`;
+            ? `http://localhost:4000/inventory/wishlist/${editedData[0]}/${editedData[1]}/null`
+            : `http://localhost:4000/inventory/wishlist/${editedData[0]}/null/${editedData[1]}`;
         fetch(endpoint, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -62,12 +77,6 @@ class Table extends React.Component {
         .catch((err) => console.error(err));
     }
 
-    handleChange = (event, cellIndex) => {
-        const editedData = [...this.state.editedData];
-        editedData[cellIndex] = event.target.value;
-        this.setState({ editedData });
-    }
-
     handleCancel = () => {
         this.setState({ editingRow: null, editedData: null });
     }
@@ -78,37 +87,48 @@ class Table extends React.Component {
         return (
         <table>
             <thead>
-            <tr>
-                {tableHead.map((head, index) => <th key={index}>{head}</th>)}
-                <th>Actions</th>
-            </tr>
+                <tr>
+                    {tableHead.map((head, index) => <th key={index}>{head}</th>)}
+                    <th>Actions</th>
+                </tr>
             </thead>
             <tbody>
                 {data.map((row, index) => (
                     <tr key={index}>
                         {row.map((cell, i) => {
                         if (i === 11) return null; // Skip the isResource column
+                        if (i === 12) return null; // Skip the userId column
                         return this.state.editingRow === index && i !== 7 && i !== 9 ? ( // Prevent the total price & added at from being edited
                             <td key={i}>
-                                {i === 8 ? ( // If it's the priority cell
-                                <select className={"priority-edit-select"} value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
-                                    <option value="low">low</option>
-                                    <option value="medium">medium</option>
-                                    <option value="high">high</option>
-                                </select>
-                            ) : i === 10 ? ( // If it's the state cell
-                                <select className={"priority-edit-select"} value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
-                                    <option value="open">open</option>
-                                    <option value="ordered">ordered</option>
-                                    <option value="delivered">delivered</option>
-                                </select>
-                            ) : (
-                                <input value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)} />
-                            )}
+                                {i === 0 ? ( // If it's the user cell
+                                    <select className="priority-edit-select" value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
+                                        {this.state.users.map((user, userIndex) => (
+                                            <option key={userIndex} value={user.name}>{user.name}</option>
+                                        ))}
+                                    </select>
+                                ) : i === 8 ? ( // If it's the priority cell
+                                    <select className={"priority-edit-select"} value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
+                                        <option value="low">low</option>
+                                        <option value="medium">medium</option>
+                                        <option value="high">high</option>
+                                    </select>
+                                ) : i === 10 ? ( // If it's the state cell
+                                    <select className={"priority-edit-select"} value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)}>
+                                        <option value="open">open</option>
+                                        <option value="ordered">ordered</option>
+                                        <option value="delivered">delivered</option>
+                                    </select>
+                                ) : (
+                                    <input value={this.state.editedData[i] || ''} onChange={(event) => this.handleChange(event, i)} />
+                                )}
                             </td>
                         ) : (
                             <td className="move-to-resources" key={i}>
-                                {cell}
+                                {i === 0 ? ( // If it's the user cell
+                                    <Link to={`/user/${row[12]}`} style={{ color: 'black' }}>{cell}</Link> // Use the user ID from the end of the row
+                                ) : (
+                                    cell
+                                )}
                                 { i === 10 && cell === 'delivered' && <button id="moveToResourcesButton" onClick={() => this.props.handleMoveToResourcesClick(row[0], row[1], row[11], row[5])}>Move to Resources</button> } 
                             </td>
                         );
@@ -153,31 +173,47 @@ class Wishlist extends React.Component {
         fetch("http://localhost:4000/inventory/wishlist")
             .then((res) => res.json())
             .then((res) => {
-                const wishlist = res.map(item => {
+                return Promise.all(res.map(item => {
                     const date = new Date(item.added_at);
                     const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
 
-                    return {
-                        user_name: item.user_name,
-                        resource_name: item.resource_name,
-                        resource_description: item.resource_description,
-                        resource_category: item.resource_category,
-                        resource_supplier: item.resource_supplier,
-                        resource_price: item.resource_price,
-                        resource_priority: item.resource_priority,
-                        potential_resource_name: item.potential_resource_name,
-                        potential_resource_description: item.potential_resource_description,
-                        potential_resource_category: item.potential_resource_category,
-                        potential_resource_supplier: item.potential_resource_supplier,
-                        potential_resource_price: item.potential_resource_price,
-                        potential_resource_priority: item.potential_resource_priority,
-                        quantity: item.quantity,
-                        added_at: formattedDate,
-                        state: item.state
-                    };
-                });
-                this.setState({ wishlist });
+                    // Fetch users
+                    return fetch('http://localhost:4000/user-mgmt')
+                        .then(res => res.json())
+                        .then(users => {
+                            // Add user id to item
+                            const user = users.find(user => user.name === item.user_name);
+                            if (user) {
+                                item.userId = user.id;
+                            }
+                            else {
+                                item.userId = null;
+                            }
+
+                            return {
+                                user_name: item.user_name,
+                                resource_name: item.resource_name,
+                                resource_description: item.resource_description,
+                                resource_category: item.resource_category,
+                                resource_supplier: item.resource_supplier,
+                                resource_price: item.resource_price,
+                                resource_priority: item.resource_priority,
+                                potential_resource_name: item.potential_resource_name,
+                                potential_resource_description: item.potential_resource_description,
+                                potential_resource_category: item.potential_resource_category,
+                                potential_resource_supplier: item.potential_resource_supplier,
+                                potential_resource_price: item.potential_resource_price,
+                                potential_resource_priority: item.potential_resource_priority,
+                                quantity: item.quantity,
+                                added_at: formattedDate,
+                                state: item.state,
+                                userId: item.userId
+                            };
+                        })
+                        .catch(err => console.error(err));
+                }));
             })
+            .then(wishlist => this.setState({ wishlist }))
             .catch((err) => console.error(err));
     }
 
@@ -278,7 +314,8 @@ class Wishlist extends React.Component {
             quantity: item.quantity,
             added_at: item.added_at,
             state: item.state,
-            isResource: item.resource_name !== null ? true : false
+            isResource: item.resource_name !== null ? true : false,
+            userId: item.userId
         }));
         const filteredWishlist = mappedWishlist.filter(
             wishlistItem => (wishlistItem.user_name ? wishlistItem.user_name.toLowerCase().includes(this.state.searchTerm.toLowerCase()) : false) || 
@@ -343,7 +380,7 @@ class Wishlist extends React.Component {
                         <Table 
                             title={"Wishlist"} 
                             tableHead={["User", "Resource Name", "Description", "Category", "Supplier", "Desired Quantity", "Unitary Price", "Total Price", "Priority", "Added At", "State"]} 
-                            data={filteredWishlist.map(item => [item.user_name, item.name, item.description, item.category, item.supplier, item.quantity, `${item.price} €`, `${item.price * item.quantity} €`, item.priority, item.added_at, item.state, item.isResource])} 
+                            data={filteredWishlist.map(item => [item.user_name, item.name, item.description, item.category, item.supplier, item.quantity, `${item.price} €`, `${item.price * item.quantity} €`, item.priority, item.added_at, item.state, item.isResource, item.userId])} 
                             refreshData={this.refreshData}
                             handleMoveToResourcesClick={this.handleMoveToResourcesClick}
                         />
