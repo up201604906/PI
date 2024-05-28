@@ -26,6 +26,31 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .featured .icon-box-eit:hover .partner-universities {
+      color: #fff !important;
+      text-decoration: underline !important;
+    }
+
+    .btn.btn-outline-primary.btn-lg.btn-block {
+      background: #45ac32;
+      border: 3px solid white;
+      border-radius: 50px;
+      padding: 10px 15px;
+      color: #fff;
+      transition: 0.4s;
+      font-size: medium;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    .btn.btn-outline-primary.btn-lg.btn-block:hover {
+      background: white;
+      color: black;
+    }
+  </style>
+
   
 
   <!-- =======================================================
@@ -50,7 +75,7 @@
       <div class="social-links d-none d-md-flex align-items-center">
         <a href="https://twitter.com/Digi2And" class="twitter" target="_blank"><i class="bi bi-twitter"></i></a>
         <!--<a href="#" class="facebook"><i class="bi bi-facebook"></i></a>-->
-        <!--<a href="#" class="instagram"><i class="bi bi-instagram"></i></a>-->
+        <a href="https://www.instagram.com/digi2.lab/" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
         <a href="https://www.linkedin.com/company/digi2-digital-and-intelligent-industry-lab/" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
         <a href="https://www.youtube.com/channel/UCaroFiRIdnf0_WDLLXjZF5g" target="_blank" class="youtube"><i class="bi bi-youtube"></i></i></a>
       </div>
@@ -69,10 +94,17 @@
        <nav id="navbar" class="navbar">
         <ul>
           <li><a href="index.html">Home</a></li>
-		  <li><a href="jobs.html">Jobs</a></li>
+		      <li><a href="jobs.html">Jobs</a></li>
           <li><a href="activities.html">Activities</a></li>
-		  <li><a href="eit.html">EIT-Manufacturing</a></li>
-		  <li><a class="active" href="eitds.html">EIT-Manufacturing Doctoral School</a></li>
+          <li class="dropdown"><a class="active" href="#">EIT-Manufacturing</a></a>
+            <ul>
+              <li><a href="eit.html">Projects</a></li>
+              <li><a href="eitds.html">Doctoral School</a></li>
+            </ul>
+          </li>
+          <li><a href="http://localhost:3000/home">Dashboard</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
           <!--<li><a href="blog.html">Blog</a></li>-->
           <!--
 		  <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
@@ -94,7 +126,6 @@
           </li>
           <li><a href="contact.html">Contact</a></li>
 		  -->
-        </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
@@ -133,10 +164,10 @@
           <div class="col-lg-1 pt-4 pt-lg-0 content">
 		  </div>
 		  <div class="col-lg-10 pt-4 pt-lg-0 content" style="text-align: center;">
-			 <p>The <a href="https://www.eitmanufacturing.eu/what-we-do/education/education-programmes/empower-programme/doctoral-school/" target="_blank" style="color: #0d6efd; text-decoration: underline;"><strong>EIT Manufacturing Doctoral School</strong></a> supports PhD students in transforming their research results or patents into marketable solutions.</p>
+			 <p>The <a href="https://www.eitmanufacturing.eu/what-we-do/education/education-programmes/empower-programme/doctoral-school/" target="_blank" style="color: #45ac32; text-decoration: underline;"><strong>EIT Manufacturing Doctoral School</strong></a> supports PhD students in transforming their research results or patents into marketable solutions.</p>
 			 <p>The EIT Doctoral School is <strong>FREE for FEUP PhD students</strong>, making it an excellent opportunity for them to pursue their entrepreneurial and research ambitions.</p>
 			 <p>The <strong>University of Porto</strong>, stands as one of the founding members of the EIT Manufacturing Doctoral School. This innovative doctoral program empowers PhD students to transform their research findings into groundbreaking marketable solutions, fostering a thriving ecosystem of innovation and entrepreneurship within the manufacturing sector.</p>
-			 <p>The programme involves PhD students from EIT-Manufacturing partner universities&nbsp;and may include collaboration with <a href="https://www.eitmanufacturing.eu/partners/" target="_blank" style="color: #0d6efd; text-decoration: underline;">industry partners</a> from the EIT Manufacturing community which help create an industrial doctorate position. These partners come from a variety of sectors such as automotive, aerospace, process industry, machinery and equipment, electronics, Information and Communication Technologies or medical technologies.</p>
+			 <p>The programme involves PhD students from EIT-Manufacturing partner universities&nbsp;and may include collaboration with <a href="https://www.eitmanufacturing.eu/partners/" target="_blank" style="color: #45ac32; text-decoration: underline;">industry partners</a> from the EIT Manufacturing community which help create an industrial doctorate position. These partners come from a variety of sectors such as automotive, aerospace, process industry, machinery and equipment, electronics, Information and Communication Technologies or medical technologies.</p>
 			 <p>The EIT Manufacturing Doctoral School is a <span class="ui-provider a b c d e f g h i j k l m n o p q r s t u v w x y z ab ac ae af ag ah ai aj ak" dir="ltr"><strong>complementary</strong> <strong>programme on top of the PhD studies</strong>. This Innovation and Entrepreneurship (I&amp;E) programme from us is a</span>n international <strong>two-year education focused on manufacturing innovation and entrepreneurship</strong>. The educational experience is enriched through five months, in which students are given the opportunity to move in academic and non-academic environments.</p> 
           </div>
 		  <div class="col-lg-1 pt-4 pt-lg-0 content">
@@ -182,14 +213,14 @@
               <p>The <strong>Business Creation track</strong> in the I&amp;E Program is designed for PhD students with a specific interest in developing their own entrepreneurial business idea. This track comprises two one-year programmes.</p>
             </div>
           </div>
-		  <div class="col-lg-4 mt-4 mt-lg-0">
+		      <div class="col-lg-4 mt-4 mt-lg-0">
             <div class="icon-box-eit">
               <h3><a href="https://apply-ds.eitmanufacturing.eu/courses/course/11-eit-manufacturing-doctoral-school-programme?_gl=1*1x90hh4*_gcl_au*MTE2OTI0NDI4NS4xNzAyNTI3NTA5">How to apply?!</a></h3>
               <h4>Application deadline: 15 February 2024</h4>
-			  <p>Applicants must be enrolled into a PhD position at one of our partner universities (<a href="https://www.eitmanufacturing.eu/what-we-do/education/education-programmes/empower-programme/doctoral-school/" target="_blank" style="color: #0d6efd; text-decoration: underline;">check our partner universities</a>)</p>
-			  <a class="btn btn-outline-primary btn-lg btn-block" href="https://apply-ds.eitmanufacturing.eu/courses/course/11-eit-manufacturing-doctoral-school-programme?_gl=1*1x90hh4*_gcl_au*MTE2OTI0NDI4NS4xNzAyNTI3NTA5" aria-label="Apply (Opens in a new window)" title="Apply" target="_blank" rel="noopener noreferrer" class="cta-item__button">Apply now</a>  
+			        <p>Applicants must be enrolled into a PhD position at one of our partner universities (<a href="https://www.eitmanufacturing.eu/what-we-do/education/education-programmes/empower-programme/doctoral-school/" class="partner-universities" target="_blank" style="color: #45ac32; text-decoration: none; font-weight: bold;">check our partner universities</a>).</p>
+			        <a class="btn btn-outline-primary btn-lg btn-block" href="https://apply-ds.eitmanufacturing.eu/courses/course/11-eit-manufacturing-doctoral-school-programme?_gl=1*1x90hh4*_gcl_au*MTE2OTI0NDI4NS4xNzAyNTI3NTA5" aria-label="Apply (Opens in a new window)" title="Apply" target="_blank" rel="noopener noreferrer" class="cta-item__button">Apply now</a>  
             </div>
-		  </div>
+		      </div>
         </div>
 
       </div>
