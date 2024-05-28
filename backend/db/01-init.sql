@@ -160,7 +160,7 @@ CREATE TABLE articles (
   booktitle VARCHAR,
   publisher VARCHAR,
   address VARCHAR,
-  pages VARCHAR,  -- Use VARCHAR to handle ranges (e.g., 123-145)
+  pages VARCHAR,  
   volume INTEGER,
   number INTEGER,
   series VARCHAR,
