@@ -49,7 +49,7 @@
       <div class="social-links d-none d-md-flex align-items-center">
         <a href="https://twitter.com/Digi2And" class="twitter" target="_blank"><i class="bi bi-twitter"></i></a>
         <!--<a href="#" class="facebook"><i class="bi bi-facebook"></i></a>-->
-        <!--<a href="#" class="instagram"><i class="bi bi-instagram"></i></a>-->
+        <a href="https://www.instagram.com/digi2.lab/" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
         <a href="https://www.linkedin.com/company/digi2-digital-and-intelligent-industry-lab/" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
         <a href="https://www.youtube.com/channel/UCaroFiRIdnf0_WDLLXjZF5g" target="_blank" class="youtube"><i class="bi bi-youtube"></i></i></a>
       </div>
@@ -68,10 +68,17 @@
        <nav id="navbar" class="navbar">
         <ul>
           <li><a href="index.html">Home</a></li>
-		  <li><a class="active" href="jobs.html">Jobs</a></li>
+		      <li><a class="active" href="jobs.html">Jobs</a></li>
           <li><a href="activities.html">Activities</a></li>
-		  <li><a href="eit.html">EIT-Manufacturing</a></li>
-		  <li><a href="eitds.html">EIT-Manufacturing Doctoral School</a></li>
+          <li class="dropdown"><a href="#">EIT-Manufacturing</a></a>
+            <ul>
+              <li><a href="eit.html">Projects</a></li>
+              <li><a href="eitds.html">Doctoral School</a></li>
+            </ul>
+          </li>
+          <li><a href="http://localhost:3000/home">Dashboard</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
           <!--<li><a href="blog.html">Blog</a></li>-->
           <!--
 		  <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
@@ -93,7 +100,6 @@
           </li>
           <li><a href="contact.html">Contact</a></li>
 		  -->
-        </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
@@ -140,52 +146,76 @@
 		  <h2>Open Positions</h2>
 		</div>
 	  
-        <div class="row">
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="icon-box-intern">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4 style="text-align: center;"><a href="">Researcher</a></h4>
-              <p><b>Requirements:</b> MSc in Electrical / Informatics Engineering</p>
-              <p><b>Duration:</b> 6 months, renewable until R&D project closure</p>
-              <p><b>Project Name: </b> Ferrovia 4.0</p>
-              <p><b>Main Partners: </b> EFACEC, CP, Sistemas e pelo Cluster da Plataforma Ferroviária Portuguesa</p>
-              <p><b>Homepage: </b><a href="http://ferrovia40.pt/" target="_blank" style="color: #e96b56;">Ferrovia 4.0</a></p>
-			  <p><b>Edital: </b><a href="https://sigarra.up.pt/feup/pt/noticias_geral.ver_noticia?p_nr=121910" target="_blank" style="color: #e96b56;">Concurso</a></p>
-			  </br>
-			  <p>In these tasks, the scholarship holder will have as main responsibility the participation in the design of the augmented reality system and in the implementation of prototypes for "status and data visualization (rolling stock and infrastructure)" and "Maintenance technician assistant".</p>
-            </div>
-          </div>
-		  
-		  <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="icon-box-intern">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4 style="text-align: center;"><a href="">Researcher</a></h4>
-              <p><b>Requirements:</b> MSc in Electrical and Computer Engineering, Informatics Engineering or Biomedical Engineering</p>
-              <p><b>Duration:</b> 12 months, renewable until R&D project closure</p>
-              <p><b>Project Name: </b> PRODUTECH4S&C - PRODUTECH Sustentável & Circular</p>
-              <p><b>Main Partners: </b> ISQ, Controlar, JPM, INESC-TEC</p>
-			  <p><b>Edital: </b><a href="https://www.euraxess.pt/jobs/687106" target="_blank" style="color: #e96b56;">Concurso</a></p>
-			  </br>
-			  <p>In these tasks, the scholarship holder will have as main responsibility the development of edge computing technologies for cyber-physical systems integrated in real industrial scenarios. Technologies such as MQTT, OPC-UA, DINASORE, MPI and others will be used to implement a distributed system for data acquisition, processing and synchonization with Fog and Cloud solutions.</p>
-            </div>
-          </div>
-		  
-		  <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="icon-box-intern">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4 style="text-align: center;"><a href="">Researcher</a></h4>
-              <p><b>Requirements:</b> MSc in Electrical and Computer Engineering, Informatics Engineering or Biomedical Engineering</p>
-              <p><b>Duration:</b> 12 months, renewable until R&D project closure</p>
-              <p><b>Project Name: </b> PRODUTECH4S&C - PRODUTECH Sustentável & Circular</p>
-              <p><b>Main Partners: </b> ISQ, Controlar, JPM, INESC-TEC</p>
-			  <p><b>Edital: </b><a href="https://www.euraxess.pt/jobs/687106" target="_blank" style="color: #e96b56;">Concurso</a></p>
-			  </br>
-			  <p>In these tasks, the scholarship holder will have as main responsibility the development collaborative robotics solution for the automation of tasks that are synergetic with human operations. Technologies such as ROS and Gazebo, together with working directly with UR5 collaborative robot are expected during the scholarship.</p>
-            </div>
-          </div>
-		  
+    <div class="row">
+      <!--
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+        <div class="icon-box-intern">
+          <div class="icon"><i class="bx bxl-dribbble"></i></div>
+          <h4 style="text-align: center;"><a href="">Researcher</a></h4>
+          <p><b>Requirements:</b> MSc in Electrical / Informatics Engineering</p>
+          <p><b>Duration:</b> 6 months, renewable until R&D project closure</p>
+          <p><b>Project Name: </b> Ferrovia 4.0</p>
+          <p><b>Main Partners: </b> EFACEC, CP, Sistemas e pelo Cluster da Plataforma Ferroviária Portuguesa</p>
+          <p><b>Homepage: </b><a href="http://ferrovia40.pt/" target="_blank" style="color: #e96b56;" class="services-link">Ferrovia 4.0</a></p>
+          <p><b>Edital: </b><a href="https://sigarra.up.pt/feup/pt/noticias_geral.ver_noticia?p_nr=121910" target="_blank" style="color: #e96b56;" class="services-link">Concurso</a></p>
+          </br>
+          <p>In these tasks, the scholarship holder will have as main responsibility the participation in the design of the augmented reality system and in the implementation of prototypes for "status and data visualization (rolling stock and infrastructure)" and "Maintenance technician assistant".</p>
         </div>
-		
+      </div>
+		  
+		  <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+        <div class="icon-box-intern">
+          <div class="icon"><i class="bx bxl-dribbble"></i></div>
+          <h4 style="text-align: center;"><a href="">Researcher</a></h4>
+          <p><b>Requirements:</b> MSc in Electrical and Computer Engineering, Informatics Engineering or Biomedical Engineering</p>
+          <p><b>Duration:</b> 12 months, renewable until R&D project closure</p>
+          <p><b>Project Name: </b> PRODUTECH4S&C - PRODUTECH Sustentável & Circular</p>
+          <p><b>Main Partners: </b> ISQ, Controlar, JPM, INESC-TEC</p>
+          <p><b>Edital: </b><a href="https://www.euraxess.pt/jobs/687106" target="_blank" style="color: #e96b56;" class="services-link">Concurso</a></p>
+          </br>
+          <p>In these tasks, the scholarship holder will have as main responsibility the development of edge computing technologies for cyber-physical systems integrated in real industrial scenarios. Technologies such as MQTT, OPC-UA, DINASORE, MPI and others will be used to implement a distributed system for data acquisition, processing and synchonization with Fog and Cloud solutions.</p>
+        </div>
+      </div>
+		  
+		  <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+        <div class="icon-box-intern">
+          <div class="icon"><i class="bx bxl-dribbble"></i></div>
+          <h4 style="text-align: center;"><a href="">Researcher</a></h4>
+          <p><b>Requirements:</b> MSc in Electrical and Computer Engineering, Informatics Engineering or Biomedical Engineering</p>
+          <p><b>Duration:</b> 12 months, renewable until R&D project closure</p>
+          <p><b>Project Name: </b> PRODUTECH4S&C - PRODUTECH Sustentável & Circular</p>
+          <p><b>Main Partners: </b> ISQ, Controlar, JPM, INESC-TEC</p>
+          <p><b>Edital: </b><a href="https://www.euraxess.pt/jobs/687106" target="_blank" style="color: #e96b56;" class="services-link">Concurso</a></p>
+          </br>
+          <p>In these tasks, the scholarship holder will have as main responsibility the development collaborative robotics solution for the automation of tasks that are synergetic with human operations. Technologies such as ROS and Gazebo, together with working directly with UR5 collaborative robot are expected during the scholarship.</p>
+        </div>
+      </div>
+      -->
+
+      <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+        <div class="icon-box-intern">
+          <div class="icon"><i class="bx bxl-dribbble"></i></div>
+          <h4 style="text-align: center;"><a href="">Researcher</a></h4>
+          <p><b>Requirements:</b> Enrolled in or holder of a degree in Electrical or Informatics Engineering</p>
+          <p><b>Duration:</b> 3 months starting June 2024, exclusive basis, renewable up to project completion</p>
+          <p><b>Project Name: </b> Research Initiation Grant</p>
+          <p><b>Main Partners: </b> FEUP, EIT</p>
+          <p><b>Edital: </b><a href="https://euraxess.ec.europa.eu/jobs/234223" target="_blank" style="color: #e96b56;" class="services-link">Full Description</a></p>
+          <p><b>Edital: </b><a href="https://sigarra.up.pt/feup/pt/noticias_geral.ver_noticia?p_nr=163613" target="_blank" style="color: #e96b56;" class="services-link">Sigarra</a></p>
+          <p><b>Application Deadline: </b>27 May 2024 - 23:59 (Europe/Lisbon)</p>
+          </br>
+          <p>The scholarship holder will contribute to various EIT-Manufacturing research activities, including: INFINITY's learning path delivery and dissemination, AISME's support for AI solutions in SMEs, and Self-Made's self-management and digitalization tasks in manufacturing, encompassing business agenda, skills training, and technology transfer.</p>
+        </div>
+      </div>
+
+      <style>
+        .services .icon-box-intern:hover a.services-link {
+          color: white !important;
+          text-decoration: underline;
+        }
+      </style>
+		  
+    </div>
 		
 		
 		<div class="container">
@@ -195,9 +225,9 @@
 			  </div>
 			  <div class="col-lg-10 pt-4 pt-lg-0 content" style="text-align: center;">
 			  <p></p>
-				<p>In the rare occasion of not having any open position for DIGI2, but still you want to be <b>part of the team</b>, please fill up the form bellow for a spontaneous application.</p>
+				<p>In the rare occasion of not having any open position for DIGI2, but still you want to be <b>part of the team</b>, please fill up the form bellow for a spontaneous application:</p>
+        <h2><strong><a href="https://forms.gle/eiSCSftBFfrMRRim8" style="color: #e96b56; text-decoration: underline;" target="_blank">Spontaneous Application</a></strong></h2> <br>
 				<p>In case you have any further doubts or questions, please feel free to get in contact with the DIGI2 Coordinator Prof. Gil Gonçalves (gil@fe.up.pt)</p>
-				<h2><a href="https://forms.gle/eiSCSftBFfrMRRim8" style="color: #e96b56" target="_blank">Spontaneous Application</a></h2>
 
 			  </div>
 			  <div class="col-lg-1 pt-4 pt-lg-0 content">
@@ -382,6 +412,13 @@ The tool developed within this internship should allow the user (factory shopflo
 </br>
 <p></p>
 </div>
+
+  <style>
+    .col-lg-4, .col-md-6, .d-flex.align-items-stretch {
+      margin-bottom: 25px;
+    }
+  </style>
+
 </div>
 		 
 

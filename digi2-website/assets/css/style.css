@@ -712,15 +712,6 @@ section {
   color: #fff;
 }
 
-
-
-
-
-
-
-
-
-
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
@@ -759,6 +750,7 @@ section {
 }
 
 .services .icon-box-intern .icon {
+  margin: 0 auto;
   width: 64px;
   height: 64px;
   background: #e96b56;
