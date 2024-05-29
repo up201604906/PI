@@ -178,10 +178,10 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0 10px 30px;
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
-  color: #545454;
+  /*padding: 10px 0 10px 30px;*/
+  /*font-family: "Poppins", sans-serif;*/
+  /*font-size: 14px;*/
+  /*color: #545454;*/
   white-space: nowrap;
   transition: 0.3s;
 }
@@ -212,10 +212,9 @@ h1, h2, h3, h4, h5, h6 {
 .navbar .dropdown ul {
   display: block;
   position: absolute;
-  left: 24px;
+  right: -5px;
   top: calc(100% + 30px);
   margin: 0;
-  padding: 10px 0;
   z-index: 99;
   opacity: 0;
   visibility: hidden;
@@ -228,7 +227,7 @@ h1, h2, h3, h4, h5, h6 {
   min-width: 200px;
 }
 
-.navbar .dropdown ul a {
+.navbar .dropdown ul a, .navbar .dropdown ul button {
   padding: 10px 20px;
   font-size: 14px;
   text-transform: none;
@@ -239,7 +238,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 12px;
 }
 
-.navbar .dropdown ul a:hover, .navbar .dropdown ul .active:hover, .navbar .dropdown ul li:hover > a {
+.navbar .dropdown ul a:hover, .navbar .dropdown ul .active:hover, .navbar .dropdown ul li:hover > a, .navbar .dropdown ul button:hover {
   color: var(--primary-color);
 }
 

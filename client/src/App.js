@@ -6,8 +6,8 @@ import './styles/style.css';
 import './scripts/main.js';
 import ProtectedRoute from "./components/components/common/ProtectedRoute";
 import Dashboard from './components/pages/Dashboard';
+import DashboardTopnav from "./components/components/common/DashboardTopnav";
 import Topnav from "./components/components/common/Topnav";
-import NotAuthTopnav from "./components/components/common/NotAuthTopnav";
 import Resources from "./components/pages/Resources";
 import CreateResource from "./components/pages/CreateResource";
 import Wishlist from "./components/pages/Wishlist";
@@ -43,7 +43,7 @@ function App() {
 
     return (
         <Router>
-            {currentUser ? <ProtectedRoute><Topnav/></ProtectedRoute> : <NotAuthTopnav/>}
+            <Topnav/>
             <div id={"body"}>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
