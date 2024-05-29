@@ -159,22 +159,22 @@ const MyProjects = () => {
                 {filteredOtherProjects.map((project) => {
                     const { id, name, description, start_date, end_date, project_type_id, project_status_id } = project;
                     return (
-                        <div className="thesis" key={id}>
-                            <Link className="thesis-link" to={`/project/${id}`} key={id}>
-                                <div className="line" id="line1">
-                                    <div className="title">{name}</div>
-                                    <div id="state">
-                                        <div className="item"><strong>Type:</strong> {getProjectTypeName(project_type_id)}</div>
-                                        <div className="item"><strong>Status:</strong> {getProjectStatusName(project_status_id)}</div>
+                        <Link className="thesis-link" to={`/project/${id}`} key={id}>
+                            <div className="thesis" key={id}>
+                                    <div className="line" id="line1">
+                                        <div className="title">{name}</div>
+                                        <div id="state">
+                                            <div className="item"><strong>Type:</strong> {getProjectTypeName(project_type_id)}</div>
+                                            <div className="item"><strong>Status:</strong> {getProjectStatusName(project_status_id)}</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="description">{description}</div>
-                                <div className="line" id="line2">
-                                    <div className="item"><strong>Start Date:</strong> {format(new Date(start_date), 'dd/MM/yyyy')}</div>
-                                    <div className="item"><strong>Due Date:</strong> {format(new Date(end_date), 'dd/MM/yyyy')}</div>
-                                </div>
-                            </Link>
-                        </div>
+                                    <div className="description">{description}</div>
+                                    <div className="line" id="line2">
+                                        <div className="item"><strong>Start Date:</strong> {format(new Date(start_date), 'dd/MM/yyyy')}</div>
+                                        <div className="item"><strong>Due Date:</strong> {format(new Date(end_date), 'dd/MM/yyyy')}</div>
+                                    </div>
+                            </div>
+                        </Link>
                     );
                 })}
             </div>

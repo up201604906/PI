@@ -105,8 +105,8 @@ class Articles extends Component {
                     {allArticles.map((article) => {
                         const { id, title, year, journal, booktitle, publisher, abstract, type } = article;
                         return (
+                            <Link className="thesis-link" to={`/articles/${id}`} key={id}>
                             <div className="thesis" key={id}>
-                                <Link className="thesis-link" to={`/article/${id}`} key={id}>
                                     <div className="line" id="line1">
                                         <div className="title">{title}</div>
                                         <div id="state">
@@ -119,11 +119,15 @@ class Articles extends Component {
                                         <div className="item"><strong>Journal/Booktitle:</strong> {journal || booktitle}</div>
                                         <div className="item"><strong>Publisher:</strong> {publisher}</div>
                                     </div>
-                                </Link>
                             </div>
+                            </Link>
                         );
                     })}
                 </div>
+                <div className="floating-buttons-container">
+                <Link to="/createArticle" className="floating-button">Create New Article</Link>
+                <Link to="/importArticle" className="floating-button">Import Article</Link>
+            </div>
             </div>
         );
     }
