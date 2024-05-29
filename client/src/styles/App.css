@@ -171,3 +171,42 @@ footer *{
 .btn.show{
     border: none;
 }
+
+.truncate-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.truncate-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clients-slider .swiper-slide {
+    align-items: center;
+    justify-content: center;
+}
+
+.clients-slider img {
+    height: 50px; /* Adjust this value as needed */
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.swiper-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    gap: 30px;
+    z-index: 1;
+    display: flex;
+    transition-property: transform;
+    box-sizing: content-box;
+}

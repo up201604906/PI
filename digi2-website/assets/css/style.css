@@ -9,7 +9,7 @@
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: "Open Sans", sans-serif;
+  /*font-family: "Open Sans", sans-serif;*/
   color: #444444;
 }
 
@@ -26,7 +26,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Raleway", sans-serif;
+  /*font-family: "Raleway", sans-serif;*/
 }
 
 /*--------------------------------------------------------------
@@ -108,9 +108,8 @@ h1, h2, h3, h4, h5, h6 {
   height: 70px;
   transition: all 0.5s;
   z-index: 997;
-  transition: all 0.5s;
   background: #fff;
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
 }
 
 #header .logo h1 {
@@ -121,8 +120,8 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing: 1px;
   /*text-transform: uppercase;
-  font-family: "Poppins", sans-serif;
-  border-left: 8px solid #e96b56;*/
+  /*font-family: "Poppins", sans-serif;*/
+  border-left: 8px solid #e96b56;
 }
 
 #header .logo h1 a, #header .logo h1 a:hover {
@@ -167,7 +166,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0 10px 30px;
-  font-family: "Poppins", sans-serif;
+  /*font-family: "Poppins", sans-serif;*/
   font-size: 14px;
   color: #545454;
   white-space: nowrap;
@@ -208,7 +207,7 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 0;
   visibility: hidden;
   background: #fff;
-  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+  box-shadow: 0 0 30px rgba(127, 137, 161, 0.25);
   transition: 0.3s;
 }
 
@@ -338,7 +337,7 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
   visibility: visible;
   background: #fff;
-  box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
+  box-shadow: 0 0 30px rgba(127, 137, 161, 0.25);
 }
 
 .navbar-mobile .dropdown ul li {
@@ -379,7 +378,6 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   height: 70vh;
   background-size: cover;
-  background-position: center;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -426,7 +424,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-animation-delay: 0.4s;
   animation-delay: 0.4s;
   margin: 0 auto 30px auto;
-  color: arken(#545454, 15);
+  color: #545454;
 }
 
 #hero .carousel-inner .carousel-item {
@@ -485,7 +483,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #hero .btn-get-started {
-  font-family: "Raleway", sans-serif;
+  /*font-family: "Raleway", sans-serif;*/
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 1px;
@@ -560,7 +558,7 @@ section {
   margin-bottom: 20px;
   padding-bottom: 20px;
   position: relative;
-  font-family: "Poppins", sans-serif;
+  /*font-family: "Poppins", sans-serif;*/
 }
 
 .section-title h2::after {
@@ -624,7 +622,7 @@ section {
 
 .featured .icon-box {
   padding: 40px 30px;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   background: #fff;
   transition: all ease-in-out 0.3s;
@@ -672,7 +670,7 @@ section {
 
 .featured .icon-box-eit {
   padding: 40px 30px;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   background: #fff;
   transition: all ease-in-out 0.3s;
@@ -761,7 +759,6 @@ section {
 }
 
 .services .icon-box-intern .icon {
-  margin: 0 auto;
   width: 64px;
   height: 64px;
   background: #e96b56;
@@ -770,7 +767,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
   transform-style: preserve-3d;
 }
 
@@ -1058,7 +1055,7 @@ section {
 .counts .count-box p {
   padding: 30px 0 0 0;
   margin: 0;
-  font-family: "Raleway", sans-serif;
+  /*font-family: "Raleway", sans-serif;*/
   font-size: 14px;
 }
 
@@ -1068,7 +1065,7 @@ section {
   margin-top: 20px;
   color: #7a7a7a;
   font-size: 15px;
-  font-family: "Poppins", sans-serif;
+  /*font-family: "Poppins", sans-serif;*/
   transition: ease-in-out 0.3s;
 }
 
@@ -1082,7 +1079,7 @@ section {
 .testimonials .testimonial-item {
   box-sizing: content-box;
   padding: 40px;
-  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   position: relative;
   background: #fff;
 }
@@ -1139,7 +1136,7 @@ section {
   font-weight: 700;
   font-size: 26px;
   color: #545454;
-  font-family: "Poppins", sans-serif;
+  /*font-family: "Poppins", sans-serif;*/
   margin-bottom: 20px;
 }
 
@@ -1175,7 +1172,7 @@ section {
   text-transform: uppercase;
   display: block;
   font-weight: 600;
-  font-family: "Poppins", sans-serif;
+  /*font-family: "Poppins", sans-serif;*/
   color: #545454;
 }
 
@@ -1203,7 +1200,6 @@ section {
 }
 
 .portfolio #portfolio-flters {
-  padding: 0;
   margin: 0 auto 25px auto;
   list-style: none;
   text-align: center;
@@ -1383,7 +1379,7 @@ section {
 
 .portfolio-details .portfolio-info {
   padding: 30px;
-  box-shadow: 0px 0 30px rgba(84, 84, 84, 0.08);
+  box-shadow: 0 0 30px rgba(84, 84, 84, 0.08);
 }
 
 .portfolio-details .portfolio-info h3 {
@@ -1428,7 +1424,7 @@ section {
 .pricing .box {
   padding: 40px;
   margin-bottom: 30px;
-  box-shadow: 0px 0px 30px rgba(73, 78, 92, 0.15);
+  box-shadow: 0 0 30px rgba(73, 78, 92, 0.15);
   background: #fff;
   text-align: center;
 }
@@ -1443,7 +1439,7 @@ section {
   font-size: 46px;
   color: #e96b56;
   font-weight: 400;
-  font-family: "Open Sans", sans-serif;
+  /*font-family: "Open Sans", sans-serif;*/
   margin-bottom: 25px;
 }
 
@@ -1489,10 +1485,9 @@ section {
   padding: 8px 30px;
   border-radius: 20px;
   color: #fff;
-  transition: none;
   font-size: 14px;
   font-weight: 400;
-  font-family: "Raleway", sans-serif;
+  /*font-family: "Raleway", sans-serif;*/
   transition: 0.3s;
 }
 
@@ -1540,7 +1535,7 @@ section {
 .team .member {
   text-align: center;
   margin-bottom: 20px;
-  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.1);
   padding: 30px 20px;
   background: #fff;
 }
@@ -1922,7 +1917,7 @@ section {
 .blog .blog-author h4 {
   font-weight: 600;
   font-size: 22px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   padding: 0;
   color: #545454;
 }
@@ -2417,7 +2412,7 @@ section {
   font-size: 14px;
   line-height: 24px;
   margin-bottom: 0;
-  font-family: "Raleway", sans-serif;
+  /*font-family: "Raleway", sans-serif;*/
   color: #fff;
 }
 

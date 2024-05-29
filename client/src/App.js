@@ -2,8 +2,10 @@ import React from "react";
 import {BrowserRouter as Router, Navigate, Route, Routes, RouterProvider} from "react-router-dom";
 import {useAuth} from './contexts/AuthContext';
 import './styles/App.css';
+import './styles/style.css';
+import './scripts/main.js';
 import ProtectedRoute from "./components/components/common/ProtectedRoute";
-import Home from './components/pages/Home';
+import Dashboard from './components/pages/Dashboard';
 import Topnav from "./components/components/common/Topnav";
 import NotAuthTopnav from "./components/components/common/NotAuthTopnav";
 import Resources from "./components/pages/Resources";
@@ -33,6 +35,7 @@ import MyProjects from "./components/pages/projects/MyProjects";
 import Project from "./components/pages/projects/Project";
 import CreateProject from "./components/pages/projects/CreateProject";
 import Projects from "./components/pages/projects/Projects";
+import Home from "./components/pages/digi2/Home";
 
 
 function App() {
@@ -43,8 +46,10 @@ function App() {
             {currentUser ? <ProtectedRoute><Topnav/></ProtectedRoute> : <NotAuthTopnav/>}
             <div id={"body"}>
                 <Routes>
+                    <Route path="/" element={<Home/>}/>
                     <Route path="/login" element={<Login/>}/>
-                    <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+
+                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}/>
                     <Route path="/inventory/resources" element={<ProtectedRoute><Resources/></ProtectedRoute>}/>
                     <Route path="/inventory/createResource" element={<ProtectedRoute><CreateResource/></ProtectedRoute>}/>
                     <Route path="/user-mgmt" element={<ProtectedRoute><UserManagement/></ProtectedRoute>}/>
@@ -70,7 +75,7 @@ function App() {
                     <Route path="/theses" element={<ProtectedRoute><Theses /></ProtectedRoute>}/>
                     <Route path="/thesis/:id" element={<ProtectedRoute><Thesis /></ProtectedRoute>}/>
                     <Route path="/createThesis" element={<ProtectedRoute><CreateThesis /></ProtectedRoute>}/>
-                    <Route path="*" element={<Navigate to={currentUser ? "/home" : "/"}/>}/> {/* catch-all route*/}
+                    <Route path="*" element={<Navigate to={currentUser ? "/dashboard" : "/"}/>}/> {/* catch-all route*/}
                 </Routes>
             </div>
             <Footer/>
