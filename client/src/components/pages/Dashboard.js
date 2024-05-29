@@ -1,71 +1,91 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../styles/Home.css'
 import { initializeCounters } from '../../scripts/Home.js';
 import HomeStats from "../components/home/HomeStats";
-import Table from "../components/common/Table";
+import {Link} from "react-router-dom";
 
-class Dashboard extends React.Component {
-    componentDidMount() {
-        initializeCounters(); // Call the function when the component mounts
+
+function Table({projects, projectTypes}) {
+    return (
+        projects && projectTypes ?
+            <table>
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {projects.map((project, index) => (
+                    <tr key={index}>
+                        <td><Link to={`/project/${project.id}`}>{project.acronym}</Link></td>
+                        <td>
+                            {projectTypes.find(area => area.id === project.project_type_id)?.type_name}
+                        </td>
+                        <td>{project.state}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+            : null
+    );
+}
+
+
+export default function Dashboard() {
+
+    const [projects, setProjects] = useState([]);
+    const [projectTypes, setProjectTypes] = useState([]);
+    const filteredProjectTypes = projectTypes.filter(type =>
+        projects.some(project => project.project_type_id === type.id)
+    );
+
+    useEffect(() => {
+        initializeCounters();
+        fetchProjects();
+        fetchProjectTypes();
+    }, []);
+
+    function fetchProjects() {
+        fetch('http://localhost:4000/projects/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch projects');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Shuffle array
+                for (let i = data.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [data[i], data[j]] = [data[j], data[i]];
+                }
+                // Set the first 5 elements
+                setProjects(data.slice(0, 5));
+            });
     }
 
-    render() {
-        const titles = ["Recent Projects", "Notifications", "Events"];
-        const links = ["/projects", "/notifications", "/events"];
-        const tableOne_Head = ["Title", "Type", "Status"];
-        const tableOne_Data = [
-            {title: "Machine Learning Model", type: "Model Training", status: "Ongoing", href: "/project/1"},
-            {title: "Data Pipeline Optimization", type: "Pipeline Optimization", status: "Ongoing", href: "/project/2"},
-            {
-                title: "Performance Tuning for Data Analysis",
-                type: "Query Performance",
-                status: "Ongoing",
-                href: "/project/3"
-            },
-            {
-                title: "Error Analysis for Image Recognition Software",
-                type: "Error Analysis",
-                status: "Finished",
-                href: "/project/4"
-            },
-            {
-                title: "Feature Engineering for Fruits and Vegetables",
-                type: "Feature Engineering",
-                status: "Finished",
-                href: "/project/5"
-            },
-        ];
-
-        const tableTwo_Head = ["Title", "Author", "When"];
-        const tableTwo_Data = [
-            { title: "Notification 1", type: "User 1", status: "01/01/2024", href: "/href/1" },
-            { title: "Notification 2", type: "User 2", status: "01/01/2024", href: "/href/2" },
-        ];
-
-        const tableThree_Head = ["Title", "Type", "When"];
-        const tableThree_Data = [
-            { title: "Event 1", type: "User 1", status: "Now", href: "/event/1" },
-            { title: "Event 2", type: "User 2", status: "06/06/2024", href: "/event/2" },
-        ];
+    function fetchProjectTypes() {
+        fetch('http://localhost:4000/projects/types')
+            .then(response => response.json())
+            .then(data => setProjectTypes(data));
+    }
 
         return (
             <div className={"d-flex flex-column"}>
                 <div className={"title"}><span>O</span>verview</div>
                 <HomeStats/>
 
-                <div id={"info"} className={"d-flex flex-row justify-content-around w-100"}>
-                    <div>
-                        <Table title={titles[0]} tableHead={tableOne_Head} data={tableOne_Data} seeMore={links[0]}/>
+                <div id={"info"} className={"d-flex flex-column justify-content-around w-100"}>
+                    <div className={"d-flex flex-row justify-content-between table-title w-100 mb-3 px-3"}>
+                        <div className={"title"}>Recent Projects</div>
+                        <Link to={'/projects'} className={"btn btn-primary m-0"}>See More</Link>
                     </div>
-                    <div className={"d-flex flex-column justify-content-between"}>
-                        <Table title={titles[1]} tableHead={tableTwo_Head} data={tableTwo_Data} seeMore={links[0]}/>
-                        <Table title={titles[2]} tableHead={tableThree_Head} data={tableThree_Data} seeMore={links[0]}/>
-                    </div>
+                    <Table projects={projects} projectTypes={filteredProjectTypes}/>
                 </div>
 
             </div>
         );
-    }
-}
 
-export default Dashboard;
+}

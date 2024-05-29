@@ -22,6 +22,7 @@
 }
 
 body {
+    padding-top: 164px !important;
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

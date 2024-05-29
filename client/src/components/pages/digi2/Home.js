@@ -41,6 +41,7 @@ import mtc from '../../../images/partners/mtc.jpg';
 import nottingham from '../../../images/partners/nottingham.png';
 import psa from '../../../images/partners/psa.png';
 import siemens from '../../../images/partners/siemens.jpg';
+import {Link} from "react-router-dom";
 
 
 export default function Home() {
@@ -367,7 +368,7 @@ export default function Home() {
 
     function services() {
         return (
-            <section id="services" className="services">
+            <section id="services" className="services d-flex flex-column">
                 <div className="container">
                     <div className="section-title">
                         <h2>Research Projects</h2>
@@ -399,6 +400,8 @@ export default function Home() {
                         ))}
                     </div>
                 </div>
+                <Link to={"http://localhost:3000/projects"} className={"btn btn-primary"}> See More</Link>
+
             </section>
         );
     }
@@ -499,7 +502,6 @@ export default function Home() {
             {featured()}
             {about()}
             {services()}
-            <button className={"btn btn-primary"}>See More</button>
             {team()}
             {clients()}
             {our_hosts()}

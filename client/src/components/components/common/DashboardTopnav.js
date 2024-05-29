@@ -16,6 +16,7 @@ function DashboardTopnav() {
     }, [currentUser]);
 
     const linksData = [
+        { text: "Dashboard", href: "/dashboard" },
         { text: "Theses", href: "/theses" },
         { text: "My Projects", href: "/my-projects/" + user.id },  //from this page, you should be able to see your team + all projects
         { text: "My Articles", href: "/myArticles/" + user.id },  //this page should have an option to see all articles
@@ -24,6 +25,13 @@ function DashboardTopnav() {
         // {text: "Social", href: "/social"},
         // {text: "Communication", href: "/Communication"},
     ]
+
+    const socials = [
+        {href: "https://www.instagram.com/digi2.lab/", class: "bi-instagram"},
+        {href: "https://www.linkedin.com/company/digi2-digital-and-intelligent-industry-lab/", class: "bi-linkedin"},
+        {href: "https://github.com/DIGI2-FEUP", class: "bi-github"}
+    ]
+
 
     const inventoryDropdownData = [
         { text: "Resources", href: "/inventory/resources" },
@@ -119,17 +127,41 @@ function DashboardTopnav() {
         );
     }
 
+    function get_socials() {
+        return (
+            <>
+                {socials.map((item, index) => (
+                    <li key={index} className="nav-item ms-4">
+                        <div className="my-auto">
+                            <Link to={item.href}>
+                                <button className="p-0">
+                                    <i className={`bi w-100 h2 m-0 btn btn-primary ${item.class}`}></i>
+                                </button>
+                            </Link>
+                        </div>
+                    </li>
+                ))}
+            </>
+        );
+    }
+
 
     return (
         <nav id={"dashboard-topnav"} className={"navbar navbar-expand-lg top-bar"}>
             <div className={"container-fluid"}>
                 <div className={"d-flex w-100"}>
                     <ul className={"navbar-nav ms-auto"}>
-                        <div className={"d-flex me-5"}>
-                            {get_links()}
-                            {get_inventory()}
-                        </div>
-                        {get_user()}
+                        {get_socials()}
+                        {currentUser ?
+                        <>
+                            <div className={"d-flex mx-5"}>
+                                {get_links()}
+                                {get_inventory()}
+                            </div>
+                            {get_user()}
+                        </> :
+                            <></>
+                        }
                     </ul>
                 </div>
             </div>

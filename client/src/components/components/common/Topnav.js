@@ -79,9 +79,9 @@ export default function Topnav (){
     }
 
     return (
-        <div>
+        <div id="topnav-container" className={"fixed-top"}>
             {digi2Topnav()}
-            {currentUser && <DashboardTopnav />}
+            <DashboardTopnav/>
         </div>
     );
 }
