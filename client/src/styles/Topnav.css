@@ -1,16 +1,29 @@
-nav {
+#topnav-container{
+    height: 116px;
+}
+
+#topnav {
+    background: whitesmoke;
+    width: 100%;
+    border-radius: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0.5rem 4rem !important;
+}
+
+#dashboard-topnav {
     background: var(--secondary-color);
     width: 100%;
     border-radius: 0;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 1rem 2rem !important;
+    padding: 0.5rem 4rem !important;
 }
 
 /* LOGO */
 
 .navbar-brand > button > img{
-    width: 2.5rem
+    width: 1.5rem
 }
 
 #topnav .navbar-brand div{
@@ -23,9 +36,9 @@ nav span {
 
 /* LINKS */
 
-#topnav li.nav-item > a, #topnav li.nav-item > div > button{
+nav li.nav-item > a, nav li.nav-item > div > button{
     color: black;
-    font-size: var(--font-size-m);
+    font-size: var(--font-size-sm);
 }
 
 #topnav .navbar-collapse{
