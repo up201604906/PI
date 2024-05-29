@@ -144,13 +144,22 @@ const Project = () => {
   };
 
   const handleSaveTask = async () => {
+    const taskData = { 
+        description: taskDescription, 
+        assignee: taskAssignee, 
+        due_date: taskDueDate, 
+        status: taskStatus 
+    };
+
+    //console.log('Data being sent:', taskData);
+
     try {
       const response = await fetch(`http://localhost:4000/projects/assignments/${editingTaskId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ description: taskDescription, assignee: taskAssignee, due_date: taskDueDate, status: taskStatus })
+        body: JSON.stringify(taskData)
       });
 
       if (response.ok) {
@@ -169,6 +178,7 @@ const Project = () => {
       console.error('Error saving task:', error);
     }
   };
+
 
   const handleEditLink = (link) => {
     setEditingLinkId(link.id);
@@ -442,7 +452,8 @@ const Project = () => {
       <div className="project-header">
         <div className="header-left">
           <h1>{project.name}</h1>
-          <p>Acronym: {project.acronym}</p>
+          <p>Description: {project.description}</p>
+          <p>Acronym: <b>{project.acronym}</b></p>
           <p className="status">Status: {getProjectStatusName(project.project_status_id)}</p>
         </div>
         <div className="header-center">

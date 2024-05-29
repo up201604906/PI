@@ -88,9 +88,9 @@ const getAllAProjects = async (req, res) => {
 
 const updateAssignment = async (req, res) => {
     const assignmentId = req.params.id;
-    const { description, assignee_id } = req.body;
+    const { description, assignee, due_date , status } = req.body;
     try {
-        await projectsModel.updateAssignment(assignmentId, description, assignee_id);
+        await projectsModel.updateAssignment(assignmentId, description, assignee, due_date , status);
         res.status(204).send();
     } catch (error) {
         console.error("Error updating assignment:", error);

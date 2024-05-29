@@ -127,9 +127,9 @@ const getSharingCommunicationByProject = async (projectId) => {
     return result.rows;
 };
 
-const updateAssignment = async (assignmentId, description, assignee_id) => {
-    const query = 'UPDATE project_assignments SET description = $1, assignee = $2 WHERE id = $3';
-    const values = [description, assignee_id, assignmentId];
+const updateAssignment = async (assignmentId, description, assignee_id, due_date , status) => {
+    const query = 'UPDATE project_assignments SET description = $1, assignee = $2, due_date = $4, status = $5 WHERE id = $3';
+    const values = [description, assignee_id, assignmentId,due_date,status];
     await pool.query(query, values);
 };
 
