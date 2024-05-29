@@ -191,7 +191,7 @@ class MyArticles extends Component {
                         const { id, title, year, journal, booktitle, publisher, abstract, type } = article;
                         return (
                             <div className="thesis" key={id}>
-                                <Link className="thesis-link" to={`/article/${id}`} key={id}>
+                                <Link className="thesis-link" to={`/articles/${id}`} key={id}>
                                     <div className="line" id="line1">
                                         <div className="title">{title}</div>
                                         <div id="state">
@@ -218,7 +218,7 @@ class MyArticles extends Component {
                     allArticles.map((article) => {
                         const { id, title, year, journal, booktitle, publisher, abstract, type } = article;
                         return (
-                            <Link className="thesis-link" to={`/article/${id}`} key={id}>
+                            <Link className="thesis-link" to={`/articles/${id}`} key={id}>
                                 <div className="thesis" key={id}>
                                     <div className="line" id="line1">
                                         <div className="title">{title}</div>
