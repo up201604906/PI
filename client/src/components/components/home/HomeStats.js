@@ -11,9 +11,9 @@ class HomeStats extends React.Component {
 
     render() {
         return (
-            <div className={"d-flex flex-row justify-content-around"}>
+            <div className={"d-flex flex-wrap justify-content-around"}>
                 {this.projStats.map((item, index) => (
-                    <div key={index} className={"counter-container"}>
+                    <div key={index} className={"counter-container col-5 col-md-2 mb-3"}>
                         <span>{item.text}</span>
                         <div className={"counter"} data-target={item.num}></div>
                     </div>
