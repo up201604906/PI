@@ -80,7 +80,6 @@ export default function Dashboard() {
                 <div id={"info"} className={"d-flex flex-column justify-content-around w-100"}>
                     <div className={"d-flex flex-row justify-content-between table-title w-100 mb-3 px-3"}>
                         <div className={"title"}>Recent Projects</div>
-                        <Link to={'/projects'} className={"btn btn-primary m-0"}>See More</Link>
                     </div>
                     <Table projects={projects} projectTypes={filteredProjectTypes}/>
                 </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import feup_logo from '../../../images/feup-logo.png'
+import feup_logo from '../../../images/feup-logo.jpg'
 
 
 const Footer = () => {
@@ -12,34 +12,32 @@ const Footer = () => {
     ]
 
     return (
-        <div className="container">
-            <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
-                <p className="col-md-4 mb-0 text-body-secondary">© 2024 Digi2 Lab. All rights reserved.</p>
+        <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 px-5 border-top bg-dark">
 
-                <ul className="nav col-md-8 justify-content-end">
-                    {socials.map((item, index) => (
-                        <li key={index} className="nav-item me-3">
-                            <div className="my-auto">
-                                <Link to={item.href}>
-                                    <button className="p-0">
-                                        <i className={`bi h2 m-0 btn btn-primary ${item.class}`}></i>
-                                    </button>
-                                </Link>
-                            </div>
-                        </li>
-                    ))}
-                    <li className="nav-item mx-3">
-                        <p>
-                            <Link to="https://sigarra.up.pt/feup">
-                                <button className={"d-flex flex-row ms-auto"}>
-                                    <img src={feup_logo} alt={"logo"} className={"ms-auto"}></img>
+            <ul className="nav col-md-4">
+                {socials.map((item, index) => (
+                    <li key={index} className="nav-item me-3">
+                        <div className="my-auto">
+                            <Link to={item.href}>
+                                <button className="p-0">
+                                    <i className={`bi h2 w-100 m-0 ${item.class}`}></i>
                                 </button>
                             </Link>
-                        </p>
+                        </div>
                     </li>
-                </ul>
-            </footer>
-        </div>
+                ))}
+            </ul>
+
+            <p className="col-md-4 mb-0 mx-auto text-light text-center">© 2024 <b>DIGI2 Lab</b>. All rights reserved.</p>
+
+            <p className={"col-md-4"}>
+                <Link to="https://sigarra.up.pt/feup" className={"bg-light"}>
+                    <button className={"d-flex flex-row ms-auto"}>
+                        <img src={feup_logo} alt={"logo"} className={"ms-auto"}></img>
+                    </button>
+                </Link>
+            </p>
+        </footer>
     );
 }
 

@@ -42,7 +42,6 @@ function DashboardTopnav() {
 
     const userDropdownData = [
         { text: "My Profile", href: "/user/" + user.id },
-        { text: "Notifications", href: "/notifications" },
         { text: "Logout", onClick: () => logout() },
     ];
 
@@ -52,17 +51,6 @@ function DashboardTopnav() {
             .then(response => response.json())
             .then(data => setUser(data))
             .catch(err => console.error("Error fetching user:", err));
-    }
-
-    function get_logo() {
-        return (
-            <Link to="/" className={"navbar-brand"}>
-                <button className={"d-flex flex-row"}>
-                    <img src={logo} alt={"logo"}></img>
-                    <div className={"my-auto ms-2"}>Digi<span>2</span> Lab</div>
-                </button>
-            </Link>
-        )
     }
 
     function get_links() {
