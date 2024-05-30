@@ -383,14 +383,14 @@ const Project = () => {
     ...(permission === 'admin' ? [
       editingTaskId === task.id ? (
         <>
-          <div className="actions">
+          <div className="actions" style={{margin: 'auto'}}>
             <button variant="link" onClick={handleSaveTask}>Save</button>
             <button variant="link" onClick={() => setEditingTaskId(null)}>Cancel</button>
           </div>
         </>
       ) : (
         <>
-          <div className="actions">
+          <div className="actions" style={{margin: 'auto'}}>
             <button variant="link" onClick={() => handleEditTask(task)}>Edit</button>
             <button variant="link" onClick={() => handleDeleteTask(task)}>Delete</button>
           </div>
@@ -415,7 +415,7 @@ const Project = () => {
     member.optional_email,
     member.capacity,
     ...(permission === 'admin' ? [
-      <div className="actions">
+      <div className="actions" style={{margin: 'auto'}}>
         <button onClick={() => handleDeleteMember(member)}>Remove</button>
       </div>
     ] : [])
@@ -427,7 +427,7 @@ const Project = () => {
     linkColumns.push("Actions");
   }
 
-  const linkData = (project.sharingLinks || []).map(link => [
+  const linkData = (project.sharingLinks || []).map((link) => [
     editingLinkId === link.id ? (
       <input
         type="text"
@@ -444,25 +444,29 @@ const Project = () => {
         onChange={(e) => setLinkUrl(e.target.value)}
       />
     ) : (
-      <a href={link.link_url} target="_blank" rel="noopener noreferrer">{link.link_url}</a>
+      <a href={link.link_url} target="_blank" rel="noopener noreferrer">
+        {link.link_url}
+      </a>
     ),
-    ...(permission === 'admin' ? [
-      editingLinkId === link.id ? (
-        <>
-          <div className="actions">
-            <button onClick={handleSaveLink}>Save</button>
-            <button onClick={() => setEditingLinkId(null)}>Cancel</button>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="actions">
-            <button onClick={() => handleEditLink(link)}>Edit</button>
-            <button onClick={() => handleDeleteLink(link)}>Delete</button>
-          </div>
-        </>
-      )
-    ] : [])
+    ...(permission === "admin"
+      ? [
+          editingLinkId === link.id ? (
+            <>
+              <div className="actions" style={{ margin: "auto" }}>
+                <button onClick={handleSaveLink}>Save</button>
+                <button onClick={() => setEditingLinkId(null)}>Cancel</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="actions" style={{ margin: "auto" }}>
+                <button onClick={() => handleEditLink(link)}>Edit</button>
+                <button onClick={() => handleDeleteLink(link)}>Delete</button>
+              </div>
+            </>
+          ),
+        ]
+      : []),
   ]);
 
 
@@ -489,7 +493,7 @@ const Project = () => {
           )}
         </div>
       </div>
-      <div className="project-content">
+      <div className="project-content" style={{display: 'block'}}>
         <div className='collaboration-hub'>
           <Table title="Task Assignments" columns={taskColumns} data={taskData} />
           {permission === 'admin' && (
