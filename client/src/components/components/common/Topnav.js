@@ -14,12 +14,8 @@ export default function Topnav (){
 
     const linksData = [
         {text: "Home", href: "/"},
-        {text: "Jobs", href: "/jobs"},
-        {text: "Activities", href: "/activities"},
-        {text: "EIT", href: "/eit"},
         {text: "Projects", href: "/projects"},
         {text: "Articles", href: "/articles"},
-        {text: "Events", href: "/events"},
         {text: "Login", href: "/login"}
     ];
 
