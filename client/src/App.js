@@ -33,6 +33,7 @@ import MyProjects from "./components/pages/projects/MyProjects";
 import Project from "./components/pages/projects/Project";
 import CreateProject from "./components/pages/projects/CreateProject";
 import Projects from "./components/pages/projects/Projects";
+import AdminPage from "./components/pages/admin/Admin";
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
                     <Route path="/theses" element={<ProtectedRoute><Theses /></ProtectedRoute>}/>
                     <Route path="/thesis/:id" element={<ProtectedRoute><Thesis /></ProtectedRoute>}/>
                     <Route path="/createThesis" element={<ProtectedRoute><CreateThesis /></ProtectedRoute>}/>
+                    <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>}/>
                     <Route path="*" element={<Navigate to={currentUser ? "/home" : "/"}/>}/> {/* catch-all route*/}
                 </Routes>
             </div>
