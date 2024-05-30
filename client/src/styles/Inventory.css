@@ -184,3 +184,14 @@ tr:nth-child(even) {
     padding: 6px;
 }
 
+
+.custom-btn {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    max-width: 200px;
+}
+
+.modal.fade.custom-modal {
+    left: 50% !important;
+    transform: translateX(-50%);
+}
