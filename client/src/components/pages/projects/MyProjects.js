@@ -129,13 +129,13 @@ const MyProjects = () => {
                     ))}
                 </select>
                 {permission === 'admin' && (
-                    <Link to="/projects/create" className="create-project">
+                    <Link to="/projects/create" className="create-thesis">
                         <button>Create New Project</button>
                     </Link>
                 )}
             </div>
             <div>
-                <h2>My Projects</h2>
+                <h2 class="title">My Projects</h2>
                 {filteredMyProjects.map((project) => {
                     const { id, name, description, start_date, end_date, project_type_id, project_status_id } = project;
                     return (
@@ -157,7 +157,7 @@ const MyProjects = () => {
                         </div>
                     );
                 })}
-                <h2>All Projects</h2>
+                <h2 class="title">All Projects</h2>
                 {filteredOtherProjects.map((project) => {
                     const { id, name, description, start_date, end_date, project_type_id, project_status_id } = project;
                     return (

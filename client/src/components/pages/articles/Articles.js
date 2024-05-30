@@ -87,7 +87,7 @@ const Articles = () => {
     return (
         <div className={"d-flex flex-column"}>
             <div className={"title"}><span>A</span>rticles</div>
-            <div id={"search_filters"}>
+            <div id={"search_filters"} style={{ marginTop: '-30px' }}>
                 <input type="text" placeholder={'\uD83D\uDD0E\uFE0E Search...'} value={searchTerm} onChange={handleSearch} />
                 <label>Filter:</label>
                 <select value={typeFilter} onChange={handleTypeFilterChange}>

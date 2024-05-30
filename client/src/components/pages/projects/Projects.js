@@ -106,7 +106,7 @@ const Projects = () => {
                     ))}
                 </select>
                 {permission === 'admin' && (
-                    <Link to="/projects/create" className="create-project">
+                    <Link to="/projects/create" className="create-thesis">
                         <button>Create New Project</button>
                     </Link>
                 )}

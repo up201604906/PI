@@ -54,7 +54,7 @@ div#state {
     color: black; 
 }
 
-#search_filters .create-thesis {
+.create-thesis {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -69,7 +69,7 @@ div#state {
     margin-left: auto;
 }
 
-#search_filters .create-thesis:hover {
+.create-thesis:hover {
     background-color: white;
     border: 1px solid hsl(0, 0%, 75%);
 }

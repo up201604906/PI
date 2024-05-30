@@ -180,12 +180,12 @@ class MyArticles extends Component {
                         <option value="">All Organizations</option>
                         {organizations.map((organization, index) => <option key={index} value={organization}>{organization}</option>)}
                     </select>
-                    <Link to="/createArticle" className="create-article">
-                        <button>Create New Article</button>
-                    </Link>
                 </div>
+                <Link to="/createArticle" className="create-thesis" style={{ marginRight: '-10px' }}>
+                    <button>Create New Article</button>
+                </Link>
                 <div>
-                <h2>My Articles</h2>
+                <h2 class="title">My Articles</h2>
                 {myArticles.length > 0 ? (
                     myArticles.map((article) => {
                         const { id, title, year, journal, booktitle, publisher, abstract, type } = article;
@@ -213,7 +213,7 @@ class MyArticles extends Component {
                 )}
             </div>
             <div>
-                <h2>All Articles</h2>
+                <h2 class="title">All Articles</h2>
                 {allArticles.length > 0 ? (
                     allArticles.map((article) => {
                         const { id, title, year, journal, booktitle, publisher, abstract, type } = article;

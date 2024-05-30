@@ -209,18 +209,28 @@ function UserProfile() {
     function profileData() {
         return (
             <div className="col-7">
-                <div className={"d-flex flex-row justify-content-between mb-3"}>
+                <div className={"d-flex flex-row mb-3"} style={{gap: '30px'}}>
                     <div className={"title"}>{user.name} Profile</div>
                     {isEditing ? (
                         <>
-                            <button className="btn-primary rounded ms-5" onClick={saveUser}>Save</button>
-                            <button className="btn-secondary rounded ms-5"
-                                    onClick={() => setIsEditing(false)}>Cancel
+                            <button 
+                                className="btn-primary rounded ms-5" 
+                                onClick={saveUser} 
+                                style={{height: '40px', padding: 'revert'}}
+                            >
+                                Save
+                            </button>
+                            <button 
+                                className="btn-secondary rounded ms-5"
+                                onClick={() => setIsEditing(false)}
+                                style={{height: '40px', padding: 'revert'}}
+                            >
+                                Cancel
                             </button>
                         </>
                     ) : (
                         <>
-                            <button className={"btn-primary rounded ms-5"} onClick={() => setIsEditing(true)}>
+                            <button className={"btn-primary rounded ms-5"} onClick={() => setIsEditing(true)} style={{height: '40px', padding: 'revert'}}>
                                 Edit Profile
                             </button>
                             {/*deleteModal()*/}
@@ -310,7 +320,7 @@ function UserProfile() {
                 <h1 className="title text-end">
                     Areas of Interest
                 </h1>
-                <div className="container">
+                <div className="container" style={{ marginRight: '-25px' }}>
                     <div className="d-flex flex-row flex-wrap justify-content-end align-items-center">
                         {areas.length < 6 && isEditing && (
                             <div className={"area-dropdown"}>
@@ -356,7 +366,7 @@ function UserProfile() {
                 <div className="container">
                     <div className={"d-flex flex-row mb-3"}>
                         <div className={"title"}>{user.name} Projects</div>
-                        <button className={"btn-primary rounded ms-5"}>See All</button>
+                        <button className={"btn-primary rounded ms-5"} style={{height: '40px', padding: 'revert'}}>See All</button>
                     </div>
 
                     <div className="projects">
