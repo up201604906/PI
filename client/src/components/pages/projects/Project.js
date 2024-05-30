@@ -510,7 +510,7 @@ const Project = () => {
       {permission === 'admin' && (
         <div className="floating-buttons-container">
           <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
-          <Button onClick={handleDeleteProject} className="floating-button delete-button">DELETE THIS PROJECT</Button>
+          <button onClick={handleDeleteProject} className="floating-button delete-button">DELETE THIS PROJECT</button>
         </div>
       )}
       <MyModal
