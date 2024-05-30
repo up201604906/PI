@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import MyModal from './MyModal';
 import EditModal from './EditModal';
@@ -35,6 +35,7 @@ const Table = ({ title, columns, data }) => (
 
 const Project = () => {
   const { id } = useParams();
+  const navigate = useNavigate()
   const { currentUser, permission } = useAuth(); // Access current user and their permissions
   const [project, setProject] = useState(null);
   const [teamMembers, setTeamMembers] = useState([]);
@@ -305,6 +306,24 @@ const Project = () => {
     }
   };
 
+  const handleDeleteProject = async () => {
+    if (window.confirm("Are you sure you want to delete this project?")) {
+      try {
+        const response = await fetch(`http://localhost:4000/projects/${project.id}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          navigate(-1);
+        } else {
+          console.error('Error deleting project:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error deleting project:', error);
+      }
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -491,6 +510,7 @@ const Project = () => {
       {permission === 'admin' && (
         <div className="floating-buttons-container">
           <Link to="/projects/create" className="floating-button">CREATE NEW PROJECT</Link>
+          <Button onClick={handleDeleteProject} className="floating-button delete-button">DELETE THIS PROJECT</Button>
         </div>
       )}
       <MyModal

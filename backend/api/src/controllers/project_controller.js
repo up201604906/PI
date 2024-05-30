@@ -198,7 +198,16 @@ const createTeamMember = async (req, res) => {
       res.status(500).send('Internal Server Error');
     }
   };
-  
+  const deleteProject = async (req, res) => {
+    const projectId = req.params.id;
+    try {
+        await projectsModel.deleteProject(projectId);
+        res.status(204).send();
+    } catch (error) {
+        console.error("Error deleting project:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
 
 module.exports = {
     createProject,
@@ -216,5 +225,6 @@ module.exports = {
     createAssignment,
     createSharingLink,
     createTeamMember,
-    updateProject
+    updateProject,
+    deleteProject // Add the deleteProject function here
 };

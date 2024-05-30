@@ -272,6 +272,31 @@ const createTeamMember = async ({ project_id, name, field, email, optional_email
     const result = await pool.query(query, values);
     return result.rows[0];
   };
+
+  const deleteProject = async (projectId) => {
+    const client = await pool.connect();
+
+    try {
+        await client.query('BEGIN');
+
+        // Delete related records in other tables
+        await client.query('DELETE FROM user_projects WHERE project_id = $1', [projectId]);
+        await client.query('DELETE FROM project_assignments WHERE project_id = $1', [projectId]);
+        await client.query('DELETE FROM sharing_communication WHERE project_id = $1', [projectId]);
+        await client.query('DELETE FROM project_research_team WHERE project_id = $1', [projectId]);
+
+        // Delete the project
+        const query = 'DELETE FROM projects WHERE id = $1';
+        await client.query(query, [projectId]);
+
+        await client.query('COMMIT');
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        client.release();
+    }
+};
   
 
 module.exports = {
@@ -294,5 +319,6 @@ module.exports = {
     createAssignment,
     createSharingLink,
     createTeamMember,
-    updateProject
+    updateProject,
+    deleteProject
 };

@@ -21,7 +21,7 @@ router.delete('/teamMembers/:id', projectController.removeTeamMember);
 router.post('/assignments', projectController.createAssignment);
 router.post('/sharingLinks', projectController.createSharingLink);
 router.post('/teamMembers', projectController.createTeamMember);
-
+router.delete('/:id', projectController.deleteProject);
 
 
 
