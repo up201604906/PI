@@ -121,10 +121,16 @@ const createArticle = async (articleData) => {
     return result.rows[0];
 };
 
+const deleteArticle = async (articleId) => {
+    const query = 'DELETE FROM articles WHERE id = $1';
+    const values = [articleId];
+    await pool.query(query, values);
+};
 
 module.exports = {
     getArticlesByUser,
     createArticle,
     getArticles,
     getArticleById,
+    deleteArticle  
 };

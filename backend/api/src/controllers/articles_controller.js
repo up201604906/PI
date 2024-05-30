@@ -54,9 +54,21 @@ const createArticle = async (req, res) => {
     }
 };
 
+const deleteArticle = async (req, res) => {
+    try {
+        const articleId = req.params.id;
+        await articlesModel.deleteArticle(articleId);
+        res.status(204).send();  // No Content
+    } catch (error) {
+        console.error("Error deleting article:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
 module.exports = {
     getArticlesByUser,
     getAllArticles,
     getArticleById,
-     createArticle
+     createArticle,
+     deleteArticle
 };

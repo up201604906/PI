@@ -403,7 +403,7 @@ const Project = () => {
   const historyColumns = ["Event"];
   const historyData = [];
 
-  const memberColumns = ["Name", "Field", "Email", "Optional Email", "Capacity"];
+  const memberColumns = ["Name", "Field", "Email", "Alternative Email", "Capacity"];
   if (permission === 'admin') {
     memberColumns.push("Actions");
   }

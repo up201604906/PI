@@ -84,6 +84,7 @@ router.delete('/user/:id', userController.deleteUser);
 router.get("/getArticles/:id", articlesController.getArticlesByUser);
 router.get("/articles", articlesController.getAllArticles);
 router.get("/articles/:id", articlesController.getArticleById);
+router.delete("/articles/:id", articlesController.deleteArticle);
 router.post("/articles/create", articlesController.createArticle, (req, res) => {
     if (res.statusCode === 201) { // Check if the article was successfully created
         sendNotification({

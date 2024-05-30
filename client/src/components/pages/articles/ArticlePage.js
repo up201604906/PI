@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../contexts/AuthContext';  // Ensure you import useAuth from the correct path
 import "../../../styles/Articles.css";
 
 const ArticlePage = () => {
@@ -7,7 +8,8 @@ const ArticlePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const { id } = useParams();
-    const navigate = useNavigate();  // Using the useNavigate hook from react-router-dom
+    const navigate = useNavigate();
+    const { currentUser, permission } = useAuth();  // Access current user and their permissions
 
     useEffect(() => {
         setIsLoading(true);
@@ -56,6 +58,27 @@ const ArticlePage = () => {
             });
     };
 
+    const handleDelete = () => {
+        if (window.confirm("Are you sure you want to delete this article?")) {
+            fetch(`http://localhost:4000/articles/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete the article');
+                }
+                navigate(-1);  // Navigate back to the previous page
+            })
+            .catch(error => {
+                console.error('Error deleting the article:', error);
+                setError(error.message);
+            });
+        }
+    };
+
     if (isLoading) {
         return <div className="loading">Loading...</div>;
     }
@@ -100,7 +123,12 @@ const ArticlePage = () => {
                 <p><strong>Editors:</strong> {article.editors}</p>
             </div>
             <button onClick={handleBack} className="btn">Back</button>
-            <button onClick={handleExport} className="btn">Export BibTeX</button>
+            {currentUser && <button onClick={handleExport} className="btn">Export BibTeX</button>}
+            {permission === 'admin' && (
+                <div className="floating-buttons-container">
+                    <button onClick={handleDelete} className="floating-button">DELETE ARTICLE</button>
+                </div>
+            )}
         </div>
     );
 };

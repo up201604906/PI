@@ -105,9 +105,11 @@ const Projects = () => {
                         <option key={index} value={statusId}>{getProjectStatusName(statusId)}</option>
                     ))}
                 </select>
-                <Link to="/projects/create" className="create-project">
-                    <button>Create New Project</button>
-                </Link>
+                {permission === 'admin' && (
+                    <Link to="/projects/create" className="create-project">
+                        <button>Create New Project</button>
+                    </Link>
+                )}
             </div>
             <div>
                 <h2>Projects</h2>

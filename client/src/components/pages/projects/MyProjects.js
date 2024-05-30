@@ -6,7 +6,7 @@ import "../../../styles/Home.css";
 import "../../../styles/Theses.css"; 
 
 const MyProjects = () => {
-    const { currentUser } = useAuth();
+    const { currentUser, permission } = useAuth();
     const [myProjects, setMyProjects] = useState([]);
     const [otherProjects, setOtherProjects] = useState([]);
     const [projectTypes, setProjectTypes] = useState([]);
@@ -128,9 +128,11 @@ const MyProjects = () => {
                         <option key={index} value={statusId}>{getProjectStatusName(statusId)}</option>
                     ))}
                 </select>
-                <Link to="/projects/create" className="create-project">
-                    <button>Create New Project</button>
-                </Link>
+                {permission === 'admin' && (
+                    <Link to="/projects/create" className="create-project">
+                        <button>Create New Project</button>
+                    </Link>
+                )}
             </div>
             <div>
                 <h2>My Projects</h2>
