@@ -24,6 +24,24 @@ const getArticlesByUser = async (userId) => {
     return result.rows;
 };
 
+const getArticleAuthors = async (articleId) => {
+    const authorsResult = await pool.query(`
+        SELECT a.name FROM authors a
+        JOIN article_authors aa ON a.id = aa.author_id
+        WHERE aa.article_id = $1;
+    `, [articleId]);
+    return authorsResult.rows.map(row => row.name);
+};
+
+const getArticleEditors = async (articleId) => {
+    const editorsResult = await pool.query(`
+        SELECT e.name FROM editors e
+        JOIN article_editors ae ON e.id = ae.editor_id
+        WHERE ae.article_id = $1;
+    `, [articleId]);
+    return editorsResult.rows.map(row => row.name);
+};
+
 const getArticleById = async (articleId) => {
     const query = 'SELECT * FROM articles WHERE id = $1';
     const values = [articleId];
@@ -31,30 +49,27 @@ const getArticleById = async (articleId) => {
 
     if (result.rows.length > 0) {
         let article = result.rows[0];
-        
-        const authorsResult = await pool.query(`
-            SELECT a.name FROM authors a
-            JOIN article_authors aa ON a.id = aa.author_id
-            WHERE aa.article_id = $1;
-        `, [article.id]);
-        article.authors = authorsResult.rows.map(row => row.name).join(' and ');
 
-        const editorsResult = await pool.query(`
-            SELECT e.name FROM editors e
-            JOIN article_editors ae ON e.id = ae.editor_id
-            WHERE ae.article_id = $1;
-        `, [article.id]);
-        article.editors = editorsResult.rows.map(row => row.name).join(' and ');
+        article.authors = await getArticleAuthors(article.id);
+        article.editors = await getArticleEditors(article.id);
 
         return article;
     }
 
     return null;
 };
+
 const getArticles = async () => {
     const query = 'SELECT * FROM articles';
     const result = await pool.query(query);
-    return result.rows;
+    const articles = result.rows;
+
+    for (let article of articles) {
+        article.authors = await getArticleAuthors(article.id);
+        article.editors = await getArticleEditors(article.id);
+    }
+
+    return articles;
 };
 
 const createArticle = async (articleData) => {
