@@ -3,32 +3,22 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import '../../../styles/Topnav.css';
 import logo from '../../../images/digi2_orange.svg';
 import {AuthContext, useAuth} from "../../../contexts/AuthContext";
 import gatito from "../../../images/default.png";
 
 export default function Topnav() {
-    const { currentUser } = useAuth();
-    const { logout } = useContext(AuthContext);
-    const [user, setUser] = useState({ name: '', email: '', permission: '', picture: '' });
-
-    const linksData = [
-        { text: "Projects", href: "/projects" },
-        { text: "Articles", href: "/articles" },
-        { text: "Login", href: "/login" }
-    ];
+    const {currentUser} = useAuth();
+    const {logout} = useContext(AuthContext);
+    const [user, setUser] = useState({name: '', email: '', permission: '', picture: ''});
 
     const dashLinksData = [
-        { text: "Dashboard", href: "/dashboard" },
-        { text: "Theses", href: "/theses" },
-        { text: "My Projects", href: "/my-projects/" + user.id },  //from this page, you should be able to see your team + all projects
-        { text: "My Articles", href: "/myArticles/" + user.id },  //this page should have an option to see all articles
-
-        // Make these into a bottom bar or remove them and keep it only on the base website
-        // {text: "Social", href: "/social"},
-        // {text: "Communication", href: "/Communication"},
+        {text: "Dashboard", href: "/dashboard"},
+        {text: "Theses", href: "/theses"},
+        {text: "My Projects", href: "/my-projects/" + user.id},
+        {text: "My Articles", href: "/myArticles/" + user.id},
     ]
 
     const socials = [
@@ -39,25 +29,24 @@ export default function Topnav() {
 
 
     const inventoryDropdownData = [
-        { text: "Resources", href: "/inventory/resources" },
-        { text: "PC Allocation", href: "/inventory/pcallocation" },
-        { text: "Licenses", href: "/inventory/licenses" },
-        { text: "Wishlist", href: "/inventory/wishlist" },
+        {text: "Resources", href: "/inventory/resources"},
+        {text: "PC Allocation", href: "/inventory/pcallocation"},
+        {text: "Licenses", href: "/inventory/licenses"},
+        {text: "Wishlist", href: "/inventory/wishlist"},
     ]
 
     const userDropdownData = [
-        { text: "My Profile", href: "/user/" + user.id },
-        { text: "Logout", onClick: () => logout() },
+        {text: "My Profile", href: "/user/" + user.id, permission: "user"},
+        {text: "User Management", href: "/user-mgmt", permission: "admin"},
+        {text: "Logout", onClick: () => logout(), permission: "user"},
     ];
-
-    const filteredLinksData = currentUser ? linksData.filter(link => link.text !== "Login") : linksData;
 
     useEffect(() => {
         getUserData(currentUser);
     }, [currentUser]);
 
 
-    function Logo (){
+    function Logo() {
         return (
             <div className={"d-flex align-items-center"}>
                 <img id="logo" src={logo} alt="logo" className="logo-img"/>
@@ -67,7 +56,6 @@ export default function Topnav() {
     }
 
     function getUserData(userId) {
-        console.log(userId);
         fetch(`http://localhost:4000/user/${userId}`)
             .then(response => response.json())
             .then(data => setUser(data))
@@ -116,7 +104,7 @@ export default function Topnav() {
                 <div id="user" className={"d-flex flex-column dropdown"}>
                     <button type="button" data-bs-toggle="dropdown" aria-expanded="false"
                             className={"d-flex flex-row mb-3 p-0"}>
-                        <img className={"rounded-circle me-2 my-auto"} src={gatito} alt={"user"} />
+                        <img className={"rounded-circle me-2 my-auto"} src={gatito} alt={"user"}/>
                         <div className={"d-flex flex-column my-auto"}>
                             <b>{user.name}</b>
                         </div>
@@ -124,10 +112,14 @@ export default function Topnav() {
                     <ul className={"dropdown-menu dropdown-menu-end"}>
                         {userDropdownData.map((item, index) => (
                             <li key={index}>
-                                {item.onClick ?
-                                    <button onClick={item.onClick} className="dropdown-item w-100">{item.text}</button> :
-                                    <Link to={item.href} className="dropdown-item">{item.text}</Link>
+                                {
+                                    item.permission === "admin" && user.permission === "admin" &&
+                                    item.onClick ?
+                                        <button onClick={item.onClick}
+                                                className="dropdown-item w-100">{item.text}</button> :
+                                        <Link to={item.href} className="dropdown-item">{item.text}</Link>
                                 }
+
                             </li>
                         ))}
                     </ul>
@@ -153,7 +145,7 @@ export default function Topnav() {
     }
 
 
-    function dashboard(){
+    function dashboard() {
         return (
             <Navbar className="bg-body-tertiary p-0">
                 <Container className={"p-0"}>
@@ -174,20 +166,21 @@ export default function Topnav() {
             <Container className={"justify-content-around"}>
                 <div className={"d-flex flex-wrap w-100 justify-content-around"}>
                     <Navbar.Brand href="/" sticky="top" className={"me-auto"}><Logo/></Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav className={"justify-content-end w-100"}>
-                            {filteredLinksData.map((item, index) => (
-                                <Nav.Link key={index} href={item.href} className={"col-1"}>{item.text}</Nav.Link>
-                            ))}
+                            {currentUser && dashboard()}
+                            {/*{filteredLinksData.map((item, index) => (*/}
+                            {/*    <Nav.Link key={index} href={item.href} className={"col-1"}>{item.text}</Nav.Link>*/}
+                            {/*))}*/}
                         </Nav>
 
                     </Navbar.Collapse>
-                    <Navbar.Collapse id="basic-navbar-nav" className={"w-100"}>
-                        <Nav className={"justify-content-end w-100"}>
-                            {currentUser && dashboard()}
-                        </Nav>
-                    </Navbar.Collapse>
+                    {/*<Navbar.Collapse id="basic-navbar-nav" className={"w-100"}>*/}
+                    {/*    <Nav className={"justify-content-end w-100"}>*/}
+                    {/*        {currentUser && dashboard()}*/}
+                    {/*    </Nav>*/}
+                    {/*</Navbar.Collapse>*/}
                 </div>
             </Container>
         </Navbar>

@@ -14,13 +14,8 @@ nav span {
 
 /* LINKS */
 
-nav li.nav-item > a, nav li.nav-item > div > button{
+nav li > a, nav li > div > button{
     color: black;
-    font-size: var(--font-size-sm);
-}
-
-#topnav .navbar-collapse{
-    flex-grow: 0 !important;
 }
 
 /* USER */

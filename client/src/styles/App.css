@@ -218,3 +218,11 @@ footer ul *:hover {
     transition-property: transform;
     box-sizing: content-box;
 }
+
+table{
+    table-layout: fixed;
+}
+
+td{
+    overflow: hidden;
+}

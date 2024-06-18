@@ -1,100 +1,93 @@
-import React from 'react';
-import {Link} from "react-router-dom";
-import "../../../styles/Home.css";
-import "../../../styles/Inventory.css";
+import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 
 const roles = ["Student", "Collaborator", "Admin"];
 
-
-class Table extends React.Component {
-
-    render() {
-        const { users } = this.props;
-        console.log(users);
-
-        return (
-            <table>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
+function Table({ users }) {
+    return (
+        <table>
+            <thead>
+            <tr>
+                <th style={{ width: '35%'}}>Name</th>
+                <th style={{ width: '35%'}}>Email</th>
+                <th style={{ width: '20%'}}>Role</th>
+            </tr>
+            </thead>
+            <tbody>
+            {users.map((user, index) => (
+                <tr key={index}>
+                    <td><Link to={`/user/${user.id}`} className={"truncate-title"}>{user.name}</Link></td>
+                    <td>{user.contact_email} </td>
+                    <td>{user.permission.charAt(0).toUpperCase() + user.permission.slice(1)}</td>
                 </tr>
-                </thead>
-                <tbody>
-                {users.map((user, index) => (
-                    <tr key={index}>
-                        <td><Link to={"http://localhost:3000/user/"+user.id}>{user.name}</Link></td>
-                        <td>{user.email}</td>
-                        <td>
-                            <select defaultValue={user.permission.charAt(0).toUpperCase() + user.permission.slice(1)}>
-                                {roles.map((role, index) => (
-                                    <option key={index} value={role}>{role}</option>
-                                ))}
-                            </select>
-                        </td>
-                        <td className="actions">
-                            <button>Edit</button>
-                            <button>Delete</button>
-                        </td>
-                    </tr>
+            ))}
+            </tbody>
+        </table>
+    );
+}
+
+function Filters({ selectedRole, onRoleChange, searchTerm, onSearchChange }) {
+    return (
+        <div id={"search_filters"}>
+            <input
+                type="text"
+                placeholder={'\uD83D\uDD0E\uFE0E Search...'}
+                value={searchTerm}
+                onChange={e => onSearchChange(e.target.value)}
+            />
+            <label>Filters:</label>
+            <select value={selectedRole} onChange={e => onRoleChange(e.target.value)}>
+                <option value="">All Roles</option>
+                {roles.map((role, index) => (
+                    <option key={index} value={role}>{role}</option>
                 ))}
-                </tbody>
-            </table>
-        );
-    }
+            </select>
+            <Link to="/add-user" className="create-resource btn-primary">
+                Add User
+            </Link>
+        </div>
+    )
 }
 
-class Filters extends React.Component {
-    render() {
+export default function UserManagement() {
+    const [users, setUsers] = useState([]);
+    const [selectedRole, setSelectedRole] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
 
-        return (
-            <div id={"search_filters"}>
-                <input type="text" placeholder={'\uD83D\uDD0E\uFE0E Search...'}/>
-                <label>Filters:</label>
-                <select>
-                    <option value="">All Roles</option>
-                    {roles.map((role, index) => (
-                        <option key={index} value={role}>{role}</option>
-                    ))}
-                </select>
-                <Link to="/add-user" className="create-resource">
-                    <button>Add User</button>
-                </Link>
-            </div>
-        )
-    }
-}
-
-class UserManagement extends React.Component {
-    state = {
-        users: []
-    };
-
-    getUsers() {
+    useEffect(() => {
         fetch(`http://localhost:4000/user-mgmt`)
             .then(res => res.json())
-            .then(users => {
-                this.setState({ users });
-            })
+            .then(setUsers)
             .catch(err => console.error("Error fetching user:", err));
-    }
+    }, []);
 
-    componentDidMount() {
-        this.getUsers();
-    }
+    const handleRoleChange = (role) => {
+        setSelectedRole(role);
+    };
 
-    render() {
-        return (
-            <div className={"d-flex flex-column"}>
-                <div className={"title"}><span>U</span>sers</div>
-                <Filters/>
-                <Table users={this.state.users}/>  {/* Pass users as props */}
-            </div>
-        );
-    }
+    const handleSearchChange = (term) => {
+        setSearchTerm(term);
+    };
+
+    const filteredUsers = users.filter(user => {
+        const matchesRole = selectedRole ? user.permission.toLowerCase() === selectedRole.toLowerCase() : true;
+        const matchesSearchTerm = user.name.toLowerCase().includes(searchTerm.toLowerCase()) || user.contact_email.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesRole && matchesSearchTerm;
+    });
+
+    return (
+        <div className={"d-flex flex-column"}>
+            <div className={"title"}><span>U</span>sers</div>
+            <Filters
+                selectedRole={selectedRole}
+                onRoleChange={handleRoleChange}
+                searchTerm={searchTerm}
+                onSearchChange={handleSearchChange}
+            />
+            <Table users={filteredUsers} />
+            {filteredUsers.length === 0 &&
+                <div className={"mx-auto title mt-5"}>Oops... no users found</div>
+            }
+        </div>
+    );
 }
-
-
-export default UserManagement;
