@@ -44,6 +44,7 @@ function Filters({projectTypes, selectedType, onTypeChange}) {
 
 function UserProfile() {
     const [user, setUser] = useState({
+        id: '',
         name: '',
         contact_email: '',
         personal_email: '',
@@ -366,7 +367,7 @@ function UserProfile() {
                 <div className="container">
                     <div className={"d-flex flex-row mb-3"}>
                         <div className={"title"}>{user.name} Projects</div>
-                        <button className={"btn-primary rounded ms-5"} style={{height: '40px', padding: 'revert'}}>See All</button>
+                        <Link to={`/my-projects/${user.id}`} class={"btn-primary rounded ms-5"}>See All</Link>
                     </div>
 
                     <div className="projects">
@@ -394,51 +395,3 @@ function UserProfile() {
 }
 
 export default UserProfile;
-
-
-/*
-        const handleDelete = () => {
-            fetch(`http://localhost:4000/user/${user.id}`, {
-                method: 'DELETE',
-            })
-                .then(response => {
-                    if (response.ok) {
-                        navigate("/user-mgmt");
-                    }
-                })
-                .catch(err => console.error("Error deleting user:", err));
-        };
-
-        function deleteModal() {
-            return (
-                <>
-                    <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                         aria-hidden="true">
-                        <div className="modal-dialog d-flex align-self-center" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div className="modal-body">
-                                    Are you sure you want to delete this user?
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn-secondary rounded" data-bs-dismiss="modal">Close
-                                    </button>
-                                    <button type="button" className="btn-primary rounded ms-3" data-bs-dismiss="modal"
-                                            onClick={handleDelete}>Delete User
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" className="btn-secondary rounded ms-5" data-bs-toggle="modal"
-                            data-bs-target="#deleteModal">
-                        Delete User
-                    </button>
-                </>
-            )
-        }*/
