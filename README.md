@@ -23,6 +23,12 @@ or
  docker compose up --build 
 ```
 
+Unit and Integration tests
+```bash
+ docker-compose up --build test
+```
+
+
 - The website will be acessible in `http://localhost:80/` 
 - The React App will be acessible in `http://localhost:3000/`
 - The Express server will be exposed in `http://localhost:4000/`

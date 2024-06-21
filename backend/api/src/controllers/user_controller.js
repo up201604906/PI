@@ -14,7 +14,7 @@ const signup = async (req, res) => {
             return res.status(409).send("Name or email already exists.");
         }
 
-        const user_id = await user_model.create_user(name, email, hashedPassword, permission);  // Note: passing hashedPassword instead of password
+        const user_id = await user_model.create_user(name, email, hashedPassword, permission);  
         res.json({ success: true, user_id });
 
     } catch (error) {

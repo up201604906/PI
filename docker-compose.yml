@@ -14,7 +14,7 @@ services:
     build:
       context: ./backend/api
       args:
-        NODE_ENV: development # ensures devDependencies are installed , change to production when development ends
+        NODE_ENV: development
     ports:
       - "4000:4000"
     depends_on:
@@ -37,9 +37,8 @@ services:
     depends_on:
       - api
     volumes:
-      - ./client/src:/app/src  # Mount the React src directory for live editing
-      - ./client/public:/app/public  # Optionally, mount the public directory if needed
-
+      - ./client/src:/app/src
+      - ./client/public:/app/public
 
   nginx:
     image: nginx:alpine
@@ -50,3 +49,21 @@ services:
       - ./digi2-website:/usr/share/nginx/html:ro
     depends_on:
       - react-client
+
+  test:
+    build:
+      context: ./backend/api
+    depends_on:
+      - api
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      NODE_ENV: test
+    command: npm run test:all
+    volumes:
+      - ./backend/api:/usr/src/app
+      - /usr/src/app/node_modules

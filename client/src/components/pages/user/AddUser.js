@@ -21,8 +21,8 @@ function AddUser() {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({name, email, password, confPass, permission})
             });
-            console.log(JSON.stringify({name, email, password, permission}))
-            console.log(response);
+            //console.log(JSON.stringify({name, email, password, permission}))
+            //console.log(response);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }

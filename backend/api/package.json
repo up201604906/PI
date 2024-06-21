@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "jest",
-    "test:unit": "jest --config jest.config.js",
-    "test:integration": "docker-compose -f docker-compose.yml run api npm run test:integration"
+  "start": "nodemon index.js",
+  "test:unit": "jest --config jest.config.js",
+  "test:integration": "npm run test:integration:local",
+  "test:integration:local": "jest --config jest.integration.config.js",
+  "test:integration:docker": "docker-compose -f docker-compose.yml run test",
+  "test:all": "npm run test:unit && npm run test:integration"
   },
   "dependencies": {
     "argon2": "^0.31.2",
