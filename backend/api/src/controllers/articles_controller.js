@@ -2,9 +2,8 @@ const articlesModel = require('../models/articles_model');
 
 const getArticlesByUser = async (req, res) => {
     try {
-        
         const userId = req.params.id;  // Assume user ID is passed as a URL parameter
-        if(!userId) {
+        if (!userId) {
             res.status(400).send("User ID is required");
             return;
         }
@@ -39,13 +38,10 @@ const getArticleById = async (req, res) => {
         console.error("Error fetching article:", error);
         res.status(500).send("Internal Server Error");
     }
-}
-
-
+};
 
 const createArticle = async (req, res) => {
     try {
-        //console.log("Creating article:", req.body);
         const newArticle = await articlesModel.createArticle(req.body);
         res.status(201).json(newArticle);
     } catch (error) {
@@ -69,6 +65,6 @@ module.exports = {
     getArticlesByUser,
     getAllArticles,
     getArticleById,
-     createArticle,
-     deleteArticle
+    createArticle,
+    deleteArticle
 };
