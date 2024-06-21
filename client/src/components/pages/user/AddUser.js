@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const roles = ["student", "collaborator", "admin"];
 
@@ -9,28 +10,30 @@ function AddUser() {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confPass, setConfPass] = useState('');
     const [permission, setPermission] = useState(roles[0]);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
         try {
+            let password = uuidv4();
             const response = await fetch('http://localhost:4000/signup', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name, email, password, confPass, permission})
+                body: JSON.stringify({name, email, password, permission})
             });
-            //console.log(JSON.stringify({name, email, password, permission}))
-            //console.log(response);
+            console.log(JSON.stringify({name, email, password, permission}))
+            console.log(response);
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                alert('Network response was not ok');
             }
             const data = await response.json(); // This line throws if the response is not JSON
             navigate('/user/' + data.user_id); // Redirect on successful login
         } catch (error) {
             alert('Login failed: ' + (error.message || 'Unknown error'));
         }
+        setLoading(false);
     };
 
 
@@ -51,18 +54,6 @@ function AddUser() {
             </div>
 
             <div className="form-group my-5 mx-auto w-75">
-                <label className="fw-bold">Password</label>
-                <input type="password" className="form-control" value={password}
-                       onChange={(e) => setPassword(e.target.value)}/>
-            </div>
-
-            <div className="form-group my-5 mx-auto w-75">
-                <label className="fw-bold">Confirm Password</label>
-                <input type="password" className="form-control" value={confPass}
-                       onChange={(e) => setConfPass(e.target.value)}/>
-            </div>
-
-            <div className="form-group my-5 mx-auto w-75">
                 <label className="fw-bold">Permission</label>
                 <select className="form-control" value={permission}
                         onChange={(e) => setPermission(e.target.value)}>
@@ -73,7 +64,7 @@ function AddUser() {
             </div>
 
             <div className="text-center">
-                <button type="submit" className="btn btn-primary my-3 fw-bold">Submit</button>
+                <button disabled={loading} type="submit" className="btn btn-primary my-3 fw-bold">Submit</button>
             </div>
         </form>
     );

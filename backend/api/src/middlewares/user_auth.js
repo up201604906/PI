@@ -1,8 +1,8 @@
 const saveUser = (req, res, next) => {
-    const {name, email, password, confPass, permission} = req.body;
+    const {name, email, password, permission} = req.body;
 
     // Check for missing fields
-    if (!name || !email || !password || !confPass || !permission) {
+    if (!name || !email || !password || !permission) {
         return res.status(400).send("All fields are required.");
     }
 
@@ -13,10 +13,6 @@ const saveUser = (req, res, next) => {
     // Check for password strength (simple validation, will be extended)
     if (password.length < 8) {
         return res.status(400).send("Password must be at least 8 characters long.");
-    }
-
-    if(password !== confPass){
-        return res.status(400).send("Passwords do not match.");
     }
 
     next();

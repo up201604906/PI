@@ -1,9 +1,11 @@
 const pool = require('./database');
+const { createMailTransporter } = require("../middlewares/createMailTransporter");
+require('dotenv').config();
 
 async function create_user(name, email, password, permission) {
     try {
         const result = await pool.query(
-            'INSERT INTO users (name, email, password, permission) VALUES ($1, $2, $3, $4) RETURNING id',
+            'INSERT INTO users (name, contact_email, password, permission) VALUES ($1, $2, $3, $4) RETURNING id',
             [name, email, password, permission]
         );
         return result.rows[0].id;
@@ -15,11 +17,30 @@ async function create_user(name, email, password, permission) {
 // Check if a username or email already exists
 const doesUserExist = async (name, email) => {
     const result = await pool.query(
-        'SELECT COUNT(*) FROM users WHERE name = $1 OR email = $2',
+        'SELECT COUNT(*) FROM users WHERE name = $1 OR contact_email = $2 OR personal_email = $2',
         [name, email]
     );
     return result.rows[0].count > 0;
 };
+
+async function sendMail(email, subject, html) {
+    try {
+        const transporter = await createMailTransporter();
+
+        const mailOptions = {
+            from: `"Digi2 Lab Team" <digi2emailservice@gmail.com>`,
+            to: email,
+            subject,
+            html,
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        return `Subject: ${subject}, email sent to: ${email}, info: ${info.response}`;
+    } catch (error) {
+        throw new Error(`Error: ${error.message}`);
+    }
+}
+
 
 const get_user_by_id = async (userId) => {
     try {
@@ -171,6 +192,7 @@ const getUsersWithProjectTypes = async () => {
 module.exports = {
     doesUserExist,
     create_user,
+    sendMail,
     get_all_users,
     get_user_by_id,
     get_user_by_email,

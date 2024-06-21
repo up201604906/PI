@@ -4,6 +4,9 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "body-parser": "^1.20.2",
     "connect-pg-simple": "^9.0.1",
-    "react-select": "^5.8.0"
+    "dotenv": "^16.4.5",
+    "nodemailer": "^6.9.14",
+    "react-select": "^5.8.0",
+    "uuid": "^10.0.0"
   }
 }
