@@ -4,6 +4,7 @@ const resourcesController = require("../controllers/resources_controller");
 const articlesController = require('../controllers/articles_controller');
 const userController = require('../controllers/user_controller');
 const userAuth = require('../middlewares/user_auth');
+const auth = require('../middlewares/auth');
 const articlesModel = require('../models/articles_model');
 const bibtexParse = require('bibtex-parse-js');
 const wishlistController = require("../controllers/wishlist_controller");
@@ -14,48 +15,7 @@ const areaController = require("../controllers/area_controller");
 
 const router = express.Router();
 
-// =====================  NOTIFICATION ROUTES ===================== //         
-
-let clients = [];
-
-router.get('/notifications', (req, res) => {
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-
-    // Function to send a heartbeat every minute to keep the connection alive
-    const heartbeat = setInterval(() => {
-        res.write(':heartbeat\n\n');
-    }, 60000);
-
-    // Add client to the list of clients
-    clients.push(res);
-
-    // Send a welcome message upon connection
-    res.write(`data: ${JSON.stringify({ message: "Connected to notification stream" })}\n\n`);
-
-    // Remove client and clear heartbeat when connection is closed
-    req.on('close', () => {
-        clearInterval(heartbeat);
-        clients.splice(clients.indexOf(res), 1);
-        res.end();
-    });
-});
-
-// Function to send notifications to all connected clients
-// Function to send notifications to all connected clients
-const sendNotification = (data) => {
-    const formattedData = JSON.stringify({ type: 'Notification', details: data });
-    clients.forEach(client =>
-        client.write(`data: ${formattedData}\n\n`)
-    );
-};
-
-
-
 /// ===================== ROUTES ===================== ///
-
-
 
 // auth routes
 router.post('/signup', userAuth.saveUser, userController.signup);
@@ -64,28 +24,27 @@ router.post('/logout', userController.logout);
 
 router.get("/home", controller.getHome);
 
-
+// Protected routes using auth middleware
 // resources routes
-router.get("/inventory/resources", resourcesController.getResources);
-router.put("/inventory/resources/:id", resourcesController.updateResource);
+router.get("/inventory/resources",auth ,resourcesController.getResources);
+router.put("/inventory/resources/:id", auth, resourcesController.updateResource);
 router.get("/inventory/resources/:name", resourcesController.getResourceByName);
-router.delete("/inventory/resources/:name", resourcesController.deleteResourceByName);
-
-router.post("/inventory/createResource", resourcesController.createResource);
+router.delete("/inventory/resources/:name", auth, resourcesController.deleteResourceByName);
+router.post("/inventory/createResource", auth, resourcesController.createResource);
 
 // user routes
-router.get("/user-mgmt", userController.getUsers);
-router.get('/user/:id', userController.getUserById);
-router.get('/user-areas/:id', userController.getUserAreas);
-router.put('/user/:id', userController.updateUser);
-router.delete('/user/:id', userController.deleteUser);
+router.get("/user-mgmt", auth, userController.getUsers);
+router.get('/user/:id', auth, userController.getUserById);
+router.get('/user-areas/:id', auth, userController.getUserAreas);
+router.put('/user/:id', auth, userController.updateUser);
+router.delete('/user/:id', auth, userController.deleteUser);
 
-
+// articles routes
 router.get("/getArticles/:id", articlesController.getArticlesByUser);
 router.get("/articles", articlesController.getAllArticles);
 router.get("/articles/:id", articlesController.getArticleById);
-router.delete("/articles/:id", articlesController.deleteArticle);
-router.post("/articles/create", articlesController.createArticle, (req, res) => {
+router.delete("/articles/:id", auth, articlesController.deleteArticle);
+router.post("/articles/create", auth, articlesController.createArticle, (req, res) => {
     if (res.statusCode === 201) { // Check if the article was successfully created
         sendNotification({
             message: "New article created",
@@ -95,7 +54,7 @@ router.post("/articles/create", articlesController.createArticle, (req, res) => 
     }
     res.status(res.statusCode).json(res.locals.article || { error: "Failed to create article" });
 });
-router.get('/articles/:id/export', async (req, res) => {
+router.get('/articles/:id/export', auth, async (req, res) => {
     try {
         const articleId = req.params.id;
         const article = await articlesModel.getArticleById(articleId);
@@ -152,45 +111,35 @@ router.get('/articles/:id/export', async (req, res) => {
     }
 });
 
-
-
-
 // wishlist routes
-router.get("/inventory/wishlist", wishlistController.getWishlist);
-router.delete("/inventory/wishlist/:user_name/:resource_name/:potential_resource_name", wishlistController.deleteResourceFromWishlist);
-router.put("/inventory/wishlist/:user_name/:resource_name/:potential_resource_name", wishlistController.updateResourceInWishlist);
-router.post("/inventory/wishlist/moveToResources", wishlistController.moveToResources);
-
-router.post("/inventory/addToWishlist", wishlistController.addResourceToWishlist);
-
+router.get("/inventory/wishlist", auth, wishlistController.getWishlist);
+router.delete("/inventory/wishlist/:user_name/:resource_name/:potential_resource_name", auth, wishlistController.deleteResourceFromWishlist);
+router.put("/inventory/wishlist/:user_name/:resource_name/:potential_resource_name", auth, wishlistController.updateResourceInWishlist);
+router.post("/inventory/wishlist/moveToResources", auth, wishlistController.moveToResources);
+router.post("/inventory/addToWishlist", auth, wishlistController.addResourceToWishlist);
 
 // licenses routes
-router.get("/inventory/licenses", licensesController.getLicenses);
-router.put("/inventory/licenses/:id", licensesController.updateLicense);
-router.get("/inventory/licenses/:id", licensesController.getLicenseById);
-router.delete("/inventory/licenses/:id", licensesController.deleteLicenseById);
-
-router.post("/inventory/createLicense", licensesController.createLicense);
-
+router.get("/inventory/licenses", auth, licensesController.getLicenses);
+router.put("/inventory/licenses/:id", auth, licensesController.updateLicense);
+router.get("/inventory/licenses/:id", auth, licensesController.getLicenseById);
+router.delete("/inventory/licenses/:id", auth, licensesController.deleteLicenseById);
+router.post("/inventory/createLicense", auth, licensesController.createLicense);
 
 // pc allocation routes
-router.get("/inventory/pcallocation", pcAllocationController.getPCAllocations);
-router.put("/inventory/pcallocation/:id", pcAllocationController.updatePCAllocation);
-router.get("/inventory/pcallocation/:id", pcAllocationController.getPCAllocationById);
-router.delete("/inventory/pcallocation/:id", pcAllocationController.deletePCAllocationById);
-
-router.post("/inventory/createPCAllocation", pcAllocationController.createPCAllocation);
-
+router.get("/inventory/pcallocation", auth, pcAllocationController.getPCAllocations);
+router.put("/inventory/pcallocation/:id", auth, pcAllocationController.updatePCAllocation);
+router.get("/inventory/pcallocation/:id", auth, pcAllocationController.getPCAllocationById);
+router.delete("/inventory/pcallocation/:id", auth, pcAllocationController.deletePCAllocationById);
+router.post("/inventory/createPCAllocation", auth, pcAllocationController.createPCAllocation);
 
 // theses routes
-router.get("/theses", thesesController.getTheses);
+router.get("/theses",thesesController.getTheses);
+router.get("/thesis/:id",thesesController.getThesisById);
+router.put("/thesis/:id", auth, thesesController.updateThesis);
+router.delete("/thesis/:id", auth, thesesController.deleteThesisById);
+router.post("/createThesis", auth, thesesController.createThesis);
 
-router.get("/thesis/:id", thesesController.getThesisById);
-router.put("/thesis/:id", thesesController.updateThesis);
-router.delete("/thesis/:id", thesesController.deleteThesisById);
-
-router.post("/createThesis", thesesController.createThesis);
-
-router.get("/areas", areaController.getAreas);
+// areas routes
+router.get("/areas",areaController.getAreas);
 
 module.exports = router;

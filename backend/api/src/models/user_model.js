@@ -3,19 +3,20 @@ const pool = require('./database');
 async function create_user(name, email, password, permission) {
     try {
         const result = await pool.query(
-            'INSERT INTO users (name, email, password, permission) VALUES ($1, $2, $3, $4) RETURNING id',
+            'INSERT INTO users (name, contact_email, password, permission) VALUES ($1, $2, $3, $4) RETURNING id',
             [name, email, password, permission]
         );
         return result.rows[0].id;
     } catch (error) {
         console.error("Error inserting user:", error);
+        throw error; // re-throw the error to be handled elsewhere
     }
 }
 
 // Check if a username or email already exists
 const doesUserExist = async (name, email) => {
     const result = await pool.query(
-        'SELECT COUNT(*) FROM users WHERE name = $1 OR email = $2',
+        'SELECT COUNT(*) FROM users WHERE name = $1 OR contact_email = $2',
         [name, email]
     );
     return result.rows[0].count > 0;
@@ -28,16 +29,14 @@ const get_user_by_id = async (userId) => {
             [userId]
         );
 
-        // If no user found, return null
         if (result.rows.length === 0) {
             return null;
         }
 
-        // Return the found user
         return result.rows[0];
     } catch (error) {
         console.error("Error fetching user by ID:", error);
-        throw error;  // re-throw the error so it can be caught and handled elsewhere
+        throw error;
     }
 };
 
@@ -57,7 +56,6 @@ const get_user_by_email = async (email) => {
 const get_all_users = async () => {
     try {
         const result = await pool.query(`SELECT id, name, contact_email, personal_email, permission, picture FROM users`);
-
         return result.rows;
     } catch (error) {
         console.error("Error fetching user by name or email:", error);
@@ -73,8 +71,6 @@ const get_user_areas = async (userId) => {
                      JOIN project_types pt ON upt.project_type_id = pt.id
             WHERE upt.user_id = $1;
         `, [userId]);
-
-
         return result.rows;
     } catch (error) {
         console.error("Error fetching user areas:", error);
@@ -128,7 +124,7 @@ const update_user_areas = async (userId, areas) => {
         );
 
         for (let area of areas) {
-            let areaId = await get_area_id(area.type_name)
+            let areaId = await get_area_id(area.type_name);
             await pool.query(
                 `INSERT INTO user_project_type (user_id, project_type_id) VALUES ($1, $2)`,
                 [userId, areaId]
