@@ -4,7 +4,7 @@ import "../../../styles/App.css";
 
 function Table({projects, projectTypes}) {
     return (
-        <table>
+        <table style={{ width: '100%' }}>
             <thead>
             <tr>
                 <th>Title</th>
