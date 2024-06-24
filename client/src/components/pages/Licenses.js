@@ -65,7 +65,7 @@ class Table extends React.Component {
                 <thead>
                     <tr>
                         {tableHead.map((head, index) => <th key={index}>{head}</th>)}
-                        <th>Actions</th>
+                        <th style={{ width: '80px' }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>

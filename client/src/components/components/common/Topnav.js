@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Link} from 'react-router-dom';
 import '../../../styles/Topnav.css';
 import logo from '../../../images/digi2_orange.svg';
@@ -78,24 +77,30 @@ export default function Topnav() {
     }
 
     function get_inventory() {
-        return (
-            <li className={"me-5 ms-lg-4 mb-1"}>
-                <div className="dropdown">
-                    <button type="button" data-bs-toggle="dropdown" aria-expanded="false" className={"fw-bold p-0"}>
-                        Inventory
-                    </button>
-                    <ul className="dropdown-menu float-start">
-                        {inventoryDropdownData.map((item, index) => (
-                            <li key={index}>
-                                <Link to={item.href} className={"dropdown-item"}>
-                                    {item.text}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </li>
-        );
+        // Check if user's permission is not 'student'
+        if (user.permission !== 'student') {
+            return (
+                <li className={"me-5 ms-lg-4 mb-1"}>
+                    <div className="dropdown">
+                        <button type="button" data-bs-toggle="dropdown" aria-expanded="false" className={"fw-bold p-0"}>
+                            Inventory
+                        </button>
+                        <ul className="dropdown-menu float-start">
+                            {inventoryDropdownData.map((item, index) => (
+                                <li key={index}>
+                                    <Link to={item.href} className={"dropdown-item"}>
+                                        {item.text}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </li>
+            );
+        } else {
+            // Return null or an empty fragment if user's permission is 'student'
+            return null;
+        }
     }
 
     function get_user() {

@@ -241,7 +241,6 @@ class MyArticles extends Component {
                 )}
             </div>
             <div className="floating-buttons-container">
-                <Link to="/createArticle" className="floating-button">Create New Article</Link>
                 <Link to="/importArticle" className="floating-button">Import Article</Link>
                 <button onClick={this.exportFilteredArticles} className="floating-button">Export Articles</button>
             </div>

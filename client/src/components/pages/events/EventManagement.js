@@ -34,7 +34,7 @@ class Table extends React.Component {
                     <th>Type</th>
                     <th>Start</th>
                     <th>End</th>
-                    <th>Actions</th>
+                    <th style={{ width: '80px' }}>Actions</th>
                 </tr>
                 </thead>
                 <tbody>

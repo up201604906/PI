@@ -188,20 +188,21 @@ div#state {
 }
 
 #editButton, #deleteButton {
-    padding: 5px 10px;
-    background-color: #FFE3D7;
-    border: 1px solid lightgray;
-    text-align: center;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 7px 12px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-decoration: none;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-weight: bolder;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 
 #editButton:hover, #deleteButton:hover {
-    background-color:hsl(0, 0%, 85%);
+    background-color: hsl(0, 0%, 90%);
+    border: 1px solid hsl(0, 0%, 75%);
+    color: black;
 }
 
 #buttons {
@@ -212,8 +213,8 @@ div#state {
 
 #buttons button {
     padding: 5px 10px;
-    background-color: #FFE3D7;
-    border: 1px solid lightgray;
+    background-color: hsl(0, 0%, 90%);
+    border: 1px solid hsl(0, 0%, 75%);
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -225,7 +226,8 @@ div#state {
 }
 
 #buttons button:hover {
-    background-color: hsl(0, 0%, 85%);
+    background-color: white;
+    border: 1px solid hsl(0, 0%, 75%);
 }
 
 .single-thesis select {

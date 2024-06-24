@@ -73,7 +73,7 @@ const CreateProject = () => {
     <div>
       <div className={"title"}><span>C</span>reate <span>P</span>roject</div>
       <div className={"create-form projects"}>
-        <button onClick={handleGoBack} className="go-back">←</button>
+        <a href="#" onClick={handleGoBack} class="go-back">←</a>
         <form onSubmit={handleSubmit}>
           <div className={"subtitle"}>New Project</div>
           <label>

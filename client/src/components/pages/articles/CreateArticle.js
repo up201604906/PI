@@ -100,10 +100,11 @@ class CreateArticle extends React.Component {
     render() {
         const { currentUser } = this.props;
         return (
+            <div>
+            <div className="title"><span>Create </span>Article</div>
             <div className="create-article">
-                <div className="title"><span>Create </span>Article</div>
                 <form onSubmit={this.handleSubmit} className="">
-                    <Link to={`/myArticles/${currentUser}`} className="go-back">←</Link>
+                    <div className={"subtitle"}>New Article</div>
                     <label>
                         Title:
                         <input type="text" name="title" value={this.state.title} onChange={this.handleChange} required placeholder="Enter the article title" />
@@ -196,39 +197,39 @@ class CreateArticle extends React.Component {
                         Cite:
                         <input type="text" name="cite" value={this.state.cite} onChange={this.handleChange} placeholder="e.g., citekey2024" />
                     </label>
-                    <label>
-                        Authors:
-                        {this.state.authors.map((author, index) => (
-                            <div key={index}>
-                                <input
-                                    type="text"
-                                    name={`author-${index}`}
-                                    value={author}
-                                    onChange={(e) => this.handleArrayChange(e, index, 'authors')}
-                                    required
-                                    placeholder="e.g., John Doe"
-                                />
-                                <button type="button" onClick={() => this.removeArrayField(index, 'authors')}>Remove</button>
-                            </div>
-                        ))}
+                    <div className="author-container">
+                        <label>Authors:</label>
                         <button type="button" onClick={() => this.addArrayField('authors')}>Add Author</button>
-                    </label>
-                    <label>
-                        Editors:
-                        {this.state.editors.map((editor, index) => (
-                            <div key={index}>
-                                <input
-                                    type="text"
-                                    name={`editor-${index}`}
-                                    value={editor}
-                                    onChange={(e) => this.handleArrayChange(e, index, 'editors')}
-                                    placeholder="e.g., Jane Smith"
-                                />
-                                <button type="button" onClick={() => this.removeArrayField(index, 'editors')}>Remove</button>
-                            </div>
-                        ))}
+                    </div>
+                    {this.state.authors.map((author, index) => (
+                        <div key={index}>
+                            <input
+                                type="text"
+                                name={`author-${index}`}
+                                value={author}
+                                onChange={(e) => this.handleArrayChange(e, index, 'authors')}
+                                required
+                                placeholder="e.g., John Doe"
+                            />
+                            <button type="button" onClick={() => this.removeArrayField(index, 'authors')} style={{ marginTop: '5px' }}>Remove</button>
+                        </div>
+                    ))}
+                    <div className="author-container">
+                        <label>Editors:</label>
                         <button type="button" onClick={() => this.addArrayField('editors')}>Add Editor</button>
-                    </label>
+                    </div>
+                    {this.state.editors.map((editor, index) => (
+                        <div key={index}>
+                            <input
+                                type="text"
+                                name={`editor-${index}`}
+                                value={editor}
+                                onChange={(e) => this.handleArrayChange(e, index, 'editors')}
+                                placeholder="e.g., Jane Smith"
+                            />
+                            <button type="button" onClick={() => this.removeArrayField(index, 'editors')} style={{ marginTop: '5px' }}>Remove</button>
+                        </div>
+                    ))}
                     <label>
                         Are you the author?
                         <input
@@ -247,8 +248,9 @@ class CreateArticle extends React.Component {
                             <option value="archived">Archived</option>
                         </select>
                     </label>
-                    <button type="submit" className="btn btn-primary">Create Article</button>
+                    <button type="submit" className="createArticle">Create Article</button>
                 </form>
+            </div>
             </div>
         );
     }

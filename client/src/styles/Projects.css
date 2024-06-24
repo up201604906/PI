@@ -19,7 +19,7 @@
 .floating-button {
   background-color: var(--primary-color);
   color: white;
-  padding: 15px 20px;
+  padding: 7px 12px;
   border-radius: 50px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-decoration: none;
@@ -29,7 +29,9 @@
 }
 
 .floating-button:hover {
-  background-color: var(--detail-color);
+  background-color: hsl(0, 0%, 90%);
+  border: 1px solid hsl(0, 0%, 75%);
+  color: black;
 }
 
 .project-card-link {

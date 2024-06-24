@@ -475,9 +475,9 @@ const Project = () => {
       <div className="project-header">
         <div className="header-left">
           <h1>{project.name}</h1>
-          <p>Description: {project.description}</p>
-          <p>Acronym: <b>{project.acronym}</b></p>
-          <p className="status">Status: {getProjectStatusName(project.project_status_id)}</p>
+          <p><b>Description:</b> {project.description}</p>
+          <p><b>Acronym:</b> {project.acronym}</p>
+          <p className="status"><b>Status:</b> {getProjectStatusName(project.project_status_id)}</p>
         </div>
         <div className="header-center">
           <p><b>Website:</b> <a href={project.website} target="_blank" rel="noopener noreferrer">{project.website}</a></p>
@@ -486,8 +486,8 @@ const Project = () => {
           <p><b>External Partners:</b> {project.external_partners}</p>
         </div>
         <div className="header-right">
-          <p>Start Date: {format(new Date(project.start_date), 'dd/MM/yyyy')}</p>
-          <p>Due on: {format(new Date(project.end_date), 'dd/MM/yyyy')}</p>
+          <p><b>Start Date:</b> {format(new Date(project.start_date), 'dd/MM/yyyy')}</p>
+          <p><b>Due on:</b> {format(new Date(project.end_date), 'dd/MM/yyyy')}</p>
           {permission === 'admin' && (
             <Button onClick={() => setEditModalOpen(true)}>EDIT PROJECT</Button>
           )}

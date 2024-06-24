@@ -57,7 +57,7 @@
   .floating-button {
     background-color: var(--primary-color);
     color: white;
-    padding: 15px 20px;
+    padding: 7px 12px;
     border-radius: 50px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-decoration: none;
@@ -67,7 +67,9 @@
   }
   
   .floating-button:hover {
-    background-color: var(--detail-color);
+    background-color: hsl(0, 0%, 90%);
+    border: 1px solid hsl(0, 0%, 75%);
+    color: black;
   }
   
   
@@ -162,10 +164,7 @@
     font-weight: bold;
 }
 
-.create-article form input[type="text"],
-.create-article form input[type="number"],
-.create-article form textarea,
-.create-article form select {
+.create-article form input[type="text"], .create-article form input[type="url"], .create-article form input[type="number"], .create-article form textarea, .create-article form select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -189,17 +188,35 @@
 }
 
 .create-article form button {
-    padding: 10px 20px;
-    background-color: #0056b3;
-    color: white;
-    border: none;
+    padding: 5px 10px;
+    background-color: hsl(0, 0%, 90%);
+    border: 1px solid hsl(0, 0%, 75%);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    text-transform: uppercase;
+    font-weight: bolder;
 }
 
 .create-article form button:hover {
-    background-color: #003d82;
+    background-color: white;
+    border: 1px solid hsl(0, 0%, 75%);
+}
+
+.author-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -10px;
+}
+
+.createArticle {
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: -45px;
 }
 
 /* Responsive design */
